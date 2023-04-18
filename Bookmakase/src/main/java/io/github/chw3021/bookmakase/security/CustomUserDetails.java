@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import io.github.chw3021.bookmakase.member.Member;
@@ -25,6 +26,7 @@ public class CustomUserDetails implements UserDetails {
         return member.getRoles().stream().map(o -> new SimpleGrantedAuthority(
                 o.getName()
         )).collect(Collectors.toList());
+        
     }
 
     @Override

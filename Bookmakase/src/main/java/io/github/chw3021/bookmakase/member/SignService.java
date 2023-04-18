@@ -17,9 +17,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SignService {
 
-    private final MemberRepository memberRepository = null;
-    private final PasswordEncoder passwordEncoder = null;
-    private final JwtProvider jwtProvider = new JwtProvider();
+    private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtProvider jwtProvider;
 
     public SignResponse login(SignRequest request) throws Exception {
         Member member = memberRepository.findByAccount(request.getAccount()).orElseThrow(() ->
