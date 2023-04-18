@@ -1,4 +1,4 @@
-package io.github.chw3021.bookmakase.member;
+package io.github.chw3021.bookmakase.Service;
 
 import java.util.Collections;
 

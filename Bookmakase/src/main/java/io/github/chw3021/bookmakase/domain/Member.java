@@ -1,4 +1,4 @@
-package io.github.chw3021.bookmakase.member;
+package io.github.chw3021.bookmakase.domain;
 
 
 import java.util.List;
@@ -26,8 +26,17 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+
     @Column(unique = true)
-    private String account;
+    private String account; //account는 무엇? ID, Nickname 있으니 필요해 보이지는 않음.
 
     private String password;
 
@@ -37,6 +46,40 @@ public class Member {
 
     @Column(unique = true)
     private String email;
+
+    //이후로 getter setter
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Builder.Default
@@ -68,4 +111,5 @@ public class Member {
     public List<Authority> getRoles() {
     	return this.roles;
     }
+
 }
