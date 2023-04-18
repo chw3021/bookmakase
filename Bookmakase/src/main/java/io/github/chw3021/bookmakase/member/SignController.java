@@ -16,8 +16,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SignController {
 
-    private final MemberRepository memberRepository;
-    private final SignService memberService;
+    private final MemberRepository memberRepository = null;
+    private final SignService memberService = new SignService();
 
     @PostMapping(value = "/login")
     public ResponseEntity<SignResponse> signin(@RequestBody SignRequest request) throws Exception {

@@ -46,4 +46,26 @@ public class Member {
         this.roles = role;
         role.forEach(o -> o.setMember(this));
     }
+    
+    public Long getId() {
+    	return this.id;
+    }
+    public String getAccount() {
+    	return this.account;
+    }
+    public String getNickname() {
+    	return this.nickname;
+    }
+    public String getName() {
+    	return this.name;
+    }
+    public String getEmail() {
+    	return this.email;
+    }
+    public String getPassword() {
+    	return this.password;
+    }
+    public List<Authority> getRoles() {
+    	return this.roles;
+    }
 }

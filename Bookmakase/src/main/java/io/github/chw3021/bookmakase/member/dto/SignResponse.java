@@ -1,5 +1,10 @@
 package io.github.chw3021.bookmakase.member.dto;
 
+
+import java.util.List;
+import java.util.ArrayList;
+
+import io.github.chw3021.bookmakase.member.Authority;
 import io.github.chw3021.bookmakase.member.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
