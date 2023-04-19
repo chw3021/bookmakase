@@ -26,6 +26,7 @@ public class SignResponse {
     private String email;
 
     private List<Authority> roles = new ArrayList<>();
+    //ss
 
     private String token;
 
