@@ -7,11 +7,16 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import io.github.chw3021.bookmakase.member.Member;
+import io.github.chw3021.bookmakase.domain.Member;
+
 
 public class CustomUserDetails implements UserDetails {
 
-    private final Member member;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5234242351854619335L;
+	private final Member member;
 
     public CustomUserDetails(Member member) {
         this.member = member;

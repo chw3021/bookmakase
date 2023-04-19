@@ -6,6 +6,9 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import io.github.chw3021.bookmakase.Repository.MemberRepositoryImpl;
+import io.github.chw3021.bookmakase.domain.Member;
+import io.github.chw3021.bookmakase.member.Authority;
 import io.github.chw3021.bookmakase.member.dto.SignRequest;
 import io.github.chw3021.bookmakase.member.dto.SignResponse;
 import io.github.chw3021.bookmakase.security.JwtProvider;
@@ -17,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SignService {
 
-    private final MemberRepository memberRepository;
+    private final MemberRepositoryImpl memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 

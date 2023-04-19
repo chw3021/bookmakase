@@ -3,6 +3,7 @@ package io.github.chw3021.bookmakase.member;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.github.chw3021.bookmakase.domain.Member;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;

@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.github.chw3021.bookmakase.Repository.MemberRepositoryImpl;
+import io.github.chw3021.bookmakase.Service.SignService;
 import io.github.chw3021.bookmakase.member.dto.SignRequest;
 import io.github.chw3021.bookmakase.member.dto.SignResponse;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SignController {
 
-    private final MemberRepository memberRepository;
+    private final MemberRepositoryImpl memberRepository;
     private final SignService memberService;
 
     @PostMapping(value = "/login")

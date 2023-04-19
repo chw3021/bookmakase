@@ -5,15 +5,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import io.github.chw3021.bookmakase.member.Member;
-import io.github.chw3021.bookmakase.member.MemberRepository;
+import io.github.chw3021.bookmakase.Repository.MemberRepositoryImpl;
+import io.github.chw3021.bookmakase.domain.Member;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class JpaUserDetailsService implements UserDetailsService {
 
-    private final MemberRepository memberRepository;
+    private final MemberRepositoryImpl memberRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

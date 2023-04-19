@@ -2,6 +2,9 @@ package io.github.chw3021.bookmakase.domain;
 
 
 import java.util.List;
+
+import io.github.chw3021.bookmakase.member.Authority;
+
 import java.util.ArrayList;
 
 import jakarta.persistence.CascadeType;
@@ -51,7 +54,6 @@ public class Member {
     public String getPassword() {
         return password;
     }
-
     public void setPassword(String password) {
         this.password = password;
     }
@@ -59,7 +61,6 @@ public class Member {
     public String getNickname() {
         return nickname;
     }
-
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
@@ -67,19 +68,24 @@ public class Member {
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
+   
     public String getEmail() {
-        return email;
+    	return email;
     }
-
     public void setEmail(String email) {
         this.email = email;
     }
-
+    
+    public String getAccount() {
+    	return account;
+    }
+    public void setAccount(String account) {
+        this.account = account;
+    }
+    
 
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Builder.Default
@@ -89,27 +95,9 @@ public class Member {
         this.roles = role;
         role.forEach(o -> o.setMember(this));
     }
-    
-    public Long getId() {
-    	return this.id;
-    }
-    public String getAccount() {
-    	return this.account;
-    }
-    public String getNickname() {
-    	return this.nickname;
-    }
-    public String getName() {
-    	return this.name;
-    }
-    public String getEmail() {
-    	return this.email;
-    }
-    public String getPassword() {
-    	return this.password;
-    }
     public List<Authority> getRoles() {
-    	return this.roles;
+    	return roles;
     }
+    
 
 }
