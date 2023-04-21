@@ -9,6 +9,8 @@ import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.dsl.PathInits;
 
+import io.github.chw3021.bookmakase.signservice.domain.Member;
+
 
 /**
  * QMember is a Querydsl query type for Member
@@ -32,7 +34,7 @@ public class QMember extends EntityPathBase<Member> {
 
     public final StringPath password = createString("password");
 
-    public final ListPath<io.github.chw3021.bookmakase.member.Authority, io.github.chw3021.bookmakase.member.QAuthority> roles = this.<io.github.chw3021.bookmakase.member.Authority, io.github.chw3021.bookmakase.member.QAuthority>createList("roles", io.github.chw3021.bookmakase.member.Authority.class, io.github.chw3021.bookmakase.member.QAuthority.class, PathInits.DIRECT2);
+    public final ListPath<io.github.chw3021.bookmakase.signservice.member.Authority, io.github.chw3021.bookmakase.member.QAuthority> roles = this.<io.github.chw3021.bookmakase.signservice.member.Authority, io.github.chw3021.bookmakase.member.QAuthority>createList("roles", io.github.chw3021.bookmakase.signservice.member.Authority.class, io.github.chw3021.bookmakase.member.QAuthority.class, PathInits.DIRECT2);
 
     public QMember(String variable) {
         super(Member.class, forVariable(variable));

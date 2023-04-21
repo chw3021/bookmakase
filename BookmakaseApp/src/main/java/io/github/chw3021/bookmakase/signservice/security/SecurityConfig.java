@@ -1,4 +1,4 @@
-package io.github.chw3021.bookmakase.security;
+package io.github.chw3021.bookmakase.signservice.security;
 
 import java.io.IOException;
 import java.util.List;

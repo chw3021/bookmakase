@@ -1,4 +1,4 @@
-package io.github.chw3021.bookmakase.security;
+package io.github.chw3021.bookmakase.signservice.security;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
@@ -11,7 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import io.github.chw3021.bookmakase.member.Authority;
+import io.github.chw3021.bookmakase.signservice.member.Authority;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;

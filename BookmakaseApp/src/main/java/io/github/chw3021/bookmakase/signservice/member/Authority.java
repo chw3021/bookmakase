@@ -1,9 +1,9 @@
-package io.github.chw3021.bookmakase.member;
+package io.github.chw3021.bookmakase.signservice.member;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import io.github.chw3021.bookmakase.domain.Member;
+import io.github.chw3021.bookmakase.signservice.domain.Member;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;

@@ -1,4 +1,4 @@
-package io.github.chw3021.bookmakase.repository;
+package io.github.chw3021.bookmakase.signservice.repository;
 
 import java.util.Optional;
 
@@ -9,10 +9,9 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 
-import io.github.chw3021.bookmakase.domain.Member;
-
-
 import org.springframework.transaction.annotation.Transactional;
+
+import io.github.chw3021.bookmakase.signservice.domain.Member;
 
 @Repository
 @Transactional

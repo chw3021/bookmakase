@@ -1,11 +1,11 @@
-package io.github.chw3021.bookmakase.member.dto;
+package io.github.chw3021.bookmakase.signservice.member.dto;
 
 
 import java.util.List;
 import java.util.ArrayList;
 
-import io.github.chw3021.bookmakase.domain.Member;
-import io.github.chw3021.bookmakase.member.Authority;
+import io.github.chw3021.bookmakase.signservice.domain.Member;
+import io.github.chw3021.bookmakase.signservice.member.Authority;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

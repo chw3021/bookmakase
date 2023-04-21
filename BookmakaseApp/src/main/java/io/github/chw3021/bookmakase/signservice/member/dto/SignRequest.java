@@ -1,4 +1,4 @@
-package io.github.chw3021.bookmakase.member.dto;
+package io.github.chw3021.bookmakase.signservice.member.dto;
 
 import lombok.Getter;
 import lombok.Setter;

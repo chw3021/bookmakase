@@ -1,9 +1,9 @@
-package io.github.chw3021.bookmakase.domain;
+package io.github.chw3021.bookmakase.signservice.domain;
 
 
 import java.util.List;
 
-import io.github.chw3021.bookmakase.member.Authority;
+import io.github.chw3021.bookmakase.signservice.member.Authority;
 
 import java.util.ArrayList;
 

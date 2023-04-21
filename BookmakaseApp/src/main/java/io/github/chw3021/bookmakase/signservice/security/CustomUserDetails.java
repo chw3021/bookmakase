@@ -1,4 +1,4 @@
-package io.github.chw3021.bookmakase.security;
+package io.github.chw3021.bookmakase.signservice.security;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import io.github.chw3021.bookmakase.domain.Member;
+import io.github.chw3021.bookmakase.signservice.domain.Member;
 
 
 public class CustomUserDetails implements UserDetails {

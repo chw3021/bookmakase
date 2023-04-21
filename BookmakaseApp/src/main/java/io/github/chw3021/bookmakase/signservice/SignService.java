@@ -1,4 +1,4 @@
-package io.github.chw3021.bookmakase.service;
+package io.github.chw3021.bookmakase.signservice;
 
 import java.util.Collections;
 
@@ -6,12 +6,12 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import io.github.chw3021.bookmakase.domain.Member;
-import io.github.chw3021.bookmakase.member.Authority;
-import io.github.chw3021.bookmakase.member.dto.SignRequest;
-import io.github.chw3021.bookmakase.member.dto.SignResponse;
-import io.github.chw3021.bookmakase.repository.MemberRepositoryImpl;
-import io.github.chw3021.bookmakase.security.JwtProvider;
+import io.github.chw3021.bookmakase.signservice.domain.Member;
+import io.github.chw3021.bookmakase.signservice.member.Authority;
+import io.github.chw3021.bookmakase.signservice.member.dto.SignRequest;
+import io.github.chw3021.bookmakase.signservice.member.dto.SignResponse;
+import io.github.chw3021.bookmakase.signservice.repository.MemberRepositoryImpl;
+import io.github.chw3021.bookmakase.signservice.security.JwtProvider;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 

@@ -9,6 +9,8 @@ import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.dsl.PathInits;
 
+import io.github.chw3021.bookmakase.signservice.member.Authority;
+
 
 /**
  * QAuthority is a Querydsl query type for Authority

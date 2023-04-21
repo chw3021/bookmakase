@@ -1,4 +1,4 @@
-package io.github.chw3021.bookmakase.controller;
+package io.github.chw3021.bookmakase.signservice.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.github.chw3021.bookmakase.member.dto.SignRequest;
-import io.github.chw3021.bookmakase.member.dto.SignResponse;
-import io.github.chw3021.bookmakase.repository.MemberRepositoryImpl;
-import io.github.chw3021.bookmakase.service.SignService;
+import io.github.chw3021.bookmakase.signservice.SignService;
+import io.github.chw3021.bookmakase.signservice.member.dto.SignRequest;
+import io.github.chw3021.bookmakase.signservice.member.dto.SignResponse;
+import io.github.chw3021.bookmakase.signservice.repository.MemberRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 
 @RestController
