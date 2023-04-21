@@ -5,8 +5,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import io.github.chw3021.bookmakase.Repository.MemberRepositoryImpl;
 import io.github.chw3021.bookmakase.domain.Member;
+import io.github.chw3021.bookmakase.repository.MemberRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 
 @Service

@@ -1,4 +1,4 @@
-package io.github.chw3021.bookmakase.Repository;
+package io.github.chw3021.bookmakase.repository;
 
 import java.util.Optional;
 

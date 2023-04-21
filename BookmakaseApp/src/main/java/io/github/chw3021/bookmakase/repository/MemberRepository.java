@@ -1,4 +1,4 @@
-package io.github.chw3021.bookmakase.Repository;
+package io.github.chw3021.bookmakase.repository;
 
 import io.github.chw3021.bookmakase.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
