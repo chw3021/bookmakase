@@ -13,7 +13,16 @@ import lombok.RequiredArgsConstructor;
 public class BookService {
     private final InterparkClient interparkClient;
 
-    public InterparkResponseDto getPopluarBooks() {
-        return interparkClient.getPopularBooks();
+    public InterparkResponseDto getPopluarBooks(int categoryId) {
+        return interparkClient.getPopularBooks(categoryId);
+    }
+    public InterparkResponseDto getRecommendedBooks(int categoryId) {
+        return interparkClient.getRecommendedBooks(categoryId);
+    }
+    public InterparkResponseDto getNewBooks(int categoryId) {
+        return interparkClient.getNewBooks(categoryId);
+    }
+    public InterparkResponseDto getBookSearchResults(String query) {
+        return interparkClient.getBookSearchResults(query);
     }
 }

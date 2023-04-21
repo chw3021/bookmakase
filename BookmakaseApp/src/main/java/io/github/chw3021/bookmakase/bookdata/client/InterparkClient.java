@@ -15,22 +15,45 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Slf4j
 @Component
 public class InterparkClient {
-    private static final int IT_CATEGORY = 122;
     private final InterparkProperties properties;
     private final WebClient webClient;
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    public InterparkResponseDto getPopularBooks() {
-        InterparkResponseDto interparkResponseDto = convertToResponse(getBooksFromApi());
+    public InterparkResponseDto getPopularBooks(int category_num) {//베스트셀러
+        InterparkResponseDto interparkResponseDto = convertToResponse(getPopularBooksFromApi(category_num));
         return interparkResponseDto;
     }
 
-    private String getBooksFromApi() {
+    private String getPopularBooksFromApi(int categoryId) {
         String items = null;
         try {
             items = webClient.get()
                     .uri(builder -> builder.path("/bestSeller.api")
-                            .queryParam("categoryId", IT_CATEGORY)
+                            .queryParam("categoryId", categoryId)
+                            .queryParam("output", "json")
+                            .queryParam("key", properties.getKey()).build())
+                    .accept(MediaType.APPLICATION_JSON)
+                    .retrieve()
+                    .bodyToMono(String.class).block();
+        } catch (Exception e) {
+            log.info(e.getMessage());
+        }
+        return items;
+    }
+    
+    
+
+    public InterparkResponseDto getRecommendedBooks(int category_num) {//추천도서
+        InterparkResponseDto interparkResponseDto = convertToResponse(getRecommendedBooksFromApi(category_num));
+        return interparkResponseDto;
+    }
+
+    private String getRecommendedBooksFromApi(int categoryId) {
+        String items = null;
+        try {
+            items = webClient.get()
+                    .uri(builder -> builder.path("/recommend.api")
+                            .queryParam("categoryId", categoryId)
                             .queryParam("output", "json")
                             .queryParam("key", properties.getKey()).build())
                     .accept(MediaType.APPLICATION_JSON)
@@ -42,6 +65,58 @@ public class InterparkClient {
         return items;
     }
 
+    
+
+    public InterparkResponseDto getNewBooks(int category_num) {//신간도서
+        InterparkResponseDto interparkResponseDto = convertToResponse(getNewBooksFromApi(category_num));
+        return interparkResponseDto;
+    }
+
+    private String getNewBooksFromApi(int categoryId) {
+        String items = null;
+        try {
+            items = webClient.get()
+                    .uri(builder -> builder.path("/newBook.api")
+                            .queryParam("categoryId", categoryId)
+                            .queryParam("output", "json")
+                            .queryParam("key", properties.getKey()).build())
+                    .accept(MediaType.APPLICATION_JSON)
+                    .retrieve()
+                    .bodyToMono(String.class).block();
+        } catch (Exception e) {
+            log.info(e.getMessage());
+        }
+        return items;
+    }
+    
+
+
+    public InterparkResponseDto getBookSearchResults(String query) {//도서 검색
+        InterparkResponseDto interparkResponseDto = convertToResponse(getBookSearchResultsFromApi(query));
+        return interparkResponseDto;
+    }
+
+    private String getBookSearchResultsFromApi(String query) {
+        String items = null;
+        try {
+            items = webClient.get()
+                    .uri(builder -> builder.path("/search.api")
+                            .queryParam("query", query)
+                            .queryParam("output", "json")
+                            .queryParam("key", properties.getKey()).build())
+                    .accept(MediaType.APPLICATION_JSON)
+                    .retrieve()
+                    .bodyToMono(String.class).block();
+        } catch (Exception e) {
+            log.info(e.getMessage());
+        }
+        return items;
+    }
+    
+    
+    
+    
+    
     private InterparkResponseDto convertToResponse(String textData) {
         InterparkResponseDto interparkResponseDto = new InterparkResponseDto();
         try {
