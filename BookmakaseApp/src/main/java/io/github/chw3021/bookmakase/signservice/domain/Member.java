@@ -29,15 +29,6 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-
     @Column(unique = true)
     private String account; //account는 무엇? ID, Nickname 있으니 필요해 보이지는 않음.
 
@@ -51,6 +42,13 @@ public class Member {
     private String email;
 
     //이후로 getter setter
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getPassword() {
         return password;
     }
