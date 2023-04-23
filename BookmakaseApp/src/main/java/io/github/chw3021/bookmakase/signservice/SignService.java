@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 @RequiredArgsConstructor
 public class SignService {
-
+ //사용자가 이용하는 서비스(로그인,로그아웃 등 의 메소드)
     private final MemberRepositoryImpl memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
