@@ -1,4 +1,4 @@
-package io.github.chw3021.bookmakase.bookdata.properties;
+package io.github.chw3021.bookmakase.interparkapi.properties;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

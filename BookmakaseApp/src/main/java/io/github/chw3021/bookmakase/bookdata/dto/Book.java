@@ -8,14 +8,17 @@ import lombok.Setter;
 
 @Getter @Setter
 @Builder @AllArgsConstructor @NoArgsConstructor
-public class BookDto {
+public class Book {
     private String title;
     private String author;
+    private int categoryId;
     private String publisher;
     private String pubDate;
     private String cover;
     private String description;
     private String link;
+    
+    private String[] keywords;//크롤링후 검색결과 저장
 
     public String getTitle() {
         return title;
@@ -72,4 +75,20 @@ public class BookDto {
     public void setLink(String link) {
         this.link = link;
     }
+
+    public Integer getCategoryId() {
+    	return categoryId;
+    }
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	
+
+    public String[] getKeywords() {
+    	return keywords;
+    }
+	public void setKeywords(String[] keywords) {
+		this.keywords = keywords;
+	}
 }

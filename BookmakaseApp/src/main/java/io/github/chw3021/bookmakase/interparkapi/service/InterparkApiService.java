@@ -1,16 +1,16 @@
-package io.github.chw3021.bookmakase.bookdata.service;
+package io.github.chw3021.bookmakase.interparkapi.service;
 
 import org.springframework.stereotype.Service;
 
-import io.github.chw3021.bookmakase.bookdata.client.InterparkClient;
-import io.github.chw3021.bookmakase.bookdata.dto.InterparkResponseDto;
+import io.github.chw3021.bookmakase.interparkapi.client.InterparkClient;
+import io.github.chw3021.bookmakase.interparkapi.dto.InterparkResponseDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
 @Transactional
-public class BookService {
+public class InterparkApiService {
     private final InterparkClient interparkClient;
 
     public InterparkResponseDto getPopluarBooks(int categoryId) {
