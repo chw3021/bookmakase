@@ -1,5 +1,9 @@
 package io.github.chw3021.bookmakase.bookdata.dto;
 
+import io.github.chw3021.bookmakase.goal.BookShelf;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,7 +23,6 @@ public class Book {
     private String link;
     private Long id;
     
-    private String[] keywords;//크롤링후 검색결과 저장
 
     public String getTitle() {
         return title;
@@ -86,10 +89,25 @@ public class Book {
 
 	
 
+    private String[] keywords;//크롤링후 검색결과 저장
     public String[] getKeywords() {
     	return keywords;
     }
 	public void setKeywords(String[] keywords) {
 		this.keywords = keywords;
 	}
+	
+
+	//독서 목표
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bookshelf_id")
+    private BookShelf bookShelf;
+
+    public BookShelf getBookShelf() {
+        return bookShelf;
+    }
+
+    public void setBookShelf(BookShelf bookShelf) {
+        this.bookShelf = bookShelf;
+    }
 }
