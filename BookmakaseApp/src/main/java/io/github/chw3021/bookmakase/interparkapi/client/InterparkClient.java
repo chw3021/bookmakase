@@ -1,13 +1,15 @@
 package io.github.chw3021.bookmakase.interparkapi.client;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.ArrayList;
 
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import io.github.chw3021.bookmakase.bookdata.dto.Book;
-import io.github.chw3021.bookmakase.interparkapi.dto.InterparkResponseDto;
+import io.github.chw3021.bookmakase.bookdata.dto.BookDto;
 import io.github.chw3021.bookmakase.interparkapi.properties.InterparkProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,8 +24,8 @@ public class InterparkClient {
     private final WebClient webClient;
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    public InterparkResponseDto getPopularBooks(int category_num) {//베스트셀러
-        InterparkResponseDto interparkResponseDto = convertToResponse(getPopularBooksFromApi(category_num));
+    public BookDto getPopularBooks(int category_num) {//베스트셀러
+        BookDto interparkResponseDto = convertToResponse(getPopularBooksFromApi(category_num));
         return interparkResponseDto;
     }
 
@@ -46,8 +48,8 @@ public class InterparkClient {
     
     
 
-    public InterparkResponseDto getRecommendedBooks(int category_num) {//추천도서
-        InterparkResponseDto interparkResponseDto = convertToResponse(getRecommendedBooksFromApi(category_num));
+    public BookDto getRecommendedBooks(int category_num) {//추천도서
+        BookDto interparkResponseDto = convertToResponse(getRecommendedBooksFromApi(category_num));
         return interparkResponseDto;
     }
 
@@ -70,8 +72,8 @@ public class InterparkClient {
 
     
 
-    public InterparkResponseDto getNewBooks(int category_num) {//신간도서
-        InterparkResponseDto interparkResponseDto = convertToResponse(getNewBooksFromApi(category_num));
+    public BookDto getNewBooks(int category_num) {//신간도서
+        BookDto interparkResponseDto = convertToResponse(getNewBooksFromApi(category_num));
         return interparkResponseDto;
     }
 
@@ -94,8 +96,8 @@ public class InterparkClient {
     
 
 
-    public InterparkResponseDto getBookSearchResults(String query) {//도서 검색
-        InterparkResponseDto interparkResponseDto = convertToResponse(getBookSearchResultsFromApi(query));
+    public BookDto getBookSearchResults(String query) {//도서 검색
+        BookDto interparkResponseDto = convertToResponse(getBookSearchResultsFromApi(query));
         return interparkResponseDto;
     }
 
@@ -118,36 +120,50 @@ public class InterparkClient {
     
     
     
-    private InterparkResponseDto convertToResponse(String textData) {
-        InterparkResponseDto interparkResponseDto = new InterparkResponseDto();
+    private BookDto convertToResponse(String textData) {
+        BookDto interparkResponseDto = new BookDto();
         try {
-            interparkResponseDto = objectMapper.readValue(textData, InterparkResponseDto.class);
+            interparkResponseDto = objectMapper.readValue(textData, BookDto.class);
         } catch (Exception e) {
             log.info(e.getMessage());
         }
         return interparkResponseDto;
     }
+    
+    
+    public List<Book> searchBooks(String keyword, int categoryId) {
+        List<Book> allBooks = new ArrayList<>();
+        AtomicInteger currentPage = new AtomicInteger(1);
+        while (true) {
+            String items = null;
+            try {
+                items = webClient.get()
+                        .uri(builder -> builder.path("/search.api")
+                                .queryParam("query", keyword)
+                                .queryParam("categoryId", categoryId)
+                                .queryParam("output", "json")
+                                .queryParam("start", currentPage.getAndIncrement())
+                                .queryParam("maxResults", 100)
+                                .queryParam("key", properties.getKey()).build())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .retrieve()
+                        .bodyToMono(String.class).block();
+            } catch (Exception e) {
+                log.info(e.getMessage());
+            }
+            BookDto bookDto = convertToResponse(items);
+            List<Book> books = bookDto.getItem();
+            if (books == null || books.isEmpty()) {
+                break; // 더 이상 결과가 없으면 종료
+            }
+            allBooks.addAll(books);
 
-    public List<Book> searchBooks(String keyword, String publisher, int categoryId) {
-        List<Book> books = new ArrayList<>();
-
-        // Interpark API에서 검색 결과를 가져옵니다.
-        try {
-            items = webClient.get()
-                    .uri(builder -> builder.path("/search.api")
-                            .queryParam("query", keyword)
-                            .queryParam("publisher", publisher)
-                            .queryParam("output", "json")
-                            .queryParam("key", properties.getKey()).build())
-                    .accept(MediaType.APPLICATION_JSON)
-                    .retrieve()
-                    .bodyToMono(String.class).block();
-        } catch (Exception e) {
-            log.info(e.getMessage());
+            try {
+                Thread.sleep(1001); // 일정 시간 대기
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
-        
-        return books;
+        return allBooks;
     }
-    
-    
 }

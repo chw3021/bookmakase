@@ -23,7 +23,7 @@ public class SignResponse {
 
     private String name;
 
-    private String email;
+    private Long phonenumber;
 
     private List<Authority> roles = new ArrayList<>();
 
@@ -34,7 +34,7 @@ public class SignResponse {
         this.account = member.getAccount();
         this.nickname = member.getNickname();
         this.name = member.getName();
-        this.email = member.getEmail();
+        this.phonenumber = member.getPhonenumber();
         this.roles = member.getRoles();
     }
 }

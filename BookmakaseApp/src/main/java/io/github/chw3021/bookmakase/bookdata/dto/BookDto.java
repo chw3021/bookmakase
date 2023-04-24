@@ -1,8 +1,7 @@
-package io.github.chw3021.bookmakase.interparkapi.dto;
+package io.github.chw3021.bookmakase.bookdata.dto;
 
 import java.util.List;
 
-import io.github.chw3021.bookmakase.bookdata.dto.Book;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,7 +10,7 @@ import lombok.Setter;
 
 @Getter @Setter
 @Builder @AllArgsConstructor @NoArgsConstructor
-public class InterparkResponseDto {
+public class BookDto {
     private String title;
     private List<Book> item;
 

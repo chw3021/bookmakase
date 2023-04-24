@@ -30,7 +30,7 @@ public class Member {
     private Long id;
 
     @Column(unique = true)
-    private String account; //account는 무엇? ID, Nickname 있으니 필요해 보이지는 않음.
+    private String account; 
 
     private String password;
 
@@ -39,8 +39,14 @@ public class Member {
     private String name;
 
     @Column(unique = true)
-    private String email;
+    private Long phonenumber;
 
+    private int age;
+
+    private char gender;
+    
+    
+    
     //이후로 getter setter
     public Long getId() {
         return id;
@@ -70,11 +76,11 @@ public class Member {
         this.name = name;
     }
    
-    public String getEmail() {
-    	return email;
+    public Long getPhonenumber() {
+    	return phonenumber;
     }
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPhonenumber(Long phonenumber) {
+        this.phonenumber = phonenumber;
     }
     
     public String getAccount() {
@@ -84,7 +90,21 @@ public class Member {
         this.account = account;
     }
     
-
+    public int getAge() {
+    	return age;
+    }
+    public void setAge(Integer age) {
+    	this.age = age;
+    }
+    
+    public char getGender() {
+    	return gender;
+    }
+    public void setGender(Character gender) {
+    	this.gender = gender;
+    }
+    
+    
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Builder.Default
     private List<Authority> roles = new ArrayList<>();

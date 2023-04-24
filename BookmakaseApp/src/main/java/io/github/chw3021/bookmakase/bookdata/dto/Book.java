@@ -17,6 +17,7 @@ public class Book {
     private String cover;
     private String description;
     private String link;
+    private Long id;
     
     private String[] keywords;//크롤링후 검색결과 저장
 

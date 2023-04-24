@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.github.chw3021.bookmakase.interparkapi.dto.InterparkResponseDto;
+import io.github.chw3021.bookmakase.bookdata.dto.BookDto;
 import io.github.chw3021.bookmakase.interparkapi.service.InterparkApiService;
 import lombok.RequiredArgsConstructor;
 
@@ -15,19 +15,19 @@ public class InterparkApiController {
     private final InterparkApiService bookService;
 
     @GetMapping("/popular")
-    public InterparkResponseDto popular(int categoryId) {
+    public BookDto popular(int categoryId) {
         return bookService.getPopluarBooks(categoryId);
     }
     @GetMapping("/recommended")
-    public InterparkResponseDto recommended(int categoryId) {
+    public BookDto recommended(int categoryId) {
         return bookService.getRecommendedBooks(categoryId);
     }
     @GetMapping("/newbooks")
-    public InterparkResponseDto newbooks(int categoryId) {
+    public BookDto newbooks(int categoryId) {
         return bookService.getNewBooks(categoryId);
     }
     @GetMapping("/search")
-    public InterparkResponseDto search(String query) {
+    public BookDto search(String query) {
         return bookService.getBookSearchResults(query);
     }
 }
