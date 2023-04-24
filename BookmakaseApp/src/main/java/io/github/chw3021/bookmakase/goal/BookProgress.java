@@ -1,6 +1,7 @@
 package io.github.chw3021.bookmakase.goal;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import io.github.chw3021.bookmakase.bookdata.dto.Book;
 import jakarta.persistence.CascadeType;
@@ -11,18 +12,24 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.Getter;
+import lombok.Setter;
 
-@Entity
+@Entity @Getter @Setter
 public class BookProgress {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long userId;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private GoalUser goaluser;
+    
     private Integer currentPage;
     private Integer totalPage;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "book_id")
@@ -35,8 +42,8 @@ public class BookProgress {
     public BookProgress() {
     }
 
-    public BookProgress(Long userId, Book book, Integer currentPage, Integer totalPage, LocalDate startDate, LocalDate endDate) {
-        this.userId = userId;
+    public BookProgress(GoalUser goaluser, Book book, Integer currentPage, Integer totalPage, LocalDateTime startDate, LocalDateTime endDate) {
+        this.goaluser = goaluser;
         this.book = book;
         this.currentPage = currentPage;
         this.totalPage = totalPage;
@@ -54,14 +61,14 @@ public class BookProgress {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
+    public GoalUser getGoalUser() {
+        return goaluser;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setGoalUser(GoalUser goaluser) {
+        this.goaluser = goaluser;
     }
-
+    
     public Integer getCurrentPage() {
         return currentPage;
     }
@@ -78,19 +85,19 @@ public class BookProgress {
         this.totalPage = totalPage;
     }
 
-    public LocalDate getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDate getEndDate() {
+    public LocalDateTime getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
     }
 

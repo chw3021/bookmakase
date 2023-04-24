@@ -10,15 +10,22 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import lombok.Getter;
+import lombok.Setter;
 
-@Entity
+@Entity @Getter @Setter
 public class BookShelf {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long userId;
+    
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private GoalUser goaluser;
 
     @OneToMany(mappedBy = "bookShelf", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Book> wantToRead = new ArrayList<>();
@@ -32,8 +39,8 @@ public class BookShelf {
     public BookShelf() {
     }
 
-    public BookShelf(Long userId) {
-        this.userId = userId;
+    public BookShelf(GoalUser goaluser) {
+        this.goaluser = goaluser;
     }
 
     // Getters and setters
@@ -46,12 +53,12 @@ public class BookShelf {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
+    public GoalUser getGoalUser() {
+    	return goaluser;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setGoalUser(GoalUser goaluser) {
+        this.goaluser = goaluser;
     }
 
     public List<Book> getWantToRead() {

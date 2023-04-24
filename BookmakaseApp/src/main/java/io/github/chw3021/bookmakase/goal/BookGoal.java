@@ -1,11 +1,12 @@
 package io.github.chw3021.bookmakase.goal;
 
 import java.time.LocalDate;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,8 +17,11 @@ public class BookGoal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private GoalUser goaluser;
     
-    private Long userId;
     private Long categoryId;
     private Integer targetQuantity;
     private LocalDate startDate;
@@ -27,8 +31,8 @@ public class BookGoal {
     public BookGoal() {
     }
 
-    public BookGoal(Long userId, Long categoryId, int targetQuantity, LocalDate startDate, LocalDate endDate) {
-        this.userId = userId;
+    public BookGoal(GoalUser goaluser, Long categoryId, int targetQuantity, LocalDate startDate, LocalDate endDate) {
+        this.goaluser = goaluser;
         this.categoryId = categoryId;
         this.targetQuantity = targetQuantity;
         this.startDate = startDate;
@@ -43,12 +47,12 @@ public class BookGoal {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
+    public GoalUser getGoalUser() {
+        return goaluser;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setGoalUser(GoalUser goaluser) {
+        this.goaluser = goaluser;
     }
 
     public Long getCategoryId() {
@@ -82,4 +86,7 @@ public class BookGoal {
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
+
+
+
 }
