@@ -25,6 +25,12 @@ public class SignResponse {
 
     private Long phonenumber;
 
+    private int prefer;
+
+    private int age;
+
+    private char gender;
+
     private List<Authority> roles = new ArrayList<>();
 
     private String token;
@@ -32,9 +38,11 @@ public class SignResponse {
     public SignResponse(Member member) {
         this.id = member.getId();
         this.account = member.getAccount();
-        this.nickname = member.getNickname();
         this.name = member.getName();
         this.phonenumber = member.getPhonenumber();
+        this.age = member.getAge();
+        this.prefer = member.getPrefer();
+        this.gender = member.getGender();
         this.roles = member.getRoles();
     }
 }

@@ -36,8 +36,10 @@ public class SignService {
                 .id(member.getId())
                 .account(member.getAccount())
                 .name(member.getName())
-                .email(member.getEmail())
-                .nickname(member.getNickname())
+                .phonenumber(member.getPhonenumber())
+                .age(member.getAge())
+                .gender(member.getGender())
+                .prefer(member.getPrefer())
                 .roles(member.getRoles())
                 .token(jwtProvider.createToken(member.getAccount(), member.getRoles()))
                 .build();
@@ -47,11 +49,14 @@ public class SignService {
     public boolean register(SignRequest request) throws Exception {
         try {
             Member member = Member.builder()
+            		.id(request.getId())
                     .account(request.getAccount())
                     .password(passwordEncoder.encode(request.getPassword()))
                     .name(request.getName())
-                    .nickname(request.getNickname())
-                    .email(request.getEmail())
+                    .phonenumber(request.getPhonenumber())
+                    .age(request.getAge())
+                    .gender(request.getGender())
+                    .prefer(request.getPrefer())
                     .build();
 
             member.setRoles(Collections.singletonList(Authority.builder().name("ROLE_USER").build()));

@@ -34,16 +34,16 @@ public class Member {
 
     private String password;
 
-    private String nickname;
-
     private String name;
+
+    private int prefer;//선호 카테고리의 ID를 저장
 
     @Column(unique = true)
     private Long phonenumber;
 
     private int age;
 
-    private char gender;
+    private char gender;//m는 남성, f는 여성
     
     
     
@@ -61,14 +61,7 @@ public class Member {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public String getNickname() {
-        return nickname;
-    }
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
+    
     public String getName() {
         return name;
     }
@@ -89,6 +82,15 @@ public class Member {
     public void setAccount(String account) {
         this.account = account;
     }
+    
+    
+    public int getPrefer() {
+    	return prefer;
+    }
+    public void setPrefer(Integer prefer) {
+    	this.prefer = prefer;
+    }
+    
     
     public int getAge() {
     	return age;
