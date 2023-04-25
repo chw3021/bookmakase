@@ -70,13 +70,16 @@ public class GoalUser extends Member {
     //같은 나이대, 같은 카테고리에 대한 독서 목표를 완료한 사용자 수를 받는 메서드
     public int getNumberOfUsersInSameAgeAndCategory(GoalUser goalUser, Long categoryId) {
         int numOfUsers = 0;
-        List<GoalUser> usersInSameAgeRange = memberRepository.findMembersByAgeBetween(goalUser.getAge() - 5, goalUser.getAge() + 5);
-        for (GoalUser user : usersInSameAgeRange) {
-            List<BookGoal> bookGoals = user.getBookGoals();
-            for (BookGoal bookGoal : bookGoals) {
-                if (bookGoal.getCategoryId().equals(categoryId) && bookGoal.isCompleted()) {
-                    numOfUsers++;
-                    break;
+        List<Member> usersInSameAgeRange = memberRepository.findMembersByAgeBetween(goalUser.getAge() - 5, goalUser.getAge() + 5);
+        for (Member member : usersInSameAgeRange) {
+            if (member instanceof GoalUser) {
+                GoalUser user = (GoalUser) member;
+                List<BookGoal> bookGoals = user.getBookGoals();
+                for (BookGoal bookGoal : bookGoals) {
+                    if (bookGoal.getCategoryId().equals(categoryId) && bookGoal.isCompleted()) {
+                        numOfUsers++;
+                        break;
+                    }
                 }
             }
         }

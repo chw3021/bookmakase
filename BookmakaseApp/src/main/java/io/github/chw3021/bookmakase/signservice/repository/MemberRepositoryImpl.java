@@ -11,6 +11,7 @@ import java.util.Map;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import io.github.chw3021.bookmakase.goal.GoalUser;
 import io.github.chw3021.bookmakase.signservice.domain.Member;
 
 @Repository
@@ -54,6 +55,12 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
 	public Optional<Member> findByAccount(String account) {
 		// TODO Auto-generated method stub
 		return Optional.empty();
+	}
+
+	@Override
+	public List<Member> findMembersByAgeBetween(int minAge, int maxAge) {
+		// TODO Auto-generated method stub
+		return MemberData.values().stream().filter(member -> member.getAge()>=minAge&&member.getAge()<=maxAge).toList();
 	}
 
 }

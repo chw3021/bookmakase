@@ -14,5 +14,5 @@ public interface MemberRepositoryCustom {
     Optional<Member> findByName(String name); //
     List<Member> findAll(); //전체 불러오기
     
-    List<GoalUser> findMembersByAgeBetween(int minAge, int maxAge);
+    List<Member> findMembersByAgeBetween(int minAge, int maxAge);
 }
