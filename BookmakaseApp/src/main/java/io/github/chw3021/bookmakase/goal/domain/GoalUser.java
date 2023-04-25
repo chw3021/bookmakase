@@ -1,4 +1,4 @@
-package io.github.chw3021.bookmakase.goal;
+package io.github.chw3021.bookmakase.goal.domain;
 
 import java.util.ArrayList;
 import java.util.List;

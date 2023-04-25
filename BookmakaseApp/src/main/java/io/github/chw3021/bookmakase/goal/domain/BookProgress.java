@@ -1,6 +1,5 @@
-package io.github.chw3021.bookmakase.goal;
+package io.github.chw3021.bookmakase.goal.domain;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import io.github.chw3021.bookmakase.bookdata.dto.Book;

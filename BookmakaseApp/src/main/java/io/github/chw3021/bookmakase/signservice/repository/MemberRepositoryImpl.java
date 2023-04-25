@@ -11,7 +11,7 @@ import java.util.Map;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import io.github.chw3021.bookmakase.goal.GoalUser;
+import io.github.chw3021.bookmakase.goal.domain.GoalUser;
 import io.github.chw3021.bookmakase.signservice.domain.Member;
 
 @Repository

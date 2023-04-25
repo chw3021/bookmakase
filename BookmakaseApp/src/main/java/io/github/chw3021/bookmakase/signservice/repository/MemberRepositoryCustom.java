@@ -3,7 +3,7 @@ package io.github.chw3021.bookmakase.signservice.repository;
 import java.util.List;
 import java.util.Optional;
 
-import io.github.chw3021.bookmakase.goal.GoalUser;
+import io.github.chw3021.bookmakase.goal.domain.GoalUser;
 import io.github.chw3021.bookmakase.signservice.domain.Member;
 
 public interface MemberRepositoryCustom {

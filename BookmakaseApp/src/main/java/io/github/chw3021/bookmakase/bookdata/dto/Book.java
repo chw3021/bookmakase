@@ -1,6 +1,6 @@
 package io.github.chw3021.bookmakase.bookdata.dto;
 
-import io.github.chw3021.bookmakase.goal.BookShelf;
+import io.github.chw3021.bookmakase.goal.domain.BookShelf;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
