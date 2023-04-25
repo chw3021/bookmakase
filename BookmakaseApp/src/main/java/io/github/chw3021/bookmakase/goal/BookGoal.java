@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,17 +27,20 @@ public class BookGoal {
     private Integer targetQuantity;
     private LocalDate startDate;
     private LocalDate endDate;
+    private Boolean completed;
 
 
     public BookGoal() {
     }
 
-    public BookGoal(GoalUser goaluser, Long categoryId, int targetQuantity, LocalDate startDate, LocalDate endDate) {
+    @Builder
+    public BookGoal(GoalUser goaluser, Long categoryId, int targetQuantity, LocalDate startDate, LocalDate endDate, Boolean completed) {
         this.goaluser = goaluser;
         this.categoryId = categoryId;
         this.targetQuantity = targetQuantity;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.completed = completed;
     }
     
     public Long getId() {
@@ -87,6 +91,11 @@ public class BookGoal {
         this.endDate = endDate;
     }
 
-
+    public Boolean isCompleted() {
+    	return completed;
+    }
+    public void setCompleted(Boolean completed) {
+    	this.completed = completed;
+    }
 
 }

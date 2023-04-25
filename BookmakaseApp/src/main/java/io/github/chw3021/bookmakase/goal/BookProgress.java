@@ -1,5 +1,6 @@
 package io.github.chw3021.bookmakase.goal;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import io.github.chw3021.bookmakase.bookdata.dto.Book;
@@ -11,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -41,6 +43,7 @@ public class BookProgress {
     public BookProgress() {
     }
 
+    @Builder
     public BookProgress(GoalUser goaluser, Book book, Integer currentPage, Integer totalPage, LocalDateTime startDate, LocalDateTime endDate) {
         this.goaluser = goaluser;
         this.book = book;
