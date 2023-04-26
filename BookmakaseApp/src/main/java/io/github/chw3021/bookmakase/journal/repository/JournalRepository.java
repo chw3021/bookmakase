@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import io.github.chw3021.bookmakase.bookdata.dto.Book;
+import io.github.chw3021.bookmakase.bookdata.domain.Book;
 import io.github.chw3021.bookmakase.journal.domain.Journal;
 import io.github.chw3021.bookmakase.signservice.domain.Member;
 

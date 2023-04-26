@@ -8,8 +8,8 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import io.github.chw3021.bookmakase.bookdata.dto.Book;
-import io.github.chw3021.bookmakase.bookdata.dto.BookDto;
+import io.github.chw3021.bookmakase.bookdata.domain.Book;
+import io.github.chw3021.bookmakase.bookdata.domain.BookDto;
 import io.github.chw3021.bookmakase.interparkapi.properties.InterparkProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

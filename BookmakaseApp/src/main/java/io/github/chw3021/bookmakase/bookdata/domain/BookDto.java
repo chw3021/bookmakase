@@ -1,4 +1,4 @@
-package io.github.chw3021.bookmakase.bookdata.dto;
+package io.github.chw3021.bookmakase.bookdata.domain;
 
 import java.util.List;
 

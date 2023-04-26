@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import io.github.chw3021.bookmakase.bookdata.dto.Book;
+import io.github.chw3021.bookmakase.bookdata.domain.Book;
 import io.github.chw3021.bookmakase.journal.domain.Journal;
 import io.github.chw3021.bookmakase.journal.dto.CreateJournalRequest;
 import io.github.chw3021.bookmakase.journal.dto.UpdateJournalRequest;

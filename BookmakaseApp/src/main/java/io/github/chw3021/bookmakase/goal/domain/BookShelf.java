@@ -3,7 +3,7 @@ package io.github.chw3021.bookmakase.goal.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.chw3021.bookmakase.bookdata.dto.Book;
+import io.github.chw3021.bookmakase.bookdata.domain.Book;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

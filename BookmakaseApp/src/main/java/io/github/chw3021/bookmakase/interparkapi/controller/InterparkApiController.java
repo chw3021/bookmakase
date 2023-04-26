@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.github.chw3021.bookmakase.bookdata.dto.BookDto;
+import io.github.chw3021.bookmakase.bookdata.domain.BookDto;
 import io.github.chw3021.bookmakase.interparkapi.service.InterparkApiService;
 import lombok.RequiredArgsConstructor;
 

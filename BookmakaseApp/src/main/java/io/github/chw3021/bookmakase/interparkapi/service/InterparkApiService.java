@@ -2,7 +2,7 @@ package io.github.chw3021.bookmakase.interparkapi.service;
 
 import org.springframework.stereotype.Service;
 
-import io.github.chw3021.bookmakase.bookdata.dto.BookDto;
+import io.github.chw3021.bookmakase.bookdata.domain.BookDto;
 import io.github.chw3021.bookmakase.interparkapi.client.InterparkClient;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

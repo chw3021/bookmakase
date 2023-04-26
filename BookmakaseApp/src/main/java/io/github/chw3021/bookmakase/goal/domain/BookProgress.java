@@ -2,7 +2,7 @@ package io.github.chw3021.bookmakase.goal.domain;
 
 import java.time.LocalDateTime;
 
-import io.github.chw3021.bookmakase.bookdata.dto.Book;
+import io.github.chw3021.bookmakase.bookdata.domain.Book;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

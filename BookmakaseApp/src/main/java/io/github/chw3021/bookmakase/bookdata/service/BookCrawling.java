@@ -1,11 +1,11 @@
-package io.github.chw3021.bookmakase.bookdata;
+package io.github.chw3021.bookmakase.bookdata.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import io.github.chw3021.bookmakase.bookdata.dto.Book;
+import io.github.chw3021.bookmakase.bookdata.domain.Book;
 import io.github.chw3021.bookmakase.bookdata.repository.BookRepository;
 import io.github.chw3021.bookmakase.interparkapi.client.InterparkClient;
 import jakarta.transaction.Transactional;
