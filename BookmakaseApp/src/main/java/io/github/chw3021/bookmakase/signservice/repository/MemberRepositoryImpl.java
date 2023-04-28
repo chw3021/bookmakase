@@ -30,7 +30,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
     }
 
     @Override
-    public Optional<Member> findById(Long id) {
+    public Optional<Member> findByIdCustom(Long id) {
         return Optional.ofNullable(MemberData.get(id));
         //optional을 사용해 결과값이 null일때 에러나는것 방지(값을 감싸서 반환)
     }

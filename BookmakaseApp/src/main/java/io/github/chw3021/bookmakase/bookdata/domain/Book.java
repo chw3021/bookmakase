@@ -1,9 +1,7 @@
 package io.github.chw3021.bookmakase.bookdata.domain;
 
 import io.github.chw3021.bookmakase.goal.domain.BookShelf;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,8 +9,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter
-@Builder @AllArgsConstructor @NoArgsConstructor
+@Builder @AllArgsConstructor @NoArgsConstructor @Entity
 public class Book {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String title;
     private String author;
     private int categoryId;
@@ -21,7 +23,7 @@ public class Book {
     private String cover;
     private String description;
     private String link;
-    private Long id;
+    private Long bookId;
     
 
     public String getTitle() {
