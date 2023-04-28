@@ -5,8 +5,11 @@ import org.springframework.stereotype.Repository;
 
 import io.github.chw3021.bookmakase.signservice.domain.Member;
 
-@Repository
-public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryCustom { //jparepository를 상속받는 repositroy 인터페이스 생성
+import java.util.List;
 
+@Repository
+public interface MemberRepository extends JpaRepository<Member, Long> { //jparepository를 상속받는 repositroy 인터페이스 생성
+
+    List<Member> findByAgeBetween(int minAge, int maxAge);
 
 }

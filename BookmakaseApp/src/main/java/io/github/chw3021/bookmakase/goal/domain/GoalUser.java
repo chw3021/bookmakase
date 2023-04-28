@@ -27,7 +27,7 @@ public class GoalUser extends Member {
 	//Member를 상속받아 독서 목표 사용자 클래스를 생성
 	//다른 사용자들의 목표 달성량을 비교할떄 사용할 수 있다.
 	
-	@OneToMany(mappedBy = "goalUser", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "goaluser", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<BookGoal> bookGoals = new ArrayList<>();
 
     private MemberRepository memberRepository;
@@ -70,7 +70,7 @@ public class GoalUser extends Member {
     //같은 나이대, 같은 카테고리에 대한 독서 목표를 완료한 사용자 수를 받는 메서드
     public int getNumberOfUsersInSameAgeAndCategory(GoalUser goalUser, Long categoryId) {
         int numOfUsers = 0;
-        List<Member> usersInSameAgeRange = memberRepository.findMembersByAgeBetween(goalUser.getAge() - 5, goalUser.getAge() + 5);
+        List<Member> usersInSameAgeRange = memberRepository.findByAgeBetween(goalUser.getAge() - 5, goalUser.getAge() + 5);
         for (Member member : usersInSameAgeRange) {
             if (member instanceof GoalUser) {
                 GoalUser user = (GoalUser) member;

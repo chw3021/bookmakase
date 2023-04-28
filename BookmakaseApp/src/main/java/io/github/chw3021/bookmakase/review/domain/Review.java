@@ -39,8 +39,8 @@ public class Review {
     private List<Comment> comments;
     
     
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional= false)
+    @JoinColumn(name = "communityuser")
     private CommunityUser communityuser;
     
     @ManyToOne(fetch = FetchType.LAZY)

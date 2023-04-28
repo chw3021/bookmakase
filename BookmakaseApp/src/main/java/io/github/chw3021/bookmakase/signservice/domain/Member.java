@@ -42,6 +42,7 @@ public class Member {
     @Column(unique = true)
     private Long phonenumber;
 
+    @Column
     private int age;
 
     private char gender;//m는 남성, f는 여성

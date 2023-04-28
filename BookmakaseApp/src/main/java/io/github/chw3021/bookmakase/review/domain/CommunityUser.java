@@ -18,7 +18,7 @@ public class CommunityUser extends Member {
     @Column
     private int reportCount; // 신고 누적 횟수
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "communityuser", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Review> reviews; // 작성한 리뷰 목록
 
 }

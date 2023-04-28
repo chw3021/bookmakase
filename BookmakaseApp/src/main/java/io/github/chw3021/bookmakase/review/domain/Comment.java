@@ -30,6 +30,6 @@ public class Comment {
     private Review review;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "communityuser")
     private CommunityUser communityuser;
 }
