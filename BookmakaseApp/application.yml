@@ -1,17 +1,16 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mariadb://210.102.178.98:60001/db23101
+    driver-class-name: org.mariadb.jdbc.Driver
     username: dbid231
     password: dbpass231
-    url: jdbc:mysql://ceprj.gachon.ac.kr:60001/db23101
 
-  jpa:
-    show-sql: true
-    properties:
-      hibernate:
-        default_batch_fetch_size: 1000
-    hibernate:
-      ddl-auto: create
+ssh:
+  remote_jump_host: 210.102.178.98
+  ssh_port: 60001
+  user: t23101
+  private_key: Ce36046!
+  database_port: 60001
 
 jwt:
   secret:
