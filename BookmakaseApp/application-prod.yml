@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mariadb://210.102.178.98:60001/db23101
+    url: jdbc:mariadb:/localhost:60001/db23101
     driver-class-name: org.mariadb.jdbc.Driver
     username: dbid231
     password: dbpass231
@@ -14,4 +14,4 @@ ssh:
 
 jwt:
   secret:
-    key: ThWmZq4t7w!z%C*F-JaNcRfUjXn2r5u8
+    key: ThWmZq4t7w!z%C*F-
