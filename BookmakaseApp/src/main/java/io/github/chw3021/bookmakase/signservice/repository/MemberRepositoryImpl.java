@@ -14,10 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 import io.github.chw3021.bookmakase.goal.domain.GoalUser;
 import io.github.chw3021.bookmakase.signservice.domain.Member;
 
+/*
 @Repository
 @Transactional
 public class MemberRepositoryImpl implements MemberRepositoryCustom{
-
     private static Map<Long, Member> MemberData = new HashMap<>();//해쉬맵 형태로 멤버 저장.
     private static long sequence = 0L; //0,1,2 ... 키값 생성
 
@@ -63,4 +63,4 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
 		return MemberData.values().stream().filter(member -> member.getAge()>=minAge&&member.getAge()<=maxAge).toList();
 	}
 
-}
+}*/

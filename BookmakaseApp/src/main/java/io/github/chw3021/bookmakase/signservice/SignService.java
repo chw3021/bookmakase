@@ -10,7 +10,7 @@ import io.github.chw3021.bookmakase.signservice.domain.Member;
 import io.github.chw3021.bookmakase.signservice.member.Authority;
 import io.github.chw3021.bookmakase.signservice.member.dto.SignRequest;
 import io.github.chw3021.bookmakase.signservice.member.dto.SignResponse;
-import io.github.chw3021.bookmakase.signservice.repository.MemberRepositoryImpl;
+import io.github.chw3021.bookmakase.signservice.repository.MemberRepository;
 import io.github.chw3021.bookmakase.signservice.security.JwtProvider;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SignService {
  //사용자가 이용하는 서비스(로그인,로그아웃 등 의 메소드)
-    private final MemberRepositoryImpl memberRepository;
+    private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 

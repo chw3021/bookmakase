@@ -11,14 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 import io.github.chw3021.bookmakase.signservice.SignService;
 import io.github.chw3021.bookmakase.signservice.member.dto.SignRequest;
 import io.github.chw3021.bookmakase.signservice.member.dto.SignResponse;
-import io.github.chw3021.bookmakase.signservice.repository.MemberRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
 public class SignController {
 
-    private final MemberRepositoryImpl memberRepository;
     private final SignService memberService;
 
     @PostMapping(value = "/login")

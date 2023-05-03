@@ -8,21 +8,19 @@ import jakarta.annotation.PreDestroy;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.Properties;
 
 @Slf4j
-@Profile("prod")
 @Component
 @ConfigurationProperties(prefix = "ssh")
 @Validated
 @Setter
 public class SshTunnelingInitializer {
 
-    private String host;
+    private String remoteJumpHost;
     private String user;
     private int sshPort;
     private String privateKey;
@@ -41,7 +39,7 @@ public class SshTunnelingInitializer {
         Integer forwardedPort = null;
 
         try {
-            log.info("{}@{}:{}:{} with privateKey",user, host, sshPort, databasePort);
+            log.info("{}@{}:{}:{} with privateKey",user, remoteJumpHost, sshPort, databasePort);
 
             log.info("start ssh tunneling..");
             JSch jSch = new JSch();
@@ -50,7 +48,7 @@ public class SshTunnelingInitializer {
 
             jSch.addIdentity(privateKey);  // 개인키
 
-            session = jSch.getSession(user, host, sshPort);  // 세션 설정
+            session = jSch.getSession(user, remoteJumpHost, sshPort);  // 세션 설정
             Properties config = new Properties();
             config.put("StrictHostKeyChecking", "no");
             session.setConfig(config);
@@ -62,7 +60,7 @@ public class SshTunnelingInitializer {
 
             // 로컬pc의 남는 포트 하나와 원격 접속한 pc의 db포트 연결
             log.info("start forwarding");
-            forwardedPort = session.setPortForwardingL(33306, "localhost", databasePort);
+            forwardedPort = session.setPortForwardingL(22, "localhost", databasePort);
             log.info("successfully connected to database");
 
         } catch (JSchException e){

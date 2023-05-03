@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://localhost:[forwardedPort]/db23101
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: dbid231
+    password: dbpass231
+
+ssh:
+  remote_jump_host: ceprj.gachon.ac.kr
+  ssh_port: 60001
+  user: t23101
+  private_key: ~/.ssh/id_rsa
+  database_port: 3306
