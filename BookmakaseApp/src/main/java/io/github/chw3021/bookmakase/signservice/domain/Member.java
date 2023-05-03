@@ -27,26 +27,29 @@ import lombok.NoArgsConstructor;
 @Builder @AllArgsConstructor @NoArgsConstructor
 public class Member {
 
-	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true)
-    private String account; 
+    private String account;
 
+    @Column
     private String password;
 
+    @Column
     private String name;
 
+    @Column
     private int prefer;//선호 카테고리의 ID를 저장
 
-    @Column(unique = true)
-    private Long phonenumber;
+    @Column
+    private Long phoneNumber;
 
     @Column
     private int age;
 
+    @Column
     private char gender;//m는 남성, f는 여성
     
     
@@ -73,11 +76,11 @@ public class Member {
         this.name = name;
     }
    
-    public Long getPhonenumber() {
-    	return phonenumber;
+    public Long getPhoneNumber() {
+    	return phoneNumber;
     }
-    public void setPhonenumber(Long phonenumber) {
-        this.phonenumber = phonenumber;
+    public void setPhoneNumber(Long phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
     
     public String getAccount() {

@@ -21,7 +21,7 @@ public class SignResponse {
 
     private String name;
 
-    private Long phonenumber;
+    private Long phoneNumber;
 
     private int prefer;
 
@@ -37,7 +37,7 @@ public class SignResponse {
         this.id = member.getId();
         this.account = member.getAccount();
         this.name = member.getName();
-        this.phonenumber = member.getPhonenumber();
+        this.phoneNumber = member.getPhoneNumber();
         this.age = member.getAge();
         this.prefer = member.getPrefer();
         this.gender = member.getGender();

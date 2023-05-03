@@ -10,8 +10,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Entity
 @Getter @Setter
-@Builder @AllArgsConstructor @NoArgsConstructor @Entity
+@Builder @AllArgsConstructor @NoArgsConstructor
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

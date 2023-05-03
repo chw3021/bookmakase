@@ -1,6 +1,5 @@
 package io.github.chw3021.bookmakase.signservice.member.dto;
 
-import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,8 +16,7 @@ public class SignRequest{
 
     private int prefer;//선호 카테고리의 ID를 저장
 
-    @Column(unique = true)
-    private Long phonenumber;
+    private Long phoneNumber;
 
     private int age;
 
