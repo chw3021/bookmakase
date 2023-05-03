@@ -19,8 +19,6 @@ public class SignResponse {
 
     private String account;
 
-    private String nickname;
-
     private String name;
 
     private Long phonenumber;
