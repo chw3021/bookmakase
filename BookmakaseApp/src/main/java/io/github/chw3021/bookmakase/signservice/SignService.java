@@ -2,6 +2,7 @@ package io.github.chw3021.bookmakase.signservice;
 
 import java.util.Collections;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,8 +21,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SignService {
  //사용자가 이용하는 서비스(로그인,로그아웃 등 의 메소드)
+    @Autowired
     private final MemberRepository memberRepository;
+    @Autowired
     private final PasswordEncoder passwordEncoder;
+    @Autowired
     private final JwtProvider jwtProvider;
 
     public SignResponse login(SignRequest request) throws Exception {

@@ -20,5 +20,5 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findByCategoryId(int categoryId);
 
     // 출판일로 검색하여 해당하는 책들을 반환하는 메서드
-    List<Book> findByPublishDate(LocalDate publishDate);
+    List<Book> findByPubDate(LocalDate publishDate);
 }

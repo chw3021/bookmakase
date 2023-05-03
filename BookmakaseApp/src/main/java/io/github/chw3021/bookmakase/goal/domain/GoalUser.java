@@ -30,12 +30,9 @@ public class GoalUser extends Member {
 	@OneToMany(mappedBy = "goaluser", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<BookGoal> bookGoals = new ArrayList<>();
 
+    @Autowired
     private MemberRepository memberRepository;
 
-    @Autowired
-    public GoalUser(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
-    }
     
 	public void addBookGoal(BookGoal bookGoal) {
 	    this.bookGoals.add(bookGoal);

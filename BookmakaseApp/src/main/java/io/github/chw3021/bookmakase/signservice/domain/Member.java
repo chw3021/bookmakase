@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -111,6 +112,7 @@ public class Member {
     
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Builder.Default
+    @ElementCollection(targetClass=Authority.class)
     private List<Authority> roles = new ArrayList<>();
 
     public void setRoles(List<Authority> role) {

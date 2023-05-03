@@ -1,19 +1,5 @@
 package io.github.chw3021.bookmakase.signservice.repository;
 
-import java.util.Optional;
-
-import org.springframework.stereotype.Repository;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-
-import org.springframework.transaction.annotation.Transactional;
-
-import io.github.chw3021.bookmakase.goal.domain.GoalUser;
-import io.github.chw3021.bookmakase.signservice.domain.Member;
-
 /*
 @Repository
 @Transactional

@@ -27,13 +27,13 @@ public class BookShelf {
     @JoinColumn(name = "user_id")
     private GoalUser goaluser;
 
-    @OneToMany(mappedBy = "bookShelf", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "bookId", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Book> wantToRead = new ArrayList<>();
 
     @OneToMany(mappedBy = "bookShelf", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BookProgress> currentlyReading = new ArrayList<>();
 
-    @OneToMany(mappedBy = "bookShelf", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "bookId", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Book> finished = new ArrayList<>();
 
     public BookShelf() {
@@ -70,7 +70,6 @@ public class BookShelf {
     }
 
     public void addWantToRead(Book book) {
-        book.setBookShelf(this);
         wantToRead.add(book);
     }
 
@@ -104,7 +103,6 @@ public class BookShelf {
     }
 
     public void addFinished(Book book) {
-        book.setBookShelf(this);
         finished.add(book);
     }
 

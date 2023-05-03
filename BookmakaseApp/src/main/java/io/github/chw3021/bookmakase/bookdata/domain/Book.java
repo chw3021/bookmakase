@@ -1,6 +1,8 @@
 package io.github.chw3021.bookmakase.bookdata.domain;
 
-import io.github.chw3021.bookmakase.goal.domain.BookShelf;
+import java.time.LocalDate;
+
+//import io.github.chw3021.bookmakase.goal.domain.BookShelf;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,10 +21,12 @@ public class Book {
     private String author;
     private int categoryId;
     private String publisher;
-    private String pubDate;
+    private LocalDate pubDate;
     private String cover;
     private String description;
     private String link;
+
+    @Column (name = "book_id")
     private Long bookId;
     
 
@@ -50,11 +54,11 @@ public class Book {
         this.publisher = publisher;
     }
 
-    public String getPubDate() {
+    public LocalDate getPubDate() {
         return pubDate;
     }
 
-    public void setPubDate(String pubDate) {
+    public void setPubDate(LocalDate pubDate) {
         this.pubDate = pubDate;
     }
 
@@ -101,7 +105,7 @@ public class Book {
 	
 
 	//독서 목표
-    @ManyToOne(fetch = FetchType.LAZY)
+   /* @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bookshelf_id")
     private BookShelf bookShelf;
 
@@ -111,5 +115,5 @@ public class Book {
 
     public void setBookShelf(BookShelf bookShelf) {
         this.bookShelf = bookShelf;
-    }
+    }*/
 }
