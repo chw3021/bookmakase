@@ -1,12 +1,10 @@
 package io.github.chw3021.bookmakase.signservice.domain;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.github.chw3021.bookmakase.signservice.member.Authority;
-
-import java.util.ArrayList;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -15,6 +13,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,6 +23,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@Inheritance(strategy = InheritanceType.JOINED)
 @Builder @AllArgsConstructor @NoArgsConstructor
 public class Member {
 
