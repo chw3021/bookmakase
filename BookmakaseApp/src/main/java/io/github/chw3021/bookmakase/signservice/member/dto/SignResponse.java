@@ -21,7 +21,7 @@ public class SignResponse {
 
     private String name;
 
-    private Long phoneNumber;
+    private String Email;
 
     private int prefer;
 
@@ -33,14 +33,17 @@ public class SignResponse {
 
     private String token;
 
+    private int Admin_check;
+
     public SignResponse(Member member) {
         this.id = member.getId();
         this.account = member.getAccount();
         this.name = member.getName();
-        this.phoneNumber = member.getPhoneNumber();
+        this.Email = member.getEmail();
         this.age = member.getAge();
         this.prefer = member.getPrefer();
         this.gender = member.getGender();
         this.roles = member.getRoles();
+        this.Admin_check = member.getAdmin_check();
     }
 }

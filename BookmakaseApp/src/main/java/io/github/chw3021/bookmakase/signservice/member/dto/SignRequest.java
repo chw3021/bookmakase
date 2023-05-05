@@ -16,10 +16,11 @@ public class SignRequest{
 
     private int prefer;//선호 카테고리의 ID를 저장
 
-    private Long phoneNumber;
+    private String Email;
 
     private int age;
 
-    private char gender;//m는 남성, f는 여성
+    private char gender;
+
 
 }

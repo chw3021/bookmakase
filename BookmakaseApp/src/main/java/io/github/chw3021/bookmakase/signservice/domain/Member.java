@@ -44,16 +44,19 @@ public class Member {
     private int prefer;//선호 카테고리의 ID를 저장
 
     @Column
-    private Long phoneNumber;
+    private String Email;
 
     @Column
     private int age;
 
     @Column
     private char gender;//m는 남성, f는 여성
-    
-    
-    
+
+    @Column
+    private int Admin_check;
+
+
+
     //이후로 getter setter
     public Long getId() {
         return id;
@@ -76,11 +79,11 @@ public class Member {
         this.name = name;
     }
    
-    public Long getPhoneNumber() {
-    	return phoneNumber;
+    public String getEmail() {
+    	return Email;
     }
-    public void setPhoneNumber(Long phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setEmail(String Email) {
+        this.Email = Email;
     }
     
     public String getAccount() {
@@ -112,8 +115,10 @@ public class Member {
     public void setGender(Character gender) {
     	this.gender = gender;
     }
-    
-    
+
+    public int getAdmin_check() { return Admin_check; }
+    public void setAdmin_check(int admin_check) {this.Admin_check = admin_check;}
+
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Builder.Default
     @ElementCollection(targetClass=Authority.class)
