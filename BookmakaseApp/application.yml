@@ -1,5 +1,11 @@
 spring:
-
+  datasource:
+    url: jdbc:mariadb://localhost:3306/test1
+    #url: jdbc:mariadb://49.161.110.41:3306/test3
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: root
+    password: qkqh7894563!2
+    #password: bookmakase
   jpa:
     show-sql: true
     properties:
@@ -13,12 +19,6 @@ spring:
       #create: 기존에 존재하는 스키마를 삭제하고 새로 생성한다.
       #create-drop: 스키마를 생성하고 애플리케이션이 종료될 때 삭제한다.
       #none: 초기화 동작을 하지 않는다.
-
-  datasource:
-    url: jdbc:mariadb://49.161.110.41:3306/test3
-    driver-class-name: org.mariadb.jdbc.Driver
-    username: root
-    password: bookmakase
 
     #url: jdbc:mariadb://localhost:[forwardedPort]/db23101
     #driver-class-name: org.mariadb.jdbc.Driver
