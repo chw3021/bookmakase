@@ -66,7 +66,7 @@ public class ReviewController {
     }
 
     
-    @PostMapping("/{reviewId}/comments/add")
+    @PostMapping("/{reviewId}/comments")
     public void addCommentToReview(@PathVariable("reviewId") Long reviewId, @RequestBody CommentDto commentDto) {
         reviewService.addCommentToReview(reviewId, commentDto);
     }
