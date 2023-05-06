@@ -43,8 +43,8 @@ public class Member {
     @Column
     private int prefer;//선호 카테고리의 ID를 저장
 
-    @Column
-    private String Email;
+    @Column(nullable = false)
+    private String email;
 
     @Column
     private int age;
@@ -80,10 +80,10 @@ public class Member {
     }
    
     public String getEmail() {
-    	return Email;
+    	return email;
     }
     public void setEmail(String Email) {
-        this.Email = Email;
+        this.email = Email;
     }
     
     public String getAccount() {

@@ -57,7 +57,7 @@ public class SignService {
                     .account(request.getAccount())
                     .password(passwordEncoder.encode(request.getPassword())) //비밀번호 변경시 참고할것
                     .name(request.getName())
-                    .Email(request.getEmail())
+                    .email(request.getEmail())
                     .age(request.getAge())
                     .gender(request.getGender())
                     .prefer(request.getPrefer())
@@ -79,40 +79,30 @@ public class SignService {
         return new SignResponse(member);
     }
 
-    /*public SignResponse info_change(Long Id , UserRequest request) throws Exception {
-        Member member = memberRepository.findById(Id).orElseThrow(()->{
-            return new IllegalArgumentException("수정에 실패하였습니다");
-        });
-    member.setPassword((request.getPassword()));
-    member.setEmail(request.getEmail());
-    member.setPrefer(request.getPrefer());
-    return new SignResponse(member);
-    }*/
 
     public boolean info_change(Long Id, UserRequest request) throws Exception {
-        Member member = memberRepository.findById(Id).orElseThrow(()->{
-            return new IllegalArgumentException("수정에 실패하였습니다");
-        });
+        Member member = memberRepository.findById(Id).orElseThrow(()->
+                new IllegalArgumentException("수정에 실패하였습니다"));
         member.setPassword(passwordEncoder.encode(request.getPassword()));
         member.setEmail(request.getEmail());
         member.setPrefer(request.getPrefer());
 
         member.builder().id(request.getId()).account(request.getAccount())
                 .password(passwordEncoder.encode(request.getPassword())) //비밀번호 변경시 참고할것
-                .Email(request.getEmail())
+                .email(request.getEmail())
                 .prefer(request.getPrefer())
                 .build();
 
         return true;
     }
-    /*public String FindAccount(UserRequest request) throws Exception {
-        Member member = memberRepository.findByEmail(request.getEmail()).orElseThrow(() -> {
-            return new IllegalArgumentException(" 이메일을 찾을수 없습니다");
-        });
+    public String FindAccount(UserRequest request) throws Exception {
+        Member member = memberRepository.findByemail(request.getEmail()).orElseThrow(() ->
+                new Exception("이메일을 찾을수 없습니다"));
 
 
         return member.getAccount();
     }
+    /*
     public boolean FindPassWord(UserRequest request) throws Exception {
         Member member = memberRepository.findByAccount(request.getAccount()).orElseThrow(() -> {
             return new IllegalArgumentException(" 해당하는 계정을 찾을수 없습니다");
