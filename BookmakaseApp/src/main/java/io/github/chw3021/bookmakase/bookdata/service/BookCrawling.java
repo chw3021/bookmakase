@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 @RequiredArgsConstructor
 public class BookCrawling {
-    @Autowired
+	/* @Autowired
     private InterparkClient interparkClient;
     @Autowired
     private BookRepository bookRepository;
@@ -41,5 +41,5 @@ public class BookCrawling {
             book.setCategoryId(categoryId);
             bookRepository.save(book);
         }
-    }
+    }*/
 }

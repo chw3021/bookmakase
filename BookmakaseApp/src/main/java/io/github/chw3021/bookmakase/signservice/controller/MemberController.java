@@ -1,23 +1,24 @@
 package io.github.chw3021.bookmakase.signservice.controller;
 
 import io.github.chw3021.bookmakase.signservice.domain.Member;
-import io.github.chw3021.bookmakase.signservice.member.dto.UserRequest;
+import io.github.chw3021.bookmakase.signservice.domain.dto.SignRequest;
+import io.github.chw3021.bookmakase.signservice.domain.dto.SignResponse;
+import io.github.chw3021.bookmakase.signservice.domain.dto.UserRequest;
+import io.github.chw3021.bookmakase.signservice.service.MemberService;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import io.github.chw3021.bookmakase.signservice.SignService;
-import io.github.chw3021.bookmakase.signservice.member.dto.SignRequest;
-import io.github.chw3021.bookmakase.signservice.member.dto.SignResponse;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @Controller
 @RequiredArgsConstructor
-public class SignController {
+public class MemberController {
 
-    private final SignService memberService;
+    private final MemberService memberService;
 
     @PostMapping(value = "/login")
     public ResponseEntity<SignResponse> signin(@RequestBody SignRequest request) throws Exception {

@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface MemberRepository extends JpaRepository<Member, Long> { //jparepository를 상속받는 repositroy 인터페이스 생성
 
 	Optional<Member> findByAccount(String account);
-    Optional<Member> findByemail(String email);
+    Optional<Member> findByEmail(String email);
 	
     List<Member> findByAgeBetween(int minAge, int maxAge);
 

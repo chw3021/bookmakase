@@ -1,17 +1,17 @@
-package io.github.chw3021.bookmakase.signservice;
+package io.github.chw3021.bookmakase.signservice.service;
 
 import java.util.Collections;
 
-import io.github.chw3021.bookmakase.signservice.member.dto.UserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import io.github.chw3021.bookmakase.signservice.domain.Authority;
 import io.github.chw3021.bookmakase.signservice.domain.Member;
-import io.github.chw3021.bookmakase.signservice.member.Authority;
-import io.github.chw3021.bookmakase.signservice.member.dto.SignRequest;
-import io.github.chw3021.bookmakase.signservice.member.dto.SignResponse;
+import io.github.chw3021.bookmakase.signservice.domain.dto.SignRequest;
+import io.github.chw3021.bookmakase.signservice.domain.dto.SignResponse;
+import io.github.chw3021.bookmakase.signservice.domain.dto.UserRequest;
 import io.github.chw3021.bookmakase.signservice.repository.MemberRepository;
 import io.github.chw3021.bookmakase.signservice.security.JwtProvider;
 import jakarta.transaction.Transactional;
@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class SignService {
+public class MemberService {
  //사용자가 이용하는 서비스(로그인,로그아웃 등 의 메소드)
     @Autowired
     private final MemberRepository memberRepository;
@@ -87,7 +87,7 @@ public class SignService {
         member.setEmail(request.getEmail());
         member.setPrefer(request.getPrefer());
 
-        member.builder().id(request.getId()).account(request.getAccount())
+        Member.builder().id(request.getId()).account(request.getAccount())
                 .password(passwordEncoder.encode(request.getPassword())) //비밀번호 변경시 참고할것
                 .email(request.getEmail())
                 .prefer(request.getPrefer())
@@ -96,8 +96,8 @@ public class SignService {
         return true;
     }
     public String FindAccount(UserRequest request) throws Exception {
-        Member member = memberRepository.findByemail(request.getEmail()).orElseThrow(() ->
-                new Exception("이메일을 찾을수 없습니다"));
+        Member member = memberRepository.findByEmail(request.getEmail()).orElseThrow(() ->
+                new IllegalArgumentException("이메일을 찾을수 없습니다"));
 
 
         return member.getAccount();

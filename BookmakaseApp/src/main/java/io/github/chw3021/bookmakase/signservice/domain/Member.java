@@ -4,7 +4,6 @@ package io.github.chw3021.bookmakase.signservice.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.chw3021.bookmakase.signservice.member.Authority;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
