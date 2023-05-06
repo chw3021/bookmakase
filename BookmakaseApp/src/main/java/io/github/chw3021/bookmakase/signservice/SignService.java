@@ -2,6 +2,7 @@ package io.github.chw3021.bookmakase.signservice;
 
 import java.util.Collections;
 
+import io.github.chw3021.bookmakase.signservice.member.dto.UserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,10 +34,11 @@ public class SignService {
                 new BadCredentialsException("잘못된 계정정보입니다."));
 
         if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
-            throw new BadCredentialsException("잘못된 계정정보입니다.");
+            throw new BadCredentialsException("잘못된 비밀번호입니다.");
         }
 
         return SignResponse.builder()
+                .id(member.getId())
                 .account(member.getAccount())
                 .name(member.getName())
                 .Email(member.getEmail())
@@ -53,7 +55,7 @@ public class SignService {
             Member member = Member.builder()
             		.id(request.getId())
                     .account(request.getAccount())
-                    .password(passwordEncoder.encode(request.getPassword()))
+                    .password(passwordEncoder.encode(request.getPassword())) //비밀번호 변경시 참고할것
                     .name(request.getName())
                     .Email(request.getEmail())
                     .age(request.getAge())
@@ -75,6 +77,32 @@ public class SignService {
         Member member = memberRepository.findByAccount(account)
                 .orElseThrow(() -> new Exception("계정을 찾을 수 없습니다."));
         return new SignResponse(member);
+    }
+
+    /*public SignResponse info_change(Long Id , UserRequest request) throws Exception {
+        Member member = memberRepository.findById(Id).orElseThrow(()->{
+            return new IllegalArgumentException("수정에 실패하였습니다");
+        });
+    member.setPassword((request.getPassword()));
+    member.setEmail(request.getEmail());
+    member.setPrefer(request.getPrefer());
+    return new SignResponse(member);
+    }*/
+
+    public boolean info_change(Long Id, UserRequest request) throws Exception {
+        Member member = memberRepository.findById(Id).orElseThrow(()->{
+            return new IllegalArgumentException("수정에 실패하였습니다");
+        });
+        member.setPassword(passwordEncoder.encode(request.getPassword()));
+        member.setEmail(request.getEmail());
+        member.setPrefer(request.getPrefer());
+
+        member.builder().id(request.getId()).account(request.getAccount())
+                .password(passwordEncoder.encode(request.getPassword())) //비밀번호 변경시 참고할것
+                .Email(request.getEmail())
+                .prefer(request.getPrefer())
+                .build();
+        return true;
     }
 
 }

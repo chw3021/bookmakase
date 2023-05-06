@@ -9,7 +9,6 @@ public interface MemberRepositoryCustom {
     public Optional<Member> findByAccount(String account);
     
     Member save(Member member); //DB에 저장
-    Optional<Member> findByIdCustom(Long id); //ID로 찾기
     Optional<Member> findByName(String name); //
     List<Member> findAll(); //전체 불러오기
     

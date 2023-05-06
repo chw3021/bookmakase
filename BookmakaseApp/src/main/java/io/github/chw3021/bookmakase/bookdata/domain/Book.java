@@ -14,8 +14,11 @@ import lombok.Setter;
 @Getter @Setter
 @Builder @AllArgsConstructor @NoArgsConstructor
 public class Book {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY) 이 옵션은 Db에서
+    //순차적으로 값을 올리는 거라 고유 ID입력 안되니 수정할 것.
     private Long id;
 
     private String title;
@@ -27,9 +30,10 @@ public class Book {
     private String description;
     private String link;
 
+    @Id
     @Column (name = "book_id")
     private Long bookId;
-    
+    //Id(PK변경)
 
     public String getTitle() {
         return title;
