@@ -2,13 +2,7 @@ package io.github.chw3021.bookmakase.goal.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import io.github.chw3021.bookmakase.goal.repository.GoalUserRepository;
 import io.github.chw3021.bookmakase.signservice.domain.Member;
-import io.github.chw3021.bookmakase.signservice.repository.MemberRepository;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;

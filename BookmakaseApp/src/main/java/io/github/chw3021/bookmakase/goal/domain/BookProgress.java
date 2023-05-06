@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 import io.github.chw3021.bookmakase.bookdata.domain.Book;
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -39,10 +38,12 @@ public class BookProgress {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bookshelf_id")
     private BookShelf bookShelf;
-
-    public BookProgress() {
+    
+    public BookProgress(Book book, BookShelf bookShelf) {
+        this.book = book;
+        this.bookShelf = bookShelf;
     }
-
+    
     @Builder
     public BookProgress(GoalUser goaluser, Book book, Integer currentPage, Integer totalPage, LocalDateTime startDate, LocalDateTime endDate) {
         this.goaluser = goaluser;
@@ -55,67 +56,4 @@ public class BookProgress {
 
     // Getters and setters
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public GoalUser getGoalUser() {
-        return goaluser;
-    }
-
-    public void setGoalUser(GoalUser goaluser) {
-        this.goaluser = goaluser;
-    }
-    
-    public Integer getCurrentPage() {
-        return currentPage;
-    }
-
-    public void setCurrentPage(Integer currentPage) {
-        this.currentPage = currentPage;
-    }
-
-    public Integer getTotalPage() {
-        return totalPage;
-    }
-
-    public void setTotalPage(Integer totalPage) {
-        this.totalPage = totalPage;
-    }
-
-    public LocalDateTime getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDateTime startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDateTime getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDateTime endDate) {
-        this.endDate = endDate;
-    }
-
-    public Book getBook() {
-        return book;
-    }
-
-    public void setBook(Book book) {
-        this.book = book;
-    }
-
-    public BookShelf getBookShelf() {
-        return bookShelf;
-    }
-
-    public void setBookShelf(BookShelf bookShelf) {
-        this.bookShelf = bookShelf;
-    }
 }

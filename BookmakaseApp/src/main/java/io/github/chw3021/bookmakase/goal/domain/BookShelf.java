@@ -45,29 +45,6 @@ public class BookShelf {
 
     // Getters and setters
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public GoalUser getGoalUser() {
-    	return goaluser;
-    }
-
-    public void setGoalUser(GoalUser goaluser) {
-        this.goaluser = goaluser;
-    }
-
-    public List<Book> getWantToRead() {
-        return wantToRead;
-    }
-
-    public void setWantToRead(List<Book> wantToRead) {
-        this.wantToRead = wantToRead;
-    }
 
     public void addWantToRead(Book book) {
         wantToRead.add(book);
@@ -77,13 +54,6 @@ public class BookShelf {
         wantToRead.remove(book);
     }
 
-    public List<BookProgress> getCurrentlyReading() {
-        return currentlyReading;
-    }
-
-    public void setCurrentlyReading(List<BookProgress> currentlyReading) {
-        this.currentlyReading = currentlyReading;
-    }
 
     public void addCurrentlyReading(BookProgress progress) {
         progress.setBookShelf(this);
@@ -94,13 +64,6 @@ public class BookShelf {
         currentlyReading.remove(progress);
     }
 
-    public List<Book> getFinished() {
-        return finished;
-    }
-
-    public void setFinished(List<Book> finished) {
-        this.finished = finished;
-    }
 
     public void addFinished(Book book) {
         finished.add(book);
@@ -109,4 +72,14 @@ public class BookShelf {
     public void removeFinished(Book book) {
         finished.remove(book);
     }
+
+    public void addBookProgress(BookProgress bookProgress) {
+        bookProgress.setBookShelf(this);
+        currentlyReading.add(bookProgress);
+    }
+
+    public void removeBookProgressById(Long bookProgressId) {
+        currentlyReading.removeIf(progress -> progress.getId().equals(bookProgressId));
+    }
+    
 }
