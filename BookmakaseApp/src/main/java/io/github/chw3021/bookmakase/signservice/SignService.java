@@ -102,7 +102,22 @@ public class SignService {
                 .Email(request.getEmail())
                 .prefer(request.getPrefer())
                 .build();
+
         return true;
     }
+    /*public String FindAccount(UserRequest request) throws Exception {
+        Member member = memberRepository.findByEmail(request.getEmail()).orElseThrow(() -> {
+            return new IllegalArgumentException(" 이메일을 찾을수 없습니다");
+        });
 
+
+        return member.getAccount();
+    }
+    public boolean FindPassWord(UserRequest request) throws Exception {
+        Member member = memberRepository.findByAccount(request.getAccount()).orElseThrow(() -> {
+            return new IllegalArgumentException(" 해당하는 계정을 찾을수 없습니다");
+        });
+
+        return true;
+    }*/
 }

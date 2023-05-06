@@ -42,6 +42,14 @@ public class SignController {
     @PutMapping("/MyPage/info_change/{id}")
     public ResponseEntity<Boolean> info_change(@PathVariable Long id, @RequestBody UserRequest request) throws Exception {
         return new ResponseEntity<>(memberService.info_change(id,request), HttpStatus.OK);
-
     }
+    /*@PostMapping("/Find/Account")
+    public ResponseEntity<String> findid(@RequestBody UserRequest request)throws Exception {
+        return new ResponseEntity<>(memberService.FindAccount(request), HttpStatus.OK);
+    }
+    @PostMapping("/Find/PWD")
+    public ResponseEntity<Boolean> Findpwd(@RequestBody UserRequest request)throws Exception {
+        return new ResponseEntity<>(memberService.FindPassWord(request), HttpStatus.OK);
+    }*/
+
 }
