@@ -1,5 +1,7 @@
 package io.github.chw3021.bookmakase.goal.controller;
 
+import io.github.chw3021.bookmakase.bookdata.domain.Book;
+import io.github.chw3021.bookmakase.goal.domain.BookProgress;
 import io.github.chw3021.bookmakase.goal.domain.BookShelf;
 import io.github.chw3021.bookmakase.goal.service.BookShelfService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +38,28 @@ public class BookShelfController {
         BookShelf bookShelf = bookShelfService.getBookShelfById(id);
         return ResponseEntity.ok(bookShelf);
     }
-
+    @PostMapping("/{id}/wantToRead")
+    public ResponseEntity<BookShelf> addWantToRead(@PathVariable Long id, @RequestBody Book book) {
+        BookShelf bookShelf = bookShelfService.getBookShelfById(id);
+        bookShelf.addWantToRead(book);
+        bookShelfService.updateBookShelf(id, bookShelf);
+        return ResponseEntity.ok(bookShelf);
+    }
+    @PostMapping("/{id}/wantToRead")
+    public ResponseEntity<BookShelf> addCurrentlyReading(@PathVariable Long id, @RequestBody BookProgress book) {
+        BookShelf bookShelf = bookShelfService.getBookShelfById(id);
+        bookShelf.addCurrentlyReading(book);
+        bookShelfService.updateBookShelf(id, bookShelf);
+        return ResponseEntity.ok(bookShelf);
+    }
+    @PostMapping("/{id}/finished")
+    public ResponseEntity<BookShelf> addFinished(@PathVariable Long id, @RequestBody Book book) {
+        BookShelf bookShelf = bookShelfService.getBookShelfById(id);
+        bookShelf.addFinished(book);
+        bookShelfService.updateBookShelf(id, bookShelf);
+        return ResponseEntity.ok(bookShelf);
+    }
+    
     @PutMapping("/{id}")
     public ResponseEntity<BookShelf> updateBookShelf(@PathVariable Long id, @RequestBody BookShelf bookShelf) {
         BookShelf updatedBookShelf = bookShelfService.updateBookShelf(id, bookShelf);

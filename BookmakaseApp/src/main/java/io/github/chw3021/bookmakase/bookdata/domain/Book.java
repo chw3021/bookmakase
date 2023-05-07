@@ -1,6 +1,7 @@
 package io.github.chw3021.bookmakase.bookdata.domain;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 //import io.github.chw3021.bookmakase.goal.domain.BookShelf;
 import jakarta.persistence.*;
@@ -35,5 +36,18 @@ public class Book {
     private Long bookId;
     //Id(PK변경)
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return Objects.equals(id, book.id) &&
+                Objects.equals(bookId, book.bookId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, bookId);
+    }
 	
 }

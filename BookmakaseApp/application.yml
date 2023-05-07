@@ -6,6 +6,10 @@ spring:
     username: root
     #password: qkqh7894563!2
     password: bookmakase
+    #url: jdbc:mariadb://localhost:[forwardedPort]/db23101
+    #driver-class-name: org.mariadb.jdbc.Driver
+    #username: dbid231
+    #password: dbpass231
   jpa:
     show-sql: true
     properties:
@@ -27,10 +31,6 @@ spring:
     properties:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
-    #url: jdbc:mariadb://localhost:[forwardedPort]/db23101
-    #driver-class-name: org.mariadb.jdbc.Driver
-    #username: dbid231
-    #password: dbpass231
       
 #ssh:
   #remote_jump_host: ceprj.gachon.ac.kr
