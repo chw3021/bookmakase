@@ -1,6 +1,7 @@
 package io.github.chw3021.bookmakase.signservice.service;
 
 import java.util.Collections;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -88,7 +89,7 @@ public class MemberService {
         member.setPrefer(request.getPrefer());
 
         Member.builder().id(request.getId()).account(request.getAccount())
-                .password(passwordEncoder.encode(request.getPassword())) //비밀번호 변경시 참고할것
+                .password(passwordEncoder.encode(request.getPassword()))
                 .email(request.getEmail())
                 .prefer(request.getPrefer())
                 .build();
@@ -99,15 +100,8 @@ public class MemberService {
         Member member = memberRepository.findByEmail(request.getEmail()).orElseThrow(() ->
                 new IllegalArgumentException("이메일을 찾을수 없습니다"));
 
-
         return member.getAccount();
     }
-    /*
-    public boolean FindPassWord(UserRequest request) throws Exception {
-        Member member = memberRepository.findByAccount(request.getAccount()).orElseThrow(() -> {
-            return new IllegalArgumentException(" 해당하는 계정을 찾을수 없습니다");
-        });
 
-        return true;
-    }*/
+
 }

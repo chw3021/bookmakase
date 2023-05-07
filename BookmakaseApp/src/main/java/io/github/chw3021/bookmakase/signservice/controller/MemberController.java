@@ -4,6 +4,7 @@ import io.github.chw3021.bookmakase.signservice.domain.Member;
 import io.github.chw3021.bookmakase.signservice.domain.dto.SignRequest;
 import io.github.chw3021.bookmakase.signservice.domain.dto.SignResponse;
 import io.github.chw3021.bookmakase.signservice.domain.dto.UserRequest;
+import io.github.chw3021.bookmakase.signservice.service.EmailService;
 import io.github.chw3021.bookmakase.signservice.service.MemberService;
 
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class MemberController {
 
     private final MemberService memberService;
+    private final EmailService emailService;
 
     @PostMapping(value = "/login")
     public ResponseEntity<SignResponse> signin(@RequestBody SignRequest request) throws Exception {
@@ -48,10 +50,10 @@ public class MemberController {
     public ResponseEntity<String> findid(@RequestBody UserRequest request)throws Exception {
         return new ResponseEntity<>(memberService.FindAccount(request), HttpStatus.OK);
     }
-    /*
+
     @PostMapping("/Find/PWD")
     public ResponseEntity<Boolean> Findpwd(@RequestBody UserRequest request)throws Exception {
-        return new ResponseEntity<>(memberService.FindPassWord(request), HttpStatus.OK);
-    }*/
+        return new ResponseEntity<>(emailService.sendPwdEmail(request), HttpStatus.OK);
+    }
 
 }
