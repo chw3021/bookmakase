@@ -33,7 +33,6 @@ public class SignResponse {
 
     private String token;
 
-    private int Admin_check;
 
     public SignResponse(Member member) {
         this.id = member.getId();
@@ -44,6 +43,5 @@ public class SignResponse {
         this.prefer = member.getPrefer();
         this.gender = member.getGender();
         this.roles = member.getRoles();
-        this.Admin_check = member.getAdmin_check();
     }
 }

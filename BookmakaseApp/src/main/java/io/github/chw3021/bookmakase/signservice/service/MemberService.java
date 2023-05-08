@@ -46,7 +46,8 @@ public class MemberService {
                 .age(member.getAge())
                 .gender(member.getGender())
                 .prefer(member.getPrefer())
-                .Admin_check(member.getAdmin_check())
+                .roles(member.getRoles())
+                .token(jwtProvider.createToken(member.getAccount(), member.getRoles()))
                 .build();
 
     }
@@ -108,8 +109,8 @@ public class MemberService {
     }
 
 
-    public boolean info_change(Long Id, UserRequest request) throws Exception {
-        Member member = memberRepository.findById(Id).orElseThrow(()->
+    public boolean info_change(UserRequest request) throws Exception {
+        Member member = memberRepository.findById(request.getId()).orElseThrow(()->
                 new IllegalArgumentException("수정에 실패하였습니다"));
         member.setPassword(passwordEncoder.encode(request.getPassword()));
         member.setEmail(request.getEmail());

@@ -46,9 +46,9 @@ public class MemberController {
         return new ResponseEntity<>( memberService.getMember(account), HttpStatus.OK);
     }
 
-    @PutMapping("/MyPage/info_change/{id}")
-    public ResponseEntity<Boolean> info_change(@PathVariable Long id, @RequestBody UserRequest request) throws Exception {
-        return new ResponseEntity<>(memberService.info_change(id,request), HttpStatus.OK);
+    @PutMapping("/MyPage/info_change")
+    public ResponseEntity<Boolean> info_change(@RequestBody UserRequest request) throws Exception {
+        return new ResponseEntity<>(memberService.info_change(request), HttpStatus.OK);
     }
     @PostMapping("/Find/Account")
     public ResponseEntity<String> findid(@RequestBody UserRequest request)throws Exception {
