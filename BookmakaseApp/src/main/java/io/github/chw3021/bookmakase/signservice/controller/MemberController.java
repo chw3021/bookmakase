@@ -31,6 +31,10 @@ public class MemberController {
     public ResponseEntity<Boolean> signup(@RequestBody SignRequest request) throws Exception {
         return new ResponseEntity<>(memberService.register(request), HttpStatus.OK);
     }
+    @PostMapping(value = "/admin")
+    public ResponseEntity<Boolean> createAdminMember(@RequestBody SignRequest request) throws Exception {
+        return new ResponseEntity<>(memberService.createAdminMember(request), HttpStatus.OK);
+    }
 
     @GetMapping("/user/get")
     public ResponseEntity<SignResponse> getUser(@RequestParam String account) throws Exception {

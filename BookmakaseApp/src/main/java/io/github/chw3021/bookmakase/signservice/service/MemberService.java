@@ -56,7 +56,7 @@ public class MemberService {
             Member member = Member.builder()
             		.id(request.getId())
                     .account(request.getAccount())
-                    .password(passwordEncoder.encode(request.getPassword())) //비밀번호 변경시 참고할것
+                    .password(passwordEncoder.encode(request.getPassword())) 
                     .name(request.getName())
                     .email(request.getEmail())
                     .age(request.getAge())
@@ -73,6 +73,33 @@ public class MemberService {
         }
         return true;
     }
+    
+
+
+    public boolean createAdminMember(SignRequest request) throws Exception {
+        try {
+            Member member = Member.builder()
+            		.id(request.getId())
+                    .account(request.getAccount())
+                    .password(passwordEncoder.encode(request.getPassword()))
+                    .name(request.getName())
+                    .email(request.getEmail())
+                    .age(request.getAge())
+                    .gender(request.getGender())
+                    .Admin_check(1)
+                    .prefer(request.getPrefer())
+                    .build();
+
+            member.setRoles(Collections.singletonList(Authority.builder().name("ROLE_ADMIN").build()));
+
+            memberRepository.save(member);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new Exception("잘못된 요청입니다.");
+        }
+        return true;
+    }
+    
 
     public SignResponse getMember(String account) throws Exception {
         Member member = memberRepository.findByAccount(account)
