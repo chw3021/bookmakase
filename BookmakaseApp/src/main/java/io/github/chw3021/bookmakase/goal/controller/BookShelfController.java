@@ -33,7 +33,7 @@ public class BookShelfController {
     	List<BookShelf> bookShelves = bookShelfService.getAllBookShelves();
     	return ResponseEntity.ok(bookShelves);
 	}
-    @GetMapping("/{id}")
+    @GetMapping("/getBook/{id}")
     public ResponseEntity<BookShelf> getBookShelfById(@PathVariable Long id) {
         BookShelf bookShelf = bookShelfService.getBookShelfById(id);
         return ResponseEntity.ok(bookShelf);
@@ -45,7 +45,7 @@ public class BookShelfController {
         bookShelfService.updateBookShelf(id, bookShelf);
         return ResponseEntity.ok(bookShelf);
     }
-    @PostMapping("/{id}/wantToRead")
+    @PostMapping("/{id}/NowRead")
     public ResponseEntity<BookShelf> addCurrentlyReading(@PathVariable Long id, @RequestBody BookProgress book) {
         BookShelf bookShelf = bookShelfService.getBookShelfById(id);
         bookShelf.addCurrentlyReading(book);
@@ -60,13 +60,13 @@ public class BookShelfController {
         return ResponseEntity.ok(bookShelf);
     }
     
-    @PutMapping("/{id}")
+    @PutMapping("/updateBookshelf/{id}")
     public ResponseEntity<BookShelf> updateBookShelf(@PathVariable Long id, @RequestBody BookShelf bookShelf) {
         BookShelf updatedBookShelf = bookShelfService.updateBookShelf(id, bookShelf);
         return ResponseEntity.ok(updatedBookShelf);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deleteBookshelf/{id}")
     public ResponseEntity<Void> deleteBookShelf(@PathVariable Long id) {
         bookShelfService.deleteBookShelf(id);
         return ResponseEntity.noContent().build();

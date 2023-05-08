@@ -32,19 +32,19 @@ public class GoalController {
         return ResponseEntity.ok(createdGoalDto);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/goal/{id}")
     public ResponseEntity<BookGoalDto> getGoalById(@PathVariable Long id) {
         BookGoalDto goalDto = goalService.getGoalById(id);
         return ResponseEntity.ok(goalDto);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/goal/update/{id}")
     public ResponseEntity<BookGoalDto> updateGoal(@PathVariable Long id, @RequestBody @Validated BookGoalDto goalDto) {
         BookGoalDto updatedGoalDto = goalService.updateGoal(id, goalDto);
         return ResponseEntity.ok(updatedGoalDto);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/goal/delete/{id}")
     public ResponseEntity<Void> deleteGoal(@PathVariable Long id) {
         goalService.deleteGoal(id);
         return ResponseEntity.noContent().build();

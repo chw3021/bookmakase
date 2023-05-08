@@ -44,9 +44,7 @@ public class EmailService {
                 new IllegalArgumentException("이메일또는 계정을 찾을수 없습니다."));
         String tempPwd = createTempPwd();
         member.setPassword(passwordEncoder.encode(tempPwd));
-        Member.builder()
-                .password(passwordEncoder.encode(member.getPassword()))
-                .build();
+        memberRepository.save(member);
         return tempPwd;
     }
 

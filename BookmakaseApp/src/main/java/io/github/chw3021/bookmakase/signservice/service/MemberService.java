@@ -88,11 +88,8 @@ public class MemberService {
         member.setEmail(request.getEmail());
         member.setPrefer(request.getPrefer());
 
-        Member.builder().id(request.getId()).account(request.getAccount())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .email(request.getEmail())
-                .prefer(request.getPrefer())
-                .build();
+        memberRepository.save(member);
+
 
         return true;
     }

@@ -24,7 +24,7 @@ public class GoalUserController {
         return new ResponseEntity<>(createdGoalUser, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/getgoal/{id}")
     public ResponseEntity<GoalUser> getGoalUserById(@PathVariable Long id) {
         GoalUser goalUser = goalUserService.getGoalUserById(id);
         if (goalUser == null) {
@@ -34,7 +34,7 @@ public class GoalUserController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/updateGoal/{id}")
     public ResponseEntity<GoalUser> updateGoalUser(@PathVariable Long id, @RequestBody GoalUser goalUser) {
         GoalUser updatedGoalUser = goalUserService.updateGoalUser(id, goalUser);
         if (updatedGoalUser == null) {
@@ -44,7 +44,7 @@ public class GoalUserController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deletegoal/{id}")
     public ResponseEntity<Void> deleteGoalUserById(@PathVariable Long id) {
         goalUserService.deleteGoalUserById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
