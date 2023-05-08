@@ -45,7 +45,7 @@ public class BookShelfController {
         bookShelfService.updateBookShelf(id, bookShelf);
         return ResponseEntity.ok(bookShelf);
     }
-    @PostMapping("/{id}/NowRead")
+    @PostMapping("/{id}/currentlyReading")
     public ResponseEntity<BookShelf> addCurrentlyReading(@PathVariable Long id, @RequestBody BookProgress book) {
         BookShelf bookShelf = bookShelfService.getBookShelfById(id);
         bookShelf.addCurrentlyReading(book);
