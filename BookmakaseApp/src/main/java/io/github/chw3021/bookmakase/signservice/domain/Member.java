@@ -15,11 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
@@ -39,9 +35,11 @@ public class Member {
     private String password;
 
     @Column
+    @NonNull
     private String name;
 
     @Column
+    @NonNull
     private int prefer;//선호 카테고리의 ID를 저장
 
     @Column(nullable = false)

@@ -59,5 +59,9 @@ public class MemberController {
     public ResponseEntity<Boolean> Findpwd(@RequestBody UserRequest request)throws Exception {
         return new ResponseEntity<>(emailService.sendPwdEmail(request), HttpStatus.OK);
     }
+    @PostMapping("/withdrawMember")
+    public ResponseEntity<Boolean> deleteMember(@RequestBody UserRequest request) throws Exception {
+        return new ResponseEntity<>(memberService.withdrawal(request), HttpStatus.OK);
+    }
 
 }

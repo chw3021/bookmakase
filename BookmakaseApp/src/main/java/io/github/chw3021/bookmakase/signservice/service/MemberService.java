@@ -128,5 +128,17 @@ public class MemberService {
         return member.getAccount();
     }
 
+    public Boolean withdrawal(UserRequest request) throws Exception {
+        Member member = memberRepository.findByAccount(request.getAccount()).orElseThrow(() ->
+                new IllegalArgumentException("계정을 찾을 수 없습니다."));
+        if (!passwordEncoder.matches(request.getPassword(), member.getPassword())){
+            return false;
+        }
+        memberRepository.deleteById(member.getId());
+
+        return true;
+    }
+
+
 
 }
