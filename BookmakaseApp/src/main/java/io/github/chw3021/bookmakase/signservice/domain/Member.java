@@ -1,6 +1,7 @@
 package io.github.chw3021.bookmakase.signservice.domain;
 
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,11 +36,9 @@ public class Member {
     private String password;
 
     @Column
-    @NonNull
     private String name;
 
     @Column
-    @NonNull
     private int prefer;//선호 카테고리의 ID를 저장
 
     @Column(nullable = false)
@@ -54,6 +53,8 @@ public class Member {
     @Column
     private int Admin_check;
 
+    @Column
+    private LocalDateTime Ban;
 
 
     //이후로 getter setter
@@ -117,6 +118,9 @@ public class Member {
 
     public int getAdmin_check() { return Admin_check; }
     public void setAdmin_check(int admin_check) {this.Admin_check = admin_check;}
+
+    public LocalDateTime getBan() {return Ban;}
+    public void setBan(LocalDateTime ban) {Ban = ban;}
 
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Builder.Default

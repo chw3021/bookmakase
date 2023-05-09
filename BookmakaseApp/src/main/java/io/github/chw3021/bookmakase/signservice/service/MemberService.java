@@ -1,8 +1,10 @@
 package io.github.chw3021.bookmakase.signservice.service;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Random;
 
+import io.github.chw3021.bookmakase.signservice.domain.dto.BanDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,9 +35,13 @@ public class MemberService {
     public SignResponse login(SignRequest request) throws Exception {
         Member member = memberRepository.findByAccount(request.getAccount()).orElseThrow(() ->
                 new BadCredentialsException("잘못된 계정정보입니다."));
+        LocalDateTime now = LocalDateTime.now();
 
         if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
             throw new BadCredentialsException("잘못된 비밀번호입니다.");
+        }
+        if (member.getBan() != null && now.isBefore(member.getBan())){
+          throw new Exception("계정이 정지되었습니다.");
         }
 
         return SignResponse.builder()
@@ -111,7 +117,7 @@ public class MemberService {
 
     public boolean info_change(UserRequest request) throws Exception {
         Member member = memberRepository.findById(request.getId()).orElseThrow(()->
-                new IllegalArgumentException("수정에 실패하였습니다"));
+                new Exception("수정에 실패하였습니다"));
         member.setPassword(passwordEncoder.encode(request.getPassword()));
         member.setEmail(request.getEmail());
         member.setPrefer(request.getPrefer());
@@ -123,19 +129,28 @@ public class MemberService {
     }
     public String FindAccount(UserRequest request) throws Exception {
         Member member = memberRepository.findByEmail(request.getEmail()).orElseThrow(() ->
-                new IllegalArgumentException("이메일을 찾을수 없습니다"));
+                new Exception("이메일을 찾을수 없습니다"));
 
         return member.getAccount();
     }
 
     public Boolean withdrawal(UserRequest request) throws Exception {
         Member member = memberRepository.findByAccount(request.getAccount()).orElseThrow(() ->
-                new IllegalArgumentException("계정을 찾을 수 없습니다."));
+                new Exception("계정을 찾을 수 없습니다."));
         if (!passwordEncoder.matches(request.getPassword(), member.getPassword())){
             return false;
         }
         memberRepository.deleteById(member.getId());
 
+        return true;
+    }
+    public Boolean accountBan(BanDto request) throws Exception {
+        Member member = memberRepository.findById(request.getId()).orElseThrow(() ->
+                new Exception("계정을 찾을 수 없습니다."));
+
+        LocalDateTime banned = LocalDateTime.now().plusDays(request.getBanTime());
+        member.setBan(banned);
+        memberRepository.save(member);
         return true;
     }
 

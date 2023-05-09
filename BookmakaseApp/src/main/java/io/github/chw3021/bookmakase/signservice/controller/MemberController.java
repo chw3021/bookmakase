@@ -1,6 +1,7 @@
 package io.github.chw3021.bookmakase.signservice.controller;
 
 import io.github.chw3021.bookmakase.signservice.domain.Member;
+import io.github.chw3021.bookmakase.signservice.domain.dto.BanDto;
 import io.github.chw3021.bookmakase.signservice.domain.dto.SignRequest;
 import io.github.chw3021.bookmakase.signservice.domain.dto.SignResponse;
 import io.github.chw3021.bookmakase.signservice.domain.dto.UserRequest;
@@ -62,6 +63,10 @@ public class MemberController {
     @PostMapping("/withdrawMember")
     public ResponseEntity<Boolean> deleteMember(@RequestBody UserRequest request) throws Exception {
         return new ResponseEntity<>(memberService.withdrawal(request), HttpStatus.OK);
+    }
+    @PostMapping("/admin/banMember")
+    public ResponseEntity<Boolean> memberban(@RequestBody BanDto request) throws Exception {
+        return new ResponseEntity<>(memberService.accountBan(request), HttpStatus.OK);
     }
 
 }
