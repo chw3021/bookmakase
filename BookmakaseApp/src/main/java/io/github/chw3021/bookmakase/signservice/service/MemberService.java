@@ -148,7 +148,7 @@ public class MemberService {
         Member member = memberRepository.findById(request.getId()).orElseThrow(() ->
                 new Exception("계정을 찾을 수 없습니다."));
 
-        LocalDateTime banned = LocalDateTime.now().plusDays(request.getBanTime());
+        LocalDateTime banned = LocalDateTime.now().plusDays(request.getBantime());
         member.setBan(banned);
         memberRepository.save(member);
         return true;

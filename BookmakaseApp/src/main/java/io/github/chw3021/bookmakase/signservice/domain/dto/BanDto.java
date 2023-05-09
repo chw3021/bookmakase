@@ -8,5 +8,5 @@ import java.time.LocalDateTime;
 @Getter @Setter
 public class BanDto {
     private long id;
-    private long banTime;
+    private long bantime;
 }
