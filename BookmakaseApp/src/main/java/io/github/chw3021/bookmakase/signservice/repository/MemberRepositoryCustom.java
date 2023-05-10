@@ -10,7 +10,6 @@ public interface MemberRepositoryCustom {
     
     Member save(Member member); //DB에 저장
     Optional<Member> findByName(String name); //
-    List<Member> findAll(); //전체 불러오기
     
     List<Member> findMembersByAgeBetween(int minAge, int maxAge);
 }

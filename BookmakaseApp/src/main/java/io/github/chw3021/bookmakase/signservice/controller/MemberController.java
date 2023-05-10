@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @RestController
 @Controller
 @RequiredArgsConstructor
@@ -67,6 +69,10 @@ public class MemberController {
     @PostMapping("/admin/banMember")
     public ResponseEntity<Boolean> memberban(@RequestBody BanDto request) throws Exception {
         return new ResponseEntity<>(memberService.accountBan(request), HttpStatus.OK);
+    }
+    @GetMapping("/getMemberList")
+    public ResponseEntity<List> getMembers() throws Exception {
+        return new ResponseEntity<>(memberService.getMemberList(), HttpStatus.OK);
     }
 
 }

@@ -2,9 +2,10 @@ package io.github.chw3021.bookmakase.signservice.service;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
-import io.github.chw3021.bookmakase.signservice.domain.dto.BanDto;
+import io.github.chw3021.bookmakase.signservice.domain.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,9 +13,6 @@ import org.springframework.stereotype.Service;
 
 import io.github.chw3021.bookmakase.signservice.domain.Authority;
 import io.github.chw3021.bookmakase.signservice.domain.Member;
-import io.github.chw3021.bookmakase.signservice.domain.dto.SignRequest;
-import io.github.chw3021.bookmakase.signservice.domain.dto.SignResponse;
-import io.github.chw3021.bookmakase.signservice.domain.dto.UserRequest;
 import io.github.chw3021.bookmakase.signservice.repository.MemberRepository;
 import io.github.chw3021.bookmakase.signservice.security.JwtProvider;
 import jakarta.transaction.Transactional;
@@ -93,7 +91,6 @@ public class MemberService {
                     .email(request.getEmail())
                     .age(request.getAge())
                     .gender(request.getGender())
-                    .Admin_check(1)
                     .prefer(request.getPrefer())
                     .build();
 
@@ -152,6 +149,11 @@ public class MemberService {
         member.setBan(banned);
         memberRepository.save(member);
         return true;
+    }
+
+    public List getMemberList() {
+
+        return memberRepository.findAll();
     }
 
 
