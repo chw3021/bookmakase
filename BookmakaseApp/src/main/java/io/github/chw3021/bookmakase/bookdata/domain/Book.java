@@ -1,6 +1,5 @@
 package io.github.chw3021.bookmakase.bookdata.domain;
 
-import java.time.LocalDate;
 import java.util.Objects;
 
 //import io.github.chw3021.bookmakase.goal.domain.BookShelf;
@@ -30,25 +29,40 @@ public class Book {
     private String pubDate;
     private String cover;
     private String description;
-    private String url;
-    
-    private String translator;
     private String link;
+    private String coverSmallUrl;
+    private String saleStatus;
+    private int priceStandard;
+    
+    @Transient
+    private String url;
+
+    @Transient
+    private String translator;
+    @Transient
     private String mobileLink;
+    @Transient
     private String additionalLink;
 
+    @Transient
     private String isbn;
+    @Transient
     private int reviewCount;
-    private int priceStandard;
+    @Transient
     private int priceSales;
+    @Transient
     private int discountRate;
-    private String saleStatus;
+    @Transient
     private int rank;
+    @Transient
     private int mileage;
+    @Transient
     private int mileageRate;
+    @Transient
     private int customerReviewRank;
-    private String coverSmallUrl;
+    @Transient
     private String coverLargeUrl;
+    @Transient
     private String categoryName;
     
     
