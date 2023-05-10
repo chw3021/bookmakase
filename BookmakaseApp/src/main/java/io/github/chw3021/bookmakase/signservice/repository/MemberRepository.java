@@ -16,6 +16,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> { //jparep
     Optional<Member> findByEmailAndAccount(String email,String account);
 
 	
-    List<Member> findByAgeBetween(int minAge, int maxAge);
+    List<Member> findAllByAgeBetween(int minAge, int maxAge);
 
 }

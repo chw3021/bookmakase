@@ -3,6 +3,7 @@ package io.github.chw3021.bookmakase.goal.domain;
 import java.time.LocalDateTime;
 
 import io.github.chw3021.bookmakase.bookdata.domain.Book;
+import io.github.chw3021.bookmakase.signservice.domain.Member;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -23,8 +24,8 @@ public class BookProgress {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private GoalUser goaluser;
+    @JoinColumn(name = "memberId")
+    private Member member;
     
     private Integer currentPage;
     private Integer totalPage;
@@ -45,8 +46,8 @@ public class BookProgress {
     }
     
     @Builder
-    public BookProgress(GoalUser goaluser, Book book, Integer currentPage, Integer totalPage, LocalDateTime startDate, LocalDateTime endDate) {
-        this.goaluser = goaluser;
+    public BookProgress(Member member, Book book, Integer currentPage, Integer totalPage, LocalDateTime startDate, LocalDateTime endDate) {
+        this.member = member;
         this.book = book;
         this.currentPage = currentPage;
         this.totalPage = totalPage;

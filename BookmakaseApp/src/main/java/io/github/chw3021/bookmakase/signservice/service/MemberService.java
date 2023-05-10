@@ -3,8 +3,6 @@ package io.github.chw3021.bookmakase.signservice.service;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
-
 import io.github.chw3021.bookmakase.signservice.domain.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -151,7 +149,7 @@ public class MemberService {
         return true;
     }
 
-    public List getMemberList() {
+    public List<Member> getMemberList() {
 
         return memberRepository.findAll();
     }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.chw3021.bookmakase.bookdata.domain.Book;
+import io.github.chw3021.bookmakase.signservice.domain.Member;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -13,10 +14,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity @Getter @Setter
+@Builder @AllArgsConstructor @NoArgsConstructor
 public class BookShelf {
 
     @Id
@@ -24,52 +29,70 @@ public class BookShelf {
     private Long id;
     
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private GoalUser goaluser;
+    @JoinColumn(name = "memberId")
+    private Member member;
 
+    @Builder.Default
     @OneToMany(mappedBy = "itemId", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Book> wantToRead = new ArrayList<>();
 
-    @OneToMany(mappedBy = "bookShelf", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    @OneToMany(mappedBy = "bookProgressId", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BookProgress> currentlyReading = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "itemId", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Book> finished = new ArrayList<>();
-
-    public BookShelf() {
-    }
-
-    public BookShelf(GoalUser goaluser) {
-        this.goaluser = goaluser;
-    }
+/*
+    public BookShelf(Member member) {
+        this.member = member;
+    }*/
 
     // Getters and setters
 
 
     public void addWantToRead(Book book) {
+    	if(wantToRead.contains(book)){
+    		return;
+    	}
         wantToRead.add(book);
     }
 
     public void removeWantToRead(Book book) {
+    	if(!wantToRead.contains(book)){
+    		return;
+    	}
         wantToRead.remove(book);
     }
 
 
     public void addCurrentlyReading(BookProgress progress) {
+    	if(!currentlyReading.contains(progress)){
+    		return;
+    	}
         progress.setBookShelf(this);
         currentlyReading.add(progress);
     }
 
     public void removeCurrentlyReading(BookProgress progress) {
+    	if(currentlyReading.contains(progress)){
+    		return;
+    	}
         currentlyReading.remove(progress);
     }
 
 
     public void addFinished(Book book) {
+    	if(finished.contains(book)){
+    		return;
+    	}
         finished.add(book);
     }
 
     public void removeFinished(Book book) {
+    	if(!finished.contains(book)){
+    		return;
+    	}
         finished.remove(book);
     }
 
