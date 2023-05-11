@@ -25,15 +25,15 @@ public class BookShelf {
     private Member member;
 
     @Builder.Default
-    @OneToMany(mappedBy = "itemId", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "bookId", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Book> wantToRead = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "bookProgressId", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "bookProgress", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BookProgress> currentlyReading = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "itemId", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "bookId", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Book> finished = new ArrayList<>();
 /*
     public BookShelf(Member member) {

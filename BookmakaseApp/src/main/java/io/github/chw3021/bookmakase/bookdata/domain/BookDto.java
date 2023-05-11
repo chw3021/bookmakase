@@ -12,25 +12,15 @@ import lombok.Setter;
 @Builder @AllArgsConstructor @NoArgsConstructor
 public class BookDto {
     private String title;
-    private String link;
-    private String language;
-    private String copyright;
-    private String pubDate;
-    private String imageUrl;
-    private String queryType;
-    private String returnMessage;
-    private int totalResults;
-    private int startIndex;
-    private int itemsPerPage;
-    private int maxResults;
-    private String query;
-    private Long searchCategoryId;
-    private String searchCategoryName;
-    private int returnCode;
-    
-    
     private List<Book> item;
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public List<Book> getItem() {
         return item;
