@@ -17,6 +17,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity @Getter @Setter
+@Builder
 public class BookProgress {
 
     @Id
@@ -29,31 +30,16 @@ public class BookProgress {
     
     private Integer currentPage;
     private Integer totalPage;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "book_id")
+    @JoinColumn(name = "itemId")
     private Book book;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bookshelf_id")
+    @JoinColumn(name = "bookshelfId")
     private BookShelf bookShelf;
-    
-    public BookProgress(Book book, BookShelf bookShelf) {
-        this.book = book;
-        this.bookShelf = bookShelf;
-    }
-    
-    @Builder
-    public BookProgress(Member member, Book book, Integer currentPage, Integer totalPage, LocalDateTime startDate, LocalDateTime endDate) {
-        this.member = member;
-        this.book = book;
-        this.currentPage = currentPage;
-        this.totalPage = totalPage;
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
+
+
 
     // Getters and setters
 

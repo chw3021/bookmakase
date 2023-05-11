@@ -57,9 +57,9 @@ public class MemberService {
     public boolean register(SignRequest request) throws Exception {
         try {
             Member member = Member.builder()
-            		.id(request.getId())
+                    .id(request.getId())
                     .account(request.getAccount())
-                    .password(passwordEncoder.encode(request.getPassword())) 
+                    .password(passwordEncoder.encode(request.getPassword()))
                     .name(request.getName())
                     .email(request.getEmail())
                     .age(request.getAge())

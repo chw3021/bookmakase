@@ -5,12 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import io.github.chw3021.bookmakase.goal.domain.BookShelf;
 import io.github.chw3021.bookmakase.goal.dto.BookShelfDto;
@@ -42,17 +37,31 @@ public class BookShelfController {
         BookShelf bookShelf = bookShelfService.getBookShelfByMemberId(memberId);
         return ResponseEntity.ok(bookShelf);
     }
+
+    @PutMapping("/updateCurrentReading")
+    public ResponseEntity<BookShelf> updateCurrentReading(@RequestParam Long memberId, @RequestParam Long bookId, @RequestParam int page) {
+        BookShelf bookShelf = bookShelfService.updateCurrentReading(memberId, bookId, page);
+        return ResponseEntity.ok(bookShelf);
+    }
     
-    //param -> 0=읽고싶은책, 1=읽는중, 2=다읽은책
-    
+    //param -> 0=읽고싶은책, 1다읽은책
+
     @PostMapping("/addBook")
     public ResponseEntity<BookShelf> addBook(@RequestParam Long memberId, @RequestParam Long bookId, @RequestParam int param) {
         BookShelf bookShelf = bookShelfService.addBookToShelf(memberId, bookId, param);
         return ResponseEntity.ok(bookShelf);
     }
 
+    @PostMapping("/addBookProgress")
+    public ResponseEntity<BookShelf> addBookProgress(@RequestParam Long memberId, @RequestParam Long bookId, @RequestParam int totalPage) {
+        BookShelf bookShelf = bookShelfService.addBookProgressToShelf(memberId, bookId, totalPage);
+        return ResponseEntity.ok(bookShelf);
+    }
+
+    //param -> 0=읽고싶은책, 1다읽은책, 2읽고있는책
     @DeleteMapping("/removeBook")
     public ResponseEntity<BookShelf> removeBook(@RequestParam Long memberId, @RequestParam Long bookId, @RequestParam int param) {
+        BookShelf bookShelf = bookShelfService.removeBookFromShelf(memberId, bookId, param);
         return ResponseEntity.noContent().build();
     }
     @DeleteMapping("/deleteBookshelf")

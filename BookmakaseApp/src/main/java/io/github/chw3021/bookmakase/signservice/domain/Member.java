@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -50,11 +51,9 @@ public class Member {
     @Column
     private char gender;//m는 남성, f는 여성
 
-    @Column
-    private int Admin_check;
 
-    @Column
-    private LocalDateTime Ban;
+    @Column @Nullable
+    private LocalDateTime ban;
 
 
     //이후로 getter setter
@@ -116,11 +115,9 @@ public class Member {
     	this.gender = gender;
     }
 
-    public int getAdmin_check() { return Admin_check; }
-    public void setAdmin_check(int admin_check) {this.Admin_check = admin_check;}
-
-    public LocalDateTime getBan() {return Ban;}
-    public void setBan(LocalDateTime ban) {Ban = ban;}
+    public LocalDateTime getBan() {return ban;}
+    public void setBan(LocalDateTime ban) {
+        this.ban = ban;}
 
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Builder.Default
