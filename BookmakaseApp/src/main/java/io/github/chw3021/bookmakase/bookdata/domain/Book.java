@@ -27,13 +27,14 @@ public class Book {
     private int categoryId;
     private String publisher;
     private String pubDate;
-    private String cover;
     private String description;
     private String link;
     private String coverSmallUrl;
     private String saleStatus;
     private int priceStandard;
-    
+
+    @Transient
+    private String cover;
     @Transient
     private String url;
 
