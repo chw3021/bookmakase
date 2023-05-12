@@ -45,15 +45,16 @@ public class BookShelfController {
     }
     
     //param -> 0=읽고싶은책, 1다읽은책
+    //다읽은책으로 해당 도서를 추가시 해당 도서의 카테고리를 가진 목표의 읽은책이 하나 늘어난다.
 
-    @PostMapping("/addBook")
-    public ResponseEntity<BookShelf> addBook(@RequestParam Long memberId, @RequestParam Long bookId, @RequestParam int param) {
+    @PutMapping("/addBook")
+    public ResponseEntity<BookShelf> addBook(@RequestParam Long memberId, @RequestParam Long bookId, @RequestParam int param) throws Exception {
         BookShelf bookShelf = bookShelfService.addBookToShelf(memberId, bookId, param);
         return ResponseEntity.ok(bookShelf);
     }
 
-    @PostMapping("/addBookProgress")
-    public ResponseEntity<BookShelf> addBookProgress(@RequestParam Long memberId, @RequestParam Long bookId, @RequestParam int totalPage) {
+    @PutMapping("/addBookProgress")
+    public ResponseEntity<BookShelf> addBookProgress(@RequestParam Long memberId, @RequestParam Long bookId, @RequestParam int totalPage) throws Exception {
         BookShelf bookShelf = bookShelfService.addBookProgressToShelf(memberId, bookId, totalPage);
         return ResponseEntity.ok(bookShelf);
     }
@@ -61,10 +62,15 @@ public class BookShelfController {
     //param -> 0=읽고싶은책, 1다읽은책, 2읽고있는책
     @DeleteMapping("/removeBook")
     public ResponseEntity<BookShelf> removeBook(@RequestParam Long memberId, @RequestParam Long bookId, @RequestParam int param) {
-        BookShelf bookShelf = bookShelfService.removeBookFromShelf(memberId, bookId, param);
+        bookShelfService.removeBookFromShelf(memberId, bookId, param);
         return ResponseEntity.noContent().build();
     }
-    @DeleteMapping("/deleteBookshelf")
+    @DeleteMapping("/deleteBookShelfByMemberId")
+    public ResponseEntity<Void> deleteBookShelfByMemberId(@RequestParam Long memberId) {
+        bookShelfService.deleteBookShelfByMemberId(memberId);
+        return ResponseEntity.noContent().build();
+    }
+    @DeleteMapping("/deleteBookShelf")
     public ResponseEntity<Void> deleteBookShelf(@RequestParam Long memberId) {
         bookShelfService.deleteBookShelf(memberId);
         return ResponseEntity.noContent().build();

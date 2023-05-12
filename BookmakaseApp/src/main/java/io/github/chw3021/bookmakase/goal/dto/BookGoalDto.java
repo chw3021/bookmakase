@@ -1,8 +1,9 @@
 package io.github.chw3021.bookmakase.goal.dto;
 
 import java.time.LocalDate;
-import io.github.chw3021.bookmakase.goal.domain.BookGoal;
 import io.github.chw3021.bookmakase.signservice.domain.Member;
+import io.github.chw3021.bookmakase.signservice.repository.MemberRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,37 +11,24 @@ import lombok.Getter;
 @Getter
 @Builder @AllArgsConstructor
 public class BookGoalDto {
-    private Member member;
+    
+    private Long memberId;
+
     private Long id;
-    private Long userId;
-    private Long categoryId;
+    private String goalname;
+    private Integer categoryId;
     private Integer targetQuantity;
+    private Integer readed;
     private LocalDate startDate;
     private LocalDate endDate;
     private Boolean completed;
 
-    public BookGoalDto() {
+    public void setMember(Member member) {
+        this.memberId = member.getId();
     }
 
-    public BookGoalDto(BookGoal bookGoal) {
-    	this.member = bookGoal.getMember();
-        this.id = bookGoal.getId();
-        this.categoryId = bookGoal.getCategoryId();
-        this.targetQuantity = bookGoal.getTargetQuantity();
-        this.startDate = bookGoal.getStartDate();
-        this.endDate = bookGoal.getEndDate();
-        this.completed = bookGoal.isCompleted();
-    }
-
-    public BookGoal toEntity() {
-        return BookGoal.builder()
-                .member(member)
-                .categoryId(categoryId)
-                .targetQuantity(targetQuantity)
-                .startDate(startDate)
-                .endDate(endDate)
-                .completed(completed)
-                .build();
+    public Member getMember(MemberRepository memberRepository) {
+        return memberRepository.findById(memberId).orElseThrow(() -> new EntityNotFoundException("Member with id " + memberId + " not found"));
     }
     // Getter and Setter
 }

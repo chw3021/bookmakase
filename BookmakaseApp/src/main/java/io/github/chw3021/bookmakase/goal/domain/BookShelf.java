@@ -43,9 +43,15 @@ public class BookShelf {
     // Getters and setters
 
 
-    public void addWantToRead(Book book) {
+    public void addWantToRead(Book book) throws Exception {
     	if(wantToRead.contains(book)){
-    		return;
+    		throw new Exception("이미 이책은 포함되어 있습니다");
+    	}
+    	if(currentlyReading.stream().anyMatch(bp -> bp.getBook().getId() == book.getId())) {
+    		currentlyReading.removeIf(bp -> bp.getBook().getId() == book.getId());
+    	}
+    	if(finished.contains(book)) {
+    		finished.remove(book);
     	}
         wantToRead.add(book);
     }
@@ -58,9 +64,16 @@ public class BookShelf {
     }
 
 
-    public void addCurrentlyReading(BookProgress progress) {
+    public void addCurrentlyReading(BookProgress progress) throws Exception {
     	if(!currentlyReading.contains(progress)){
-    		return;
+    		throw new Exception("이미 이책은 포함되어 있습니다");
+    	}
+    	Book book = progress.getBook();
+    	if(wantToRead.contains(book)){
+    		wantToRead.remove(book);
+    	}
+    	if(finished.contains(book)) {
+    		finished.remove(book);
     	}
         progress.setBookShelf(this);
         currentlyReading.add(progress);
@@ -74,9 +87,15 @@ public class BookShelf {
     }
 
 
-    public void addFinished(Book book) {
-    	if(finished.contains(book)){
-    		return;
+    public void addFinished(Book book) throws Exception {
+    	if(finished.contains(book)) {
+    		throw new Exception("이미 이책은 포함되어 있습니다");
+    	}
+    	if(wantToRead.contains(book)){
+    		wantToRead.remove(book);
+    	}
+    	if(currentlyReading.stream().anyMatch(bp -> bp.getBook().getId() == book.getId())) {
+    		currentlyReading.removeIf(bp -> bp.getBook().getId() == book.getId());
     	}
         finished.add(book);
     }

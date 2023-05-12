@@ -5,6 +5,7 @@ import io.github.chw3021.bookmakase.bookdata.repository.BookRepository;
 import io.github.chw3021.bookmakase.goal.domain.BookProgress;
 import io.github.chw3021.bookmakase.goal.domain.BookShelf;
 import io.github.chw3021.bookmakase.goal.dto.BookShelfDto;
+import io.github.chw3021.bookmakase.goal.repository.BookGoalRepository;
 import io.github.chw3021.bookmakase.goal.repository.BookProgressRepository;
 import io.github.chw3021.bookmakase.goal.repository.BookShelfRepository;
 import io.github.chw3021.bookmakase.signservice.domain.Member;
@@ -31,8 +32,11 @@ public class BookShelfService {
     private final MemberRepository memberRepository;
     @Autowired
     private final BookProgressRepository bookProgressRepository;
+    @Autowired
+    private final BookGoalRepository bookGoalRepository;
+    @Autowired
+    private final GoalService goalService;
 
-    private final BookProgressService bookProgressService;
 
     public BookShelf createBookShelf(BookShelfDto bookshelfdto) throws Exception {
         try {
@@ -82,23 +86,24 @@ public class BookShelfService {
         return bookShelf;
     }
     
-    public BookShelf addBookToShelf(Long memberId, Long bookId, Integer param) {
+    public BookShelf addBookToShelf(Long memberId, Long bookId, Integer param) throws Exception {
         BookShelf bookShelf = getBookShelfByMemberId(memberId);
         Book book = bookRepository.findById(bookId).orElseThrow(() -> new IllegalArgumentException("Invalid book id: " + bookId));
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("Invalid member id: " + memberId));
 
         if(param==0) {
             bookShelf.addWantToRead(book);
         }
         else {
             bookShelf.addFinished(book);
+            goalService.setAllMemberGoalReadedByCategoryId(memberId, book.getCategoryId(), 1);
+            
         }
         bookShelfRepository.save(bookShelf);
 
         return bookShelf;
     }
 
-    public BookShelf addBookProgressToShelf(Long memberId, Long bookId, Integer totalPage) {
+    public BookShelf addBookProgressToShelf(Long memberId, Long bookId, Integer totalPage) throws Exception {
         BookShelf bookShelf = getBookShelfByMemberId(memberId);
         Book book = bookRepository.findById(bookId).orElseThrow(() -> new IllegalArgumentException("Invalid book id: " + bookId));
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("Invalid member id: " + memberId));
@@ -138,7 +143,7 @@ public class BookShelfService {
         return bookShelf;
     }
 
-    public void deleteBookShelf(Long memberId) {
+    public void deleteBookShelfByMemberId(Long memberId) {
         BookShelf bookShelf = getBookShelfByMemberId(memberId);
 
         if (bookShelf != null) {
@@ -146,5 +151,9 @@ public class BookShelfService {
         } else {
             throw new IllegalArgumentException("Invalid memberId id: " + memberId);
         }
+    }
+
+    public void deleteBookShelf(Long id) {
+    	bookShelfRepository.deleteById(id);
     }
 }
