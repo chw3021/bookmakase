@@ -2,20 +2,24 @@ package io.github.chw3021.bookmakase.goal.service;
 
 import io.github.chw3021.bookmakase.bookdata.domain.Book;
 import io.github.chw3021.bookmakase.bookdata.repository.BookRepository;
+import io.github.chw3021.bookmakase.bookdata.service.BookService;
 import io.github.chw3021.bookmakase.goal.domain.BookProgress;
 import io.github.chw3021.bookmakase.goal.domain.BookShelf;
 import io.github.chw3021.bookmakase.goal.dto.BookShelfDto;
 import io.github.chw3021.bookmakase.goal.repository.BookGoalRepository;
 import io.github.chw3021.bookmakase.goal.repository.BookProgressRepository;
 import io.github.chw3021.bookmakase.goal.repository.BookShelfRepository;
+import io.github.chw3021.bookmakase.interparkapi.service.InterparkApiService;
 import io.github.chw3021.bookmakase.signservice.domain.Member;
 import io.github.chw3021.bookmakase.signservice.repository.MemberRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +40,10 @@ public class BookShelfService {
     private final BookGoalRepository bookGoalRepository;
     @Autowired
     private final GoalService goalService;
+    @Autowired
+    private final BookService bookService;
+    @Autowired
+    private final InterparkApiService interparkApiService;
 
 
     public BookShelf createBookShelf(BookShelfDto bookshelfdto) throws Exception {
@@ -58,9 +66,22 @@ public class BookShelfService {
         return bookShelfRepository.findAll();
     }
 
-
+    public boolean isShelfExist(Long memberId){
+        return bookShelfRepository.findByMemberId(memberId).isPresent();
+    }
 
     public BookShelf getBookShelfByMemberId(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(() ->
+                new EntityNotFoundException("Member with id " + memberId + " not found"));
+        if(!isShelfExist(memberId)){
+            BookShelf bookshelf = BookShelf.builder()
+                    .member(member)
+                    .wantToRead(member.getLikedBooks())
+                    .currentlyReading(new ArrayList<BookProgress>())
+                    .finished(new ArrayList<Book>())
+                    .build();
+            return bookShelfRepository.save(bookshelf);
+        }
         Optional<BookShelf> optionalBookShelf = bookShelfRepository.findByMemberId(memberId);
         return optionalBookShelf.orElse(null);
     }
@@ -85,10 +106,16 @@ public class BookShelfService {
 
         return bookShelf;
     }
-    
+
+    //finished 추가시 goal 한권 완료추가
     public BookShelf addBookToShelf(Long memberId, Long bookId, Integer param) throws Exception {
-        BookShelf bookShelf = getBookShelfByMemberId(memberId);
+        if(!bookService.isBookExist(bookId)){
+            bookService.saveBook(interparkApiService.getBookSearchResultsByItemId(bookId).getItem().get(0));
+        }
         Book book = bookRepository.findById(bookId).orElseThrow(() -> new IllegalArgumentException("Invalid book id: " + bookId));
+        bookService.addLikedMemberId(bookId, memberId);
+
+        BookShelf bookShelf = getBookShelfByMemberId(memberId);
 
         if(param==0) {
             bookShelf.addWantToRead(book);
@@ -104,6 +131,9 @@ public class BookShelfService {
     }
 
     public BookShelf addBookProgressToShelf(Long memberId, Long bookId, Integer totalPage) throws Exception {
+        if(!bookService.isBookExist(bookId)){
+            bookService.saveBook(interparkApiService.getBookSearchResultsByItemId(bookId).getItem().get(0));
+        }
         BookShelf bookShelf = getBookShelfByMemberId(memberId);
         Book book = bookRepository.findById(bookId).orElseThrow(() -> new IllegalArgumentException("Invalid book id: " + bookId));
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("Invalid member id: " + memberId));
@@ -154,6 +184,6 @@ public class BookShelfService {
     }
 
     public void deleteBookShelf(Long id) {
-    	bookShelfRepository.deleteById(id);
+        bookShelfRepository.deleteById(id);
     }
 }

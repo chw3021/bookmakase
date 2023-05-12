@@ -46,34 +46,54 @@ public class GoalService {
         }
     }
 
+
+    public BookGoal updateGoal(BookGoalDto goalDto) throws Exception {
+
+        BookGoal goal = getGoalByGoalname(goalDto.getGoalname());
+        goal.setReaded(goalDto.getReaded());
+        goal.setEndDate(goalDto.getEndDate());
+        goal.setStartDate(goalDto.getStartDate());
+        goal.setCategoryId(goalDto.getCategoryId());
+        goal.setTargetQuantity(goalDto.getTargetQuantity());
+        return goalRepository.save(goal);
+    }
+
+
+    public BookGoal getGoalByGoalname(String goalname) {
+        BookGoal goal = goalRepository.findByGoalname(goalname)
+                .orElseThrow(() -> new EntityNotFoundException("Cannot find goal with goalname: " + goalname));
+        return goal;
+    }
+
     public BookGoal getGoalById(Long id) {
-    	BookGoal goal = goalRepository.findById(id)
+        BookGoal goal = goalRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Cannot find goal with id: " + id));
         return goal;
     }
     
     public List<BookGoal> setAllMemberGoalReadedByCategoryId(Long memberId, Integer categoryId, Integer readedAdd) {
-    	List<BookGoal> goals = getUserGoals(memberId);
-    	goals.forEach(g -> {
+        List<BookGoal> goals = getUserGoals(memberId);
+        goals.forEach(g -> {
             if(g.getCategoryId() == categoryId) {
-            	int readed = g.getReaded() + readedAdd;
-            	g.setReaded(readed);
-            	if(readed > g.getTargetQuantity()) {
-            		g.setReaded(g.getTargetQuantity());
-            	}
+                int readed = g.getReaded() + readedAdd;
+                g.setReaded(readed);
+                if(readed > g.getTargetQuantity()) {
+                    g.setReaded(g.getTargetQuantity());
+                    g.setCompleted(true);
+                }
             }
-    	});
-    	return goalRepository.saveAll(goals);
+        });
+        return goalRepository.saveAll(goals);
     }
 
     public BookGoal setReadedById(Long id, Integer readed) {
-    	BookGoal g = goalRepository.findById(id)
+        BookGoal g = goalRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Cannot find goal with id: " + id));
-    	g.setReaded(readed);
-    	if(readed > g.getTargetQuantity()) {
-    		g.setReaded(g.getTargetQuantity());
-    	}
-    	return goalRepository.save(g);
+        g.setReaded(readed);
+        if(readed > g.getTargetQuantity()) {
+            g.setReaded(g.getTargetQuantity());
+        }
+        return goalRepository.save(g);
     }
 
     public void deleteGoal(Long id) {
@@ -81,11 +101,14 @@ public class GoalService {
     }
 
     public void deleteAllUserGoalsByMemberId(Long memberId) {
-    	getUserGoals(memberId).forEach(g -> {
+        getUserGoals(memberId).forEach(g -> {
             goalRepository.delete(g);
-    	});
+        });
     }
-    
+
+    public boolean isGoalExist(String goalname){
+        return goalRepository.findByGoalname(goalname).isPresent();
+    }
 
     public List<BookGoal> getUserGoals(Long memberId) {
         return goalRepository.findAllByMemberId(memberId);
@@ -99,7 +122,7 @@ public class GoalService {
         new Exception("계정을 찾을 수 없습니다."));
         List<Member> usersInSameAgeRange = memberRepository.findAllByAgeBetween(member.getAge() - 5, member.getAge() + 5);
         for (Member user : usersInSameAgeRange) {
-            List<BookGoal> bookGoals = goalRepository.findAllByMemberId(user.getId());
+            List<BookGoal> bookGoals = getUserGoals(user.getId());
             for (BookGoal bookGoal : bookGoals) {
                 if (bookGoal.getCategoryId()==categoryId && bookGoal.isCompleted()) {
                     numOfUsers++;

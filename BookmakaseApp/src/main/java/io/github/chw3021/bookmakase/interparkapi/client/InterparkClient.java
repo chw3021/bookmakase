@@ -93,7 +93,30 @@ public class InterparkClient {
         }
         return items;
     }
-    
+
+
+    public BookDto getBookSearchResultsByItemId(Long itemId) {//도서 검색
+        BookDto interparkResponseDto = convertToResponse(getBookSearchResultsByItemIdFromApi(itemId));
+        return interparkResponseDto;
+    }
+
+    private String getBookSearchResultsByItemIdFromApi(Long itemId) {
+        String items = null;
+        try {
+            items = webClient.get()
+                    .uri(builder -> builder.path("/search.api")
+                            .queryParam("queryType", "productNumber")
+                            .queryParam("query", itemId)
+                            .queryParam("output", "json")
+                            .queryParam("key", properties.getKey()).build())
+                    .accept(MediaType.APPLICATION_JSON)
+                    .retrieve()
+                    .bodyToMono(String.class).block();
+        } catch (Exception e) {
+            log.info(e.getMessage());
+        }
+        return items;
+    }
 
 
     public BookDto getBookSearchResults(String query) {//도서 검색

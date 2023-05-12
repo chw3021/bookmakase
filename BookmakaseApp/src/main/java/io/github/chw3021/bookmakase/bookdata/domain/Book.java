@@ -1,8 +1,10 @@
 package io.github.chw3021.bookmakase.bookdata.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-//import io.github.chw3021.bookmakase.goal.domain.BookShelf;
+import io.github.chw3021.bookmakase.signservice.domain.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,7 +23,12 @@ public class Book {
     //순차적으로 값을 올리는 거라 고유 ID입력 안되니 수정할 것.
     private Long id;
 
-    
+
+    @Id
+    @Column (name = "itemId")
+    private Long itemId;
+    //Id(PK변경)
+
     private String title;
     private String author;
     private int categoryId;
@@ -32,6 +39,16 @@ public class Book {
     private String coverSmallUrl;
     private String saleStatus;
     private int priceStandard;
+
+    @ManyToMany(mappedBy = "likedBooks")
+    private List<Member> likedByMembers = new ArrayList<>();
+
+    public void addlikedByMembers(Member member){
+        boolean isAdded = this.likedByMembers.add(member);
+        if(isAdded) {
+            member.getLikedBooks().add(this);
+        }
+    }
 
     @Transient
     private String cover;
@@ -66,11 +83,6 @@ public class Book {
     @Transient
     private String categoryName;
     
-    
-    @Id
-    @Column (name = "itemId")
-    private Long itemId;
-    //Id(PK변경)
 
     @Override
     public boolean equals(Object o) {

@@ -21,7 +21,7 @@ public class BookShelf {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "memberId")
     private Member member;
 
     @Builder.Default
@@ -35,10 +35,6 @@ public class BookShelf {
     @Builder.Default
     @OneToMany(mappedBy = "itemId", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Book> finished = new ArrayList<>();
-/*
-    public BookShelf(Member member) {
-        this.member = member;
-    }*/
 
     // Getters and setters
 

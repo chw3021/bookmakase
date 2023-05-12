@@ -3,6 +3,7 @@ package io.github.chw3021.bookmakase.goal.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,6 +44,19 @@ public class GoalController {
     }
 
 
+    @GetMapping("/getByGoalname")
+    public ResponseEntity<?> getGoalByGoalname(@RequestParam String goalname) {
+        BookGoal goal = goalService.getGoalByGoalname(goalname);
+        if (goal == null) {
+            return ResponseEntity.ok(false);
+        }
+        return ResponseEntity.ok(goal);
+    }
+    @GetMapping("/isExist")
+    public boolean isGoalExist(@RequestParam String goalname) {
+        return goalService.isGoalExist(goalname);
+    }
+
     @GetMapping("/getByMemberId")
     public ResponseEntity<List<BookGoal>> getGoalsByMemberId(@RequestParam Long memberId) {
         List<BookGoal> goal = goalService.getUserGoals(memberId);
@@ -54,21 +68,32 @@ public class GoalController {
         Integer count = goalService.getNumberOfUsersInSameAgeAndCategory(memberId, categoryId);
         return ResponseEntity.ok(count);
     }
+
+    @PutMapping
+    public ResponseEntity<BookGoal> updateGoal(@RequestBody BookGoalDto goalDto) throws Exception {
+        BookGoal createdGoalDto = goalService.createGoal(goalDto);
+        return ResponseEntity.ok(createdGoalDto);
+    }
     
-    
-    @PutMapping("/setReaded")
+    @PutMapping("/setReaded")//목표 고유 아이디를 넣어서 몇권읽었는지 설정
     public ResponseEntity<BookGoal> setReadedById(@RequestParam Long id, @RequestParam Integer readed) {
         BookGoal goal = goalService.setReadedById(id,readed);
         return ResponseEntity.ok(goal);
     }
-    
-    @DeleteMapping("/deleteByMember")
+
+    @PutMapping("/update")
+    public ResponseEntity<BookGoal> update(@RequestBody BookGoalDto goalDto) throws Exception {
+        BookGoal createdGoalDto = goalService.updateGoal(goalDto);
+        return ResponseEntity.ok(createdGoalDto);
+    }
+
+    @DeleteMapping("/deleteByMember")//멤버 아이디 집어넣어서 그멤버가 가진 모든 목표 삭제
     public ResponseEntity<Void> deleteByMember(@RequestParam Long memberId) {
         goalService.deleteAllUserGoalsByMemberId(memberId);
         return ResponseEntity.noContent().build();
     }
     
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete")//목표 고유번호로 삭제
     public ResponseEntity<Void> deleteGoal(@RequestParam Long id) {
         goalService.deleteGoal(id);
         return ResponseEntity.noContent().build();

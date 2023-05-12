@@ -24,6 +24,8 @@ public class InterparkApiService {
     }
     public BookDto getBookSearchResults(String query) {
         return interparkClient.getBookSearchResults(query);
-        
+    }
+    public BookDto getBookSearchResultsByItemId(Long query) {
+        return interparkClient.getBookSearchResultsByItemId(query);
     }
 }

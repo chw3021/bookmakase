@@ -26,15 +26,15 @@ public class BookGoal {
 
     @ManyToOne
     @JoinColumn(name = "memberId")
-    private Member member;
+    private Member member;//멤버아이디
     
-    private String goalname;
-    private Integer categoryId;
-    private Integer targetQuantity;
-    private Integer readed;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private Boolean completed;
+    private String goalname;//목표 이름
+    private Integer categoryId;//도서 카테고리 아이디
+    private Integer targetQuantity;//목표 도서량
+    private Integer readed;//읽은책 갯수
+    private LocalDate startDate;//시작일
+    private LocalDate endDate;//목표일
+    private Boolean completed;//완료여부
 
 
 	public boolean isCompleted() {
