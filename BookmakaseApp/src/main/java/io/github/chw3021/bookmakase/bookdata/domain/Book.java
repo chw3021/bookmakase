@@ -1,10 +1,7 @@
 package io.github.chw3021.bookmakase.bookdata.domain;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
-import io.github.chw3021.bookmakase.signservice.domain.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +15,7 @@ import lombok.Setter;
 public class Book {
 
 
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     //@GeneratedValue(strategy = GenerationType.IDENTITY) 이 옵션은 Db에서
     //순차적으로 값을 올리는 거라 고유 ID입력 안되니 수정할 것.
     private Long id;
@@ -39,17 +36,7 @@ public class Book {
     private String coverSmallUrl;
     private String saleStatus;
     private int priceStandard;
-
-    @ManyToMany(mappedBy = "likedBooks")
-    private List<Member> likedByMembers = new ArrayList<>();
-
-    public void addlikedByMembers(Member member){
-        boolean isAdded = this.likedByMembers.add(member);
-        if(isAdded) {
-            member.getLikedBooks().add(this);
-        }
-    }
-
+    
     @Transient
     private String cover;
     @Transient

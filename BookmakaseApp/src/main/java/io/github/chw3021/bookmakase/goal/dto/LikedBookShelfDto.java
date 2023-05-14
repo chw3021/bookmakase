@@ -16,15 +16,13 @@ import lombok.Getter;
 
 @Getter
 @Builder @AllArgsConstructor
-public class BookShelfDto {
+public class LikedBookShelfDto {
 
     private Long id;
     
     private Long memberId;
 
     private List<Book> wantToRead = new ArrayList<>();
-    private List<BookProgress> currentlyReading = new ArrayList<>();
-    private List<Book> finished = new ArrayList<>();
 
     public void setMember(Member member) {
         this.memberId = member.getId();

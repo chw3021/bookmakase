@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import io.github.chw3021.bookmakase.goal.domain.BookGoal;
-import io.github.chw3021.bookmakase.goal.domain.BookShelf;
 import io.github.chw3021.bookmakase.goal.dto.BookGoalDto;
 import io.github.chw3021.bookmakase.goal.repository.BookGoalRepository;
 import io.github.chw3021.bookmakase.signservice.domain.Member;

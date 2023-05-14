@@ -4,40 +4,38 @@ import io.github.chw3021.bookmakase.bookdata.domain.Book;
 import io.github.chw3021.bookmakase.bookdata.repository.BookRepository;
 import io.github.chw3021.bookmakase.bookdata.service.BookService;
 import io.github.chw3021.bookmakase.goal.domain.BookProgress;
-import io.github.chw3021.bookmakase.goal.domain.BookShelf;
-import io.github.chw3021.bookmakase.goal.dto.BookShelfDto;
-import io.github.chw3021.bookmakase.goal.repository.BookGoalRepository;
+import io.github.chw3021.bookmakase.goal.domain.FinishedBook;
+import io.github.chw3021.bookmakase.goal.domain.LikedBook;
+import io.github.chw3021.bookmakase.goal.domain.ReadingBook;
 import io.github.chw3021.bookmakase.goal.repository.BookProgressRepository;
-import io.github.chw3021.bookmakase.goal.repository.BookShelfRepository;
+import io.github.chw3021.bookmakase.goal.repository.FinishedBookRepository;
+import io.github.chw3021.bookmakase.goal.repository.LikedBookRepository;
+import io.github.chw3021.bookmakase.goal.repository.ReadingBookRepository;
 import io.github.chw3021.bookmakase.interparkapi.service.InterparkApiService;
 import io.github.chw3021.bookmakase.signservice.domain.Member;
 import io.github.chw3021.bookmakase.signservice.repository.MemberRepository;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class BookShelfService {
 
     @Autowired
-    private final BookShelfRepository bookShelfRepository;
+    private final FinishedBookRepository finishedBookRepository;
+    @Autowired
+    private final ReadingBookRepository readingBookRepository;
+    @Autowired
+    private final LikedBookRepository likedBookRepository;
     @Autowired
     private final BookRepository bookRepository;
     @Autowired
     private final MemberRepository memberRepository;
-    @Autowired
-    private final BookProgressRepository bookProgressRepository;
-    @Autowired
-    private final BookGoalRepository bookGoalRepository;
     @Autowired
     private final GoalService goalService;
     @Autowired
@@ -46,144 +44,170 @@ public class BookShelfService {
     private final InterparkApiService interparkApiService;
 
 
-    public BookShelf createBookShelf(BookShelfDto bookshelfdto) throws Exception {
-        try {
-            BookShelf bookshelf = BookShelf.builder()
-                    .id(bookshelfdto.getId())
-                    .member(bookshelfdto.getMember(memberRepository))
-                    .wantToRead(bookshelfdto.getWantToRead())
-                    .currentlyReading(bookshelfdto.getCurrentlyReading())
-                    .finished(bookshelfdto.getFinished())
-                    .build();
-            return bookShelfRepository.save(bookshelf);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            throw new Exception("잘못된 요청입니다.");
+
+    public List<LikedBook> getLikedBooksByMemberId(Long memberId) throws Exception {
+    	return likedBookRepository.findAllByMemberId(memberId);
+    }
+    public List<ReadingBook> getReadingBooksByMemberId(Long memberId) throws Exception {
+    	return readingBookRepository.findAllByMemberId(memberId);
+    }
+    public List<FinishedBook> getFinishedBooksByMemberId(Long memberId) throws Exception {
+    	return finishedBookRepository.findAllByMemberId(memberId);
+    }
+
+
+    public ReadingBook updateCurrentReading(Long memberId, Long bookId, Integer page) throws Exception {
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new IllegalArgumentException("Invalid book id: " + bookId));
+    	ReadingBook reading = getReadingBooksByMemberId(memberId).stream().filter(b -> b.getBook()==book).findFirst().get();
+
+    	reading.setCurrentPage(page);
+        if(page>reading.getTotalPage()){
+        	reading.setCurrentPage(reading.getTotalPage());
         }
-    }
 
-    public List<BookShelf> getAllBookShelves() {
-        return bookShelfRepository.findAll();
-    }
+        readingBookRepository.save(reading);
 
-    public boolean isShelfExist(Long memberId){
-        return bookShelfRepository.findByMemberId(memberId).isPresent();
+        return reading;
     }
+    
+    public ResponseEntity<LikedBook> addLikeBook(Long memberId, Long bookId) throws Exception {
+    	try {
+            if(!bookService.isBookExist(bookId)){
+                bookService.saveBook(interparkApiService.getBookSearchResultsByItemId(bookId).getItem().get(0));
+            }
+            Book book = bookRepository.findById(bookId).orElseThrow(() -> new IllegalArgumentException("Invalid book id: " + bookId));
 
-    public BookShelf getBookShelfByMemberId(Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(() ->
-                new EntityNotFoundException("Member with id " + memberId + " not found"));
-        if(!isShelfExist(memberId)){
-            BookShelf bookshelf = BookShelf.builder()
+            if(getLikedBooksByMemberId(memberId).stream().anyMatch(b -> b.getBook()==book)) {
+                return ResponseEntity.badRequest().body(null);
+            }
+            Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("Invalid member id: " + memberId));
+            LikedBook likedBook = LikedBook.builder()
                     .member(member)
-                    .wantToRead(member.getLikedBooks())
-                    .currentlyReading(new ArrayList<BookProgress>())
-                    .finished(new ArrayList<Book>())
+                    .book(book)
                     .build();
-            return bookShelfRepository.save(bookshelf);
+            
+            likedBookRepository.save(likedBook);
+            
+
+            return ResponseEntity.ok(likedBook);
         }
-        Optional<BookShelf> optionalBookShelf = bookShelfRepository.findByMemberId(memberId);
-        return optionalBookShelf.orElse(null);
-    }
-
-    public BookShelf updateCurrentReading(Long memberId, Long bookId, Integer page) {
-        BookShelf bookShelf = getBookShelfByMemberId(memberId);
-        BookProgress finding = bookShelf.getCurrentlyReading().stream().filter(f -> f.getBook().getId() == bookId).findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Invalid id: " + bookId));
-
-        final int index = bookShelf.getCurrentlyReading().indexOf(finding);
-        List<BookProgress> current = bookShelf.getCurrentlyReading();
-
-        finding.setCurrentPage(page);
-        if(page>finding.getTotalPage()){
-            finding.setCurrentPage(finding.getTotalPage());
+    	catch(Exception e) {
+            throw e;
         }
-        bookProgressRepository.save(finding);
-
-        current.set(index, finding);
-        bookShelf.setCurrentlyReading(current);
-        bookShelfRepository.save(bookShelf);
-
-        return bookShelf;
     }
+    	
+
 
     //finished 추가시 goal 한권 완료추가
-    public BookShelf addBookToShelf(Long memberId, Long bookId, Integer param) throws Exception {
-        if(!bookService.isBookExist(bookId)){
-            bookService.saveBook(interparkApiService.getBookSearchResultsByItemId(bookId).getItem().get(0));
-        }
-        Book book = bookRepository.findById(bookId).orElseThrow(() -> new IllegalArgumentException("Invalid book id: " + bookId));
-        bookService.addLikedMemberId(bookId, memberId);
+    public ResponseEntity<FinishedBook> addFinished(Long memberId, Long bookId) throws Exception {
+    	try {
+            if(!bookService.isBookExist(bookId)){
+                bookService.saveBook(interparkApiService.getBookSearchResultsByItemId(bookId).getItem().get(0));
+            }
+            Book book = bookRepository.findById(bookId).orElseThrow(() -> new IllegalArgumentException("Invalid book id: " + bookId));
 
-        BookShelf bookShelf = getBookShelfByMemberId(memberId);
-
-        if(param==0) {
-            bookShelf.addWantToRead(book);
-        }
-        else {
-            bookShelf.addFinished(book);
-            goalService.setAllMemberGoalReadedByCategoryId(memberId, book.getCategoryId(), 1);
+            if(getFinishedBooksByMemberId(memberId).stream().anyMatch(b -> b.getBook()==book)) {
+                return ResponseEntity.badRequest().body(null);
+            }
+            Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("Invalid member id: " + memberId));
+            FinishedBook finishedBook = FinishedBook.builder()
+                    .member(member)
+                    .book(book)
+                    .build();
             
-        }
-        bookShelfRepository.save(bookShelf);
+            finishedBookRepository.save(finishedBook);
 
-        return bookShelf;
+            if(getReadingBooksByMemberId(memberId).stream().anyMatch(b -> b.getBook() == book)){
+            	removeBookFromShelf(memberId, bookId, 1);
+            }
+            goalService.setAllMemberGoalReadedByCategoryId(memberId, book.getCategoryId(),1);
+            
+            return ResponseEntity.ok(finishedBook);
+        }
+    	catch(Exception e) {
+            throw e;
+        }
     }
 
-    public BookShelf addBookProgressToShelf(Long memberId, Long bookId, Integer totalPage) throws Exception {
-        if(!bookService.isBookExist(bookId)){
-            bookService.saveBook(interparkApiService.getBookSearchResultsByItemId(bookId).getItem().get(0));
+    public ResponseEntity<ReadingBook> addReadingBook(Long memberId, Long bookId, Integer totalPage) throws Exception {
+    	try {
+            if(!bookService.isBookExist(bookId)){
+                bookService.saveBook(interparkApiService.getBookSearchResultsByItemId(bookId).getItem().get(0));
+            }
+            Book book = bookRepository.findById(bookId).orElseThrow(() -> new IllegalArgumentException("Invalid book id: " + bookId));
+            //bookService.addLikedMemberId(bookId, memberId);
+
+            if(getReadingBooksByMemberId(memberId).stream().anyMatch(b -> b.getBook() ==book)) {
+                return ResponseEntity.badRequest().body(null);
+            }
+            Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("Invalid member id: " + memberId));
+            
+            ReadingBook rnb = ReadingBook.builder()
+                    .member(member)
+                    .book(book)
+                    .currentPage(0)
+                    .totalPage(totalPage)
+                    .build();
+            
+            readingBookRepository.save(rnb);
+
+            if(getFinishedBooksByMemberId(memberId).stream().anyMatch(b -> b.getBook() == book)){
+            	removeBookFromShelf(memberId, bookId, 2);
+            }
+
+            return ResponseEntity.ok(rnb);
         }
-        BookShelf bookShelf = getBookShelfByMemberId(memberId);
+    	catch(Exception e) {
+            throw e;
+        }
+    }
+    public boolean removeBookFromShelf(Long memberId, Long bookId, Integer param) {
+
         Book book = bookRepository.findById(bookId).orElseThrow(() -> new IllegalArgumentException("Invalid book id: " + bookId));
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("Invalid member id: " + memberId));
-
-        BookProgress bookProgress = BookProgress.builder()
-                .bookShelf(bookShelf)
-                .book(book)
-                .currentPage(0)
-                .totalPage(totalPage)
-                .member(member)
-                .build();
-        bookProgressRepository.save(bookProgress);
-        bookShelf.addCurrentlyReading(bookProgress);
-
-        bookShelfRepository.save(bookShelf);
-
-        return bookShelf;
-    }
-    public BookShelf removeBookFromShelf(Long memberId, Long bookId, Integer param) {
-        BookShelf bookShelf = getBookShelfByMemberId(memberId);
-        Book book = bookRepository.findById(bookId).orElseThrow(() -> new IllegalArgumentException("Invalid book id: " + bookId));
-        
-        if(param==0) {
-            bookShelf.removeWantToRead(book);
-        }
-        else if(param==1) {
-            BookProgress bookProgress = bookProgressRepository.findAllByMemberId(memberId).stream().filter(bp -> bp.getBook().getId()==bookId).findFirst()
-                    .orElseThrow(() -> new IllegalArgumentException("Invalid book id: " + bookId));
-            bookShelf.removeCurrentlyReading(bookProgress);
-            bookProgressRepository.delete(bookProgress);
-        }
-        else {
-            bookShelf.removeFinished(book);
-        }
-        bookShelfRepository.save(bookShelf);
-
-        return bookShelf;
+    	try {
+	        if(param==0) {
+	        	LikedBook lb = getLikedBooksByMemberId(memberId).stream().filter(b -> b.getBook()==book).findFirst().get();
+	        	likedBookRepository.delete(lb);
+	        	
+	        }
+	        else if(param==1) {
+	        	ReadingBook rb = getReadingBooksByMemberId(memberId).stream().filter(b -> b.getBook()==book).findFirst().get();
+	        	readingBookRepository.delete(rb);
+	        }
+	        else {
+	        	FinishedBook fb = getFinishedBooksByMemberId(memberId).stream().filter(b -> b.getBook()==book).findFirst().get();
+	        	finishedBookRepository.delete(fb);
+	        }
+	
+	        return true;
+	    }
+		catch(Exception e) {
+			e.printStackTrace();
+	        return false;
+	    }
     }
 
-    public void deleteBookShelfByMemberId(Long memberId) {
-        BookShelf bookShelf = getBookShelfByMemberId(memberId);
+    public boolean deleteBookShelfByMemberId(Long memberId, Integer param) throws Exception {
 
-        if (bookShelf != null) {
-            bookShelfRepository.delete(bookShelf);
-        } else {
-            throw new IllegalArgumentException("Invalid memberId id: " + memberId);
-        }
+    	try {
+	        if(param==0) {
+	        	List<LikedBook> r = getLikedBooksByMemberId(memberId);
+	        	likedBookRepository.deleteAll(r);
+	        }
+	        else if(param==1) {
+	        	List<ReadingBook> r = getReadingBooksByMemberId(memberId);
+	        	readingBookRepository.deleteAll(r);
+	        }
+	        else {
+	        	List<FinishedBook> r = getFinishedBooksByMemberId(memberId);
+	        	finishedBookRepository.deleteAll(r);
+	        }
+	
+	        return true;
+	    }
+		catch(Exception e) {
+	        return false;
+	    }
     }
 
-    public void deleteBookShelf(Long id) {
-        bookShelfRepository.deleteById(id);
-    }
 }

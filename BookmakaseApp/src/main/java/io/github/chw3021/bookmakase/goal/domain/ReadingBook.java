@@ -1,12 +1,8 @@
 package io.github.chw3021.bookmakase.goal.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import io.github.chw3021.bookmakase.bookdata.domain.Book;
 import io.github.chw3021.bookmakase.signservice.domain.Member;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,26 +15,27 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity @Getter @Setter
+@Entity
+@Getter @Setter
 @Builder @AllArgsConstructor @NoArgsConstructor
-public class BookProgress {
+public class ReadingBook {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "memberId")
-    @JsonIgnore
-    private Member member;
-    
-    private Integer currentPage;
-    private Integer totalPage;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne//(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
     @JoinColumn(name = "itemId")
     private Book book;
 
-    // Getters and setters
+    
+    private Integer currentPage;
+    private Integer totalPage;
+    
+    @ManyToOne
+    @JoinColumn(name = "memberId")
+    private Member member;
+
 
 }
