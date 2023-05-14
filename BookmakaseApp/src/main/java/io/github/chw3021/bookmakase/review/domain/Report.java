@@ -2,6 +2,7 @@ package io.github.chw3021.bookmakase.review.domain;
 
 import java.time.LocalDateTime;
 
+import io.github.chw3021.bookmakase.signservice.domain.Member;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -29,8 +30,8 @@ public class Report {
     private LocalDateTime createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "community_user_id")
-    private CommunityUser communityUser;
+    @JoinColumn(name = "memberId")
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_id")

@@ -20,69 +20,63 @@ public class ReviewController {
     private ReviewService reviewService;
     
 
-    @GetMapping
+    @GetMapping("/findAll")
     public List<Review> findAll() {
         return reviewService.findAll();
     }
 
-    @GetMapping("/{id}")
-    public Review findById(@PathVariable("id") Long id) {
+    @GetMapping("/findById")
+    public Review findById(@RequestParam Long id) {
         return reviewService.findById(id);
     }
 
-    @PostMapping
+    @PostMapping("/save")
     public Review save(@RequestBody ReviewDto reviewDto) {
         return reviewService.save(reviewDto);
     }
 
-    @PutMapping("/{id}")
-    public Review update(@PathVariable("id") Long id, @RequestBody ReviewDto reviewDto) {
+    @PutMapping("/update")
+    public Review update(@RequestParam Long id, @RequestBody ReviewDto reviewDto) {
         return reviewService.update(id, reviewDto);
     }
 
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") Long id) {
+    @DeleteMapping("/delete")
+    public void delete(@RequestParam Long id) {
         reviewService.delete(id);
     }
-    
-    @PostMapping("/{id}/reports")
-    public void reportReview(@PathVariable("id") Long postId, @RequestBody ReportDto reportDto) {
-    	reviewService.reportReview(postId, reportDto);
+
+    @PostMapping("/reportReview")
+    public void reportReview(@RequestParam Long reviewId, @RequestBody ReportDto reportDto) {
+    	reviewService.reportReview(reviewId, reportDto);
     }
 
-    @GetMapping("/{id}/reports")
-    public List<Report> getReviewReports(@PathVariable("id") Long postId) {
-        return reviewService.getReviewReports(postId);
+    @GetMapping("/reports")
+    public List<Report> getReviewReports(@RequestParam Long reviewId) {
+        return reviewService.getReviewReports(reviewId);
     }
-
-    @PutMapping("/reports/{reportId}/process")
-    public Report processReport(@PathVariable("reportId") Long reportId, @RequestBody ReportDto reportDto) {
-        return reviewService.processReport(reportId, reportDto);
-    }
-
     @GetMapping("/reports")
     public List<Report> getAllReports() {
         return reviewService.getAllReports();
     }
 
     
-    @PostMapping("/{reviewId}/comments")
-    public void addCommentToReview(@PathVariable("reviewId") Long reviewId, @RequestBody CommentDto commentDto) {
+    @PostMapping("/addComments")
+    public void addCommentToReview(@RequestParam Long reviewId, @RequestBody CommentDto commentDto) {
         reviewService.addCommentToReview(reviewId, commentDto);
     }
 
-    @GetMapping("/{reviewId}/comments")
-    public List<Comment> getCommentsOfReview(@PathVariable("reviewId") Long reviewId) {
-        return reviewService.getCommentsOfReview(reviewId);
+    @GetMapping("/getComments")
+    public List<Comment> getCommentsOfReview(@RequestParam Long reviewId) {
+        return reviewService.getCommentsByReviewId(reviewId);
     }
 
-    @PostMapping("/{reviewId}/likes")
-    public void addLikeToReview(@PathVariable("reviewId") Long reviewId) {
+    @PostMapping("/addLike")
+    public void addLikeToReview(@RequestParam Long reviewId) {
         reviewService.addLikeToReview(reviewId);
     }
 
-    @DeleteMapping("/{reviewId}/likes")
-    public void removeLikeFromReview(@PathVariable("reviewId") Long reviewId) {
+    @DeleteMapping("/removeLike")
+    public void removeLikeFromReview(@RequestParam Long reviewId) {
         reviewService.removeLikeFromReview(reviewId);
     }
 }

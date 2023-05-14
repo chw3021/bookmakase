@@ -5,8 +5,8 @@ import java.util.List;
 
 import io.github.chw3021.bookmakase.bookdata.domain.Book;
 import io.github.chw3021.bookmakase.review.domain.Comment;
-import io.github.chw3021.bookmakase.review.domain.CommunityUser;
 import io.github.chw3021.bookmakase.review.domain.Report;
+import io.github.chw3021.bookmakase.signservice.domain.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,8 +31,8 @@ public class ReviewDto {
 
     private List<Comment> comments;
     
-    
-    private CommunityUser communityuser;
+
+    private Member member;
     
     private Book book;
 }

@@ -2,6 +2,7 @@ package io.github.chw3021.bookmakase.review.domain;
 
 import java.time.LocalDateTime;
 
+import io.github.chw3021.bookmakase.signservice.domain.Member;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -30,6 +31,6 @@ public class Comment {
     private Review review;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "communityuser")
-    private CommunityUser communityuser;
+    @JoinColumn(name = "memberId")
+    private Member member;
 }

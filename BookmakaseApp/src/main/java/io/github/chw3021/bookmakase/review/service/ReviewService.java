@@ -10,35 +10,36 @@ import io.github.chw3021.bookmakase.review.repository.CommentRepository;
 import io.github.chw3021.bookmakase.review.repository.ReportRepository;
 import io.github.chw3021.bookmakase.review.repository.ReviewRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
+@RequiredArgsConstructor
 public class ReviewService {
+	
+    @Autowired
     private final ReviewRepository reviewRepository;
+    @Autowired
     private final ReportRepository reportRepository;
+    @Autowired
     private final CommentRepository commentRepository;
 
-    public ReviewService(ReviewRepository reviewRepository, ReportRepository reportRepository, CommentRepository commentRepository) {
-        this.reviewRepository = reviewRepository;
-        this.reportRepository = reportRepository;
-        this.commentRepository = commentRepository;
-    }
-
-
-    @Transactional
+    
     public Review save(ReviewDto reviewDto) {
         Review review = Review.builder()
                 .title(reviewDto.getTitle())
                 .content(reviewDto.getContent())
                 .rating(reviewDto.getRating())
                 .book(reviewDto.getBook())
-                .communityuser(reviewDto.getCommunityuser())
+                .member(reviewDto.getMember())
                 .build();
         return reviewRepository.save(review);
     }
@@ -61,7 +62,7 @@ public class ReviewService {
         review.setContent(reviewDto.getContent());
         review.setRating(reviewDto.getRating());
         review.setBook(reviewDto.getBook());
-        review.setCommunityuser(reviewDto.getCommunityuser());
+        review.setMember(reviewDto.getMember());
         review.setComments(reviewDto.getComments());
         review.setLikes(reviewDto.getLikes());
         return reviewRepository.save(review);
@@ -72,8 +73,11 @@ public class ReviewService {
         reviewRepository.deleteById(id);
     }
     
-    public List<Report> findReportsByPostId(Long reviewId) {
+    public List<Report> findAllByReviewId(Long reviewId) {
         return reportRepository.findAllByReviewId(reviewId);
+    }
+    public List<Comment> getCommentsByReviewId(Long reviewId) {
+        return commentRepository.findByReviewId(reviewId);
     }
     
     public void reportReview(Long reviewId, ReportDto reportDto) {
@@ -111,17 +115,21 @@ public class ReviewService {
     }
     
 
-    public void addCommentToReview(Long reviewId, CommentDto commentDto) {
-        Review review = getReviewById(reviewId);
+    public Comment addCommentToReview(Long reviewId, CommentDto commentDto) {
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid review Id:" + reviewId));
+
         Comment comment = Comment.builder()
                 .content(commentDto.getContent())
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .member(commentDto.getMember())
                 .review(review)
                 .build();
-        commentRepository.save(comment);
 
         // Review 객체에 Comment 객체 추가
         review.getComments().add(comment);
-        reviewRepository.save(review);
+        return commentRepository.save(comment);
     }
 
     public List<Comment> getCommentsOfReview(Long reviewId) {

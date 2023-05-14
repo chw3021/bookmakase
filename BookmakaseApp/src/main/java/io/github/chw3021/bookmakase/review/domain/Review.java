@@ -1,6 +1,7 @@
 package io.github.chw3021.bookmakase.review.domain;
 
 import io.github.chw3021.bookmakase.bookdata.domain.Book;
+import io.github.chw3021.bookmakase.signservice.domain.Member;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -37,13 +38,12 @@ public class Review {
 
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
     private List<Comment> comments;
-    
-    
-    @ManyToOne(fetch = FetchType.LAZY, optional= false)
-    @JoinColumn(name = "communityuser")
-    private CommunityUser communityuser;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "memberId")
+    private Member member;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id")
+    @JoinColumn(name = "itemId")
     private Book book;
 }

@@ -2,8 +2,8 @@ package io.github.chw3021.bookmakase.review.domain.dto;
 
 import java.time.LocalDateTime;
 
-import io.github.chw3021.bookmakase.review.domain.CommunityUser;
 import io.github.chw3021.bookmakase.review.domain.Review;
+import io.github.chw3021.bookmakase.signservice.domain.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,7 +22,7 @@ public class ReportDto {
     private String reason;
 
     private LocalDateTime createdAt;
-    private CommunityUser communityUser;
+    private Member member;
     private Review review;
     private Boolean processed;//신고 처리 여부
     
