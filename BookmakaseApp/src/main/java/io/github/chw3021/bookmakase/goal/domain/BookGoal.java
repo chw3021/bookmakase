@@ -2,6 +2,7 @@ package io.github.chw3021.bookmakase.goal.domain;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.chw3021.bookmakase.signservice.domain.Member;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,6 +27,7 @@ public class BookGoal {
 
     @ManyToOne
     @JoinColumn(name = "memberId")
+    @JsonIgnore
     private Member member;//멤버아이디
     
     private String goalname;//목표 이름

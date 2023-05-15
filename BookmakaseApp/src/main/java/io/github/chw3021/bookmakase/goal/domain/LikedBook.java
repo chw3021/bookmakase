@@ -1,5 +1,6 @@
 package io.github.chw3021.bookmakase.goal.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.chw3021.bookmakase.bookdata.domain.Book;
 import io.github.chw3021.bookmakase.signservice.domain.Member;
 import jakarta.persistence.Entity;
@@ -32,6 +33,7 @@ public class LikedBook {
     
     @ManyToOne
     @JoinColumn(name = "memberId")
+    @JsonIgnore
     private Member member;
 
 
