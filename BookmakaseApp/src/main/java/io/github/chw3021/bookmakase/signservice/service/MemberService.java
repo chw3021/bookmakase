@@ -64,6 +64,7 @@ public class MemberService {
                     .email(request.getEmail())
                     .age(request.getAge())
                     .gender(request.getGender())
+                    .warned(0)
                     .prefer(request.getPrefer())
                     .build();
 
@@ -139,6 +140,17 @@ public class MemberService {
 
         return true;
     }
+    
+    public Boolean accountWarn(Long id, Integer warn) throws Exception {
+        Member member = memberRepository.findById(id).orElseThrow(() ->
+                new Exception("계정을 찾을 수 없습니다."));
+
+        member.setWarned(warn);
+        memberRepository.save(member);
+        return true;
+    }
+
+    
     public Boolean accountBan(BanDto request) throws Exception {
         Member member = memberRepository.findById(request.getId()).orElseThrow(() ->
                 new Exception("계정을 찾을 수 없습니다."));

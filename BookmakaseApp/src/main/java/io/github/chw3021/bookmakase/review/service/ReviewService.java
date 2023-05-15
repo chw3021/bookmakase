@@ -15,6 +15,7 @@ import io.github.chw3021.bookmakase.review.repository.ReportRepository;
 import io.github.chw3021.bookmakase.review.repository.ReviewRepository;
 import io.github.chw3021.bookmakase.signservice.domain.Member;
 import io.github.chw3021.bookmakase.signservice.repository.MemberRepository;
+import io.github.chw3021.bookmakase.signservice.service.MemberService;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -40,6 +41,8 @@ public class ReviewService {
     private final BookRepository bookRepository;
     @Autowired
     private final MemberRepository memberRepository;
+    @Autowired
+    private final MemberService memberService;
     @Autowired
     private final BookService bookService;
     @Autowired
@@ -122,12 +125,36 @@ public class ReviewService {
         return report;
     }
 
-    public Report processReport(Long reportId, Integer process) {
+    public Report processReport(Long reportId, Integer process) throws Exception {
     	Optional<Report> optionalReport = reportRepository.findById(reportId);
         if (optionalReport.isPresent()) {
             Report report = optionalReport.get();
             report.setProcessed(true);
             report.setProcessedResult(process);
+            Member m = report.getReview().getMember();
+            if(process == 1) {
+            	memberService.accountWarn(m.getId(), m.getWarned()+1);
+            	if(m.getWarned()>=3&&m.getWarned()<5) {
+                    LocalDateTime banned = LocalDateTime.now().plusDays(15);
+                    m.setBan(banned);
+                    memberRepository.save(m);
+            	}
+            	if(m.getWarned()>=5&&m.getWarned()<10) {
+                    LocalDateTime banned = LocalDateTime.now().plusDays(30);
+                    m.setBan(banned);
+                    memberRepository.save(m);
+            	}
+            	if(m.getWarned()>=10) {
+                    LocalDateTime banned = LocalDateTime.now().plusYears(1);
+                    m.setBan(banned);
+                    memberRepository.save(m);
+            	}
+            }
+            else if(process == 2) {
+                LocalDateTime banned = LocalDateTime.now().plusYears(9999);
+                m.setBan(banned);
+                memberRepository.save(m);
+            }
             reportRepository.save(report);
             return report;
         } else {

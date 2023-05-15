@@ -56,10 +56,7 @@ public class ReviewController {
         
     	return ResponseEntity.ok(r);
     }
-    @PostMapping("/reportProcess")
-    public void reportProcess(@RequestParam Long reviewId, @RequestParam Integer process) {
-    	reviewService.processReport(reviewId, process);
-    }
+    
 
 
     @GetMapping("/getReports")

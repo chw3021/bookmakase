@@ -57,6 +57,9 @@ public class Member {
     private char gender;//m는 남성, f는 여성
 
 
+    @Column
+    private int warned;
+
     @Column @Nullable
     private LocalDateTime ban;
     
@@ -121,7 +124,8 @@ public class Member {
 
     public LocalDateTime getBan() {return ban;}
     public void setBan(LocalDateTime ban) {
-        this.ban = ban;}
+        this.ban = ban;
+        }
 
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Builder.Default

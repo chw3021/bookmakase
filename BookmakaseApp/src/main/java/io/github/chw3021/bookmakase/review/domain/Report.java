@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 import io.github.chw3021.bookmakase.signservice.domain.Member;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
