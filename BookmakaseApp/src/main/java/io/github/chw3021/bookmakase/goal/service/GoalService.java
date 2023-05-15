@@ -124,7 +124,52 @@ public class GoalService {
         }
         return s/all*100.0;
     }
-
+    //같은 나이대 대한 독서 목표를 완료한 사용자 수를 받는 메서드
+    public double getAverageRateOfSimilar(Long memberId) throws Exception {
+        Member member = memberRepository.findById(memberId).orElseThrow(()->
+                new Exception("계정을 찾을 수 없습니다."));
+        List<Member> usersInSameAgeRange = memberRepository.findAllByAgeBetween(member.getAge() - 5, member.getAge() + 5);
+        Double sum = 0d;
+        int count = 0;
+        for (Member user : usersInSameAgeRange) {
+            sum = sum + getSuccessRate(user.getId());
+            count++;
+        }
+        return sum/count;
+    }
+    //같은 나이대 대한 독서 목표를 완료한 사용자 수를 받는 메서드
+    public int getNumberOfSimilarChallengers(Long memberId) throws Exception {
+        int numOfUsers = 0;
+        Member member = memberRepository.findById(memberId).orElseThrow(()->
+                new Exception("계정을 찾을 수 없습니다."));
+        List<Member> usersInSameAgeRange = memberRepository.findAllByAgeBetween(member.getAge() - 5, member.getAge() + 5);
+        for (Member user : usersInSameAgeRange) {
+            List<BookGoal> bookGoals = getUserGoals(user.getId());
+            for (BookGoal bookGoal : bookGoals) {
+                if (!bookGoal.isCompleted()) {
+                    numOfUsers++;
+                    break;
+                }
+            }
+        }
+        return numOfUsers;
+    }
+    public int getNumberOfSimilarUsersCompleted(Long memberId) throws Exception {
+        int numOfUsers = 0;
+        Member member = memberRepository.findById(memberId).orElseThrow(()->
+                new Exception("계정을 찾을 수 없습니다."));
+        List<Member> usersInSameAgeRange = memberRepository.findAllByAgeBetween(member.getAge() - 5, member.getAge() + 5);
+        for (Member user : usersInSameAgeRange) {
+            List<BookGoal> bookGoals = getUserGoals(user.getId());
+            for (BookGoal bookGoal : bookGoals) {
+                if (bookGoal.isCompleted()) {
+                    numOfUsers++;
+                    break;
+                }
+            }
+        }
+        return numOfUsers;
+    }
 
     //같은 나이대, 같은 카테고리에 대한 독서 목표를 완료한 사용자 수를 받는 메서드
     public int getNumberOfSimilarChallengers(Long memberId, Integer categoryId) throws Exception {

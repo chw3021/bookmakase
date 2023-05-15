@@ -72,6 +72,22 @@ public class GoalController {
         return ResponseEntity.ok(count);
     }
 
+    @GetMapping("/getAverageRate")
+    public ResponseEntity<Double> getAverageRate(@RequestParam Long memberId) throws Exception {
+        Double count = goalService.getAverageRateOfSimilar(memberId);
+        return ResponseEntity.ok(count);
+    }
+    @GetMapping("/similarCompletedsAll")
+    public ResponseEntity<Integer> similarCompleteds(@RequestParam Long memberId) throws Exception {
+        Integer count = goalService.getNumberOfSimilarUsersCompleted(memberId);
+        return ResponseEntity.ok(count);
+    }
+
+    @GetMapping("/similarChallengersAll")
+    public ResponseEntity<Integer> similarChallengers(@RequestParam Long memberId) throws Exception {
+        Integer count = goalService.getNumberOfSimilarChallengers(memberId);
+        return ResponseEntity.ok(count);
+    }
     @GetMapping("/similarCompleteds")
     public ResponseEntity<Integer> similarCompleteds(@RequestParam Long memberId, @RequestParam Integer categoryId) throws Exception {
         Integer count = goalService.getNumberOfSimilarUsersCompleted(memberId, categoryId);
