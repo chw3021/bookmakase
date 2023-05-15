@@ -16,6 +16,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter @Setter
 @Builder @AllArgsConstructor @NoArgsConstructor
@@ -36,5 +38,6 @@ public class FinishedBook {
     @JsonIgnore
     private Member member;
 
+    private LocalDateTime finishedDate;
 
 }

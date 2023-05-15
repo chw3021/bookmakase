@@ -3,12 +3,9 @@ package io.github.chw3021.bookmakase.goal.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -63,9 +60,27 @@ public class GoalController {
         return ResponseEntity.ok(goal);
     }
 
-    @GetMapping("/similar")
-    public ResponseEntity<Integer> getGoalsByMemberId(@RequestParam Long memberId, @RequestParam Integer categoryId) throws Exception {
-        Integer count = goalService.getNumberOfUsersInSameAgeAndCategory(memberId, categoryId);
+    @GetMapping("/getCompletedCount")
+    public ResponseEntity<Long> getCompletedCount(@RequestParam Long memberId) throws Exception {
+        Long count = goalService.getCompletedCount(memberId);
+        return ResponseEntity.ok(count);
+    }
+
+    @GetMapping("/getSuccessRate")
+    public ResponseEntity<Double> getSuccessRate(@RequestParam Long memberId) throws Exception {
+        Double count = goalService.getSuccessRate(memberId);
+        return ResponseEntity.ok(count);
+    }
+
+    @GetMapping("/similarCompleteds")
+    public ResponseEntity<Integer> similarCompleteds(@RequestParam Long memberId, @RequestParam Integer categoryId) throws Exception {
+        Integer count = goalService.getNumberOfSimilarUsersCompleted(memberId, categoryId);
+        return ResponseEntity.ok(count);
+    }
+
+    @GetMapping("/similarChallengers")
+    public ResponseEntity<Integer> similarChallengers(@RequestParam Long memberId, @RequestParam Integer categoryId) throws Exception {
+        Integer count = goalService.getNumberOfSimilarChallengers(memberId, categoryId);
         return ResponseEntity.ok(count);
     }
 

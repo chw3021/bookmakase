@@ -69,7 +69,7 @@ public class GoalService {
                 .orElseThrow(() -> new EntityNotFoundException("Cannot find goal with id: " + id));
         return goal;
     }
-    
+
     public List<BookGoal> setAllMemberGoalReadedByCategoryId(Long memberId, Integer categoryId, Integer readedAdd) {
         List<BookGoal> goals = getUserGoals(memberId);
         goals.forEach(g -> {
@@ -111,14 +111,42 @@ public class GoalService {
 
     public List<BookGoal> getUserGoals(Long memberId) {
         return goalRepository.findAllByMemberId(memberId);
-
     }
-    
+
+    public Long getCompletedCount(Long memberId){
+        return goalRepository.findAllByMemberId(memberId).stream().filter(g -> g.isCompleted()).count();
+    }
+    public Double getSuccessRate(Long memberId){
+        Long s = goalRepository.findAllByMemberId(memberId).stream().filter(g -> g.isCompleted()).count();
+        Integer all = goalRepository.findAllByMemberId(memberId).size();
+        if(all == 0) {
+            return (double) 0;
+        }
+        return s/all*100.0;
+    }
+
+
     //같은 나이대, 같은 카테고리에 대한 독서 목표를 완료한 사용자 수를 받는 메서드
-    public int getNumberOfUsersInSameAgeAndCategory(Long memberId, Integer categoryId) throws Exception {
+    public int getNumberOfSimilarChallengers(Long memberId, Integer categoryId) throws Exception {
         int numOfUsers = 0;
         Member member = memberRepository.findById(memberId).orElseThrow(()->
         new Exception("계정을 찾을 수 없습니다."));
+        List<Member> usersInSameAgeRange = memberRepository.findAllByAgeBetween(member.getAge() - 5, member.getAge() + 5);
+        for (Member user : usersInSameAgeRange) {
+            List<BookGoal> bookGoals = getUserGoals(user.getId());
+            for (BookGoal bookGoal : bookGoals) {
+                if (bookGoal.getCategoryId()==categoryId && !bookGoal.isCompleted()) {
+                    numOfUsers++;
+                    break;
+                }
+            }
+        }
+        return numOfUsers;
+    }
+    public int getNumberOfSimilarUsersCompleted(Long memberId, Integer categoryId) throws Exception {
+        int numOfUsers = 0;
+        Member member = memberRepository.findById(memberId).orElseThrow(()->
+                new Exception("계정을 찾을 수 없습니다."));
         List<Member> usersInSameAgeRange = memberRepository.findAllByAgeBetween(member.getAge() - 5, member.getAge() + 5);
         for (Member user : usersInSameAgeRange) {
             List<BookGoal> bookGoals = getUserGoals(user.getId());
