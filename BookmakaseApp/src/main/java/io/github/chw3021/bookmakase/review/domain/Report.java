@@ -29,15 +29,15 @@ public class Report {
 
     private LocalDateTime createdAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "memberId")
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "review_id")
     private Review review;
     
     private Boolean processed;//신고 처리 여부
     
-    private String processedResult;//신고 처리 결과(경고:warned, 제재:penalized)
+    private Integer processedResult;//신고 처리 결과(무고: 0, 경고: 1, 제재: 2)
 }

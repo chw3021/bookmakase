@@ -3,10 +3,8 @@ package io.github.chw3021.bookmakase.review.domain.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import io.github.chw3021.bookmakase.bookdata.domain.Book;
 import io.github.chw3021.bookmakase.review.domain.Comment;
 import io.github.chw3021.bookmakase.review.domain.Report;
-import io.github.chw3021.bookmakase.signservice.domain.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,11 +17,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReviewDto {
-    private Long id;
     private String title;
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private Long memberId;
+    private Long itemId;
+    
     private double rating;
     private int likes;
     
@@ -31,8 +31,4 @@ public class ReviewDto {
 
     private List<Comment> comments;
     
-
-    private Member member;
-    
-    private Book book;
 }

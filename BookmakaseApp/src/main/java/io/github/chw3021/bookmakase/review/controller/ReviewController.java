@@ -1,5 +1,6 @@
 package io.github.chw3021.bookmakase.review.controller;
 
+import io.github.chw3021.bookmakase.goal.service.BookShelfService;
 import io.github.chw3021.bookmakase.review.domain.Comment;
 import io.github.chw3021.bookmakase.review.domain.Report;
 import io.github.chw3021.bookmakase.review.domain.Review;
@@ -7,14 +8,17 @@ import io.github.chw3021.bookmakase.review.domain.dto.CommentDto;
 import io.github.chw3021.bookmakase.review.domain.dto.ReportDto;
 import io.github.chw3021.bookmakase.review.domain.dto.ReviewDto;
 import io.github.chw3021.bookmakase.review.service.ReviewService;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/reviews")
+@RequiredArgsConstructor
 public class ReviewController {
     @Autowired
     private ReviewService reviewService;
@@ -26,8 +30,9 @@ public class ReviewController {
     }
 
     @GetMapping("/findById")
-    public Review findById(@RequestParam Long id) {
-        return reviewService.findById(id);
+    public ResponseEntity<Review> findById(@RequestParam Long id) {
+    	Review r = reviewService.findById(id);
+    	return ResponseEntity.ok(r);
     }
 
     @PostMapping("/save")
@@ -46,20 +51,27 @@ public class ReviewController {
     }
 
     @PostMapping("/reportReview")
-    public void reportReview(@RequestParam Long reviewId, @RequestBody ReportDto reportDto) {
-    	reviewService.reportReview(reviewId, reportDto);
+    public ResponseEntity<Report> reportReview(@RequestBody ReportDto reportDto) {
+    	Report r = reviewService.reportReview(reportDto);
+        
+    	return ResponseEntity.ok(r);
+    }
+    @PostMapping("/reportProcess")
+    public void reportProcess(@RequestParam Long reviewId, @RequestParam Integer process) {
+    	reviewService.processReport(reviewId, process);
     }
 
-    @GetMapping("/reports")
+
+    @GetMapping("/getReports")
     public List<Report> getReviewReports(@RequestParam Long reviewId) {
         return reviewService.getReviewReports(reviewId);
     }
-    @GetMapping("/reports")
+    
+    @GetMapping("/getAllreports")
     public List<Report> getAllReports() {
         return reviewService.getAllReports();
     }
 
-    
     @PostMapping("/addComments")
     public void addCommentToReview(@RequestParam Long reviewId, @RequestBody CommentDto commentDto) {
         reviewService.addCommentToReview(reviewId, commentDto);
