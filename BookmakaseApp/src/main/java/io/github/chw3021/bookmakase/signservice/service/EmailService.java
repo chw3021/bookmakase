@@ -41,7 +41,7 @@ public class EmailService {
 
     public String tempPwd(UserRequest request) throws Exception {
         Member member = memberRepository.findByEmailAndAccount(request.getEmail(),request.getAccount()).orElseThrow(() ->
-                new IllegalArgumentException("이메일또는 계정을 찾을수 없습니다."));
+                new IllegalArgumentException("이메일 또는 계정을 찾을수 없습니다."));
         String tempPwd = createTempPwd();
         member.setPassword(passwordEncoder.encode(tempPwd));
         memberRepository.save(member);

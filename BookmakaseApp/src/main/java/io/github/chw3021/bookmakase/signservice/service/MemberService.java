@@ -3,6 +3,8 @@ package io.github.chw3021.bookmakase.signservice.service;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+
+import io.github.chw3021.bookmakase.signservice.controller.SignException;
 import io.github.chw3021.bookmakase.signservice.domain.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -28,18 +30,19 @@ public class MemberService {
     @Autowired
     private final JwtProvider jwtProvider;
 
-    public SignResponse login(SignRequest request) throws Exception {
+    public SignResponse login(SignRequest request) {
         Member member = memberRepository.findByAccount(request.getAccount()).orElseThrow(() ->
-                new BadCredentialsException("잘못된 계정정보입니다."));
+                new SignException("잘못된 계정 정보입니다."));
         LocalDateTime now = LocalDateTime.now();
 
         if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
-            throw new BadCredentialsException("잘못된 비밀번호입니다.");
+            throw new SignException("잘못된 비밀번호입니다.");
         }
-        if (member.getBan() != null && now.isBefore(member.getBan())){
-          throw new Exception("계정이 정지되었습니다.");
+        if (member.getBan() != null && now.isBefore(member.getBan())) {
+            throw new SignException(member.getBan() + " 까지 계정이 정지되었습니다.");
         }
 
+        // 정상 로그인 처리
         return SignResponse.builder()
                 .id(member.getId())
                 .account(member.getAccount())
@@ -51,7 +54,6 @@ public class MemberService {
                 .roles(member.getRoles())
                 .token(jwtProvider.createToken(member.getAccount(), member.getRoles()))
                 .build();
-
     }
 
     public boolean register(SignRequest request) throws Exception {
@@ -104,28 +106,27 @@ public class MemberService {
     }
     
 
-    public SignResponse getMember(String account) throws Exception {
+    public SignResponse getMember(String account){
         Member member = memberRepository.findByAccount(account)
-                .orElseThrow(() -> new Exception("계정을 찾을 수 없습니다."));
+                .orElseThrow(() -> new SignException("계정을 찾을 수 없습니다."));
         return new SignResponse(member);
     }
 
 
-    public boolean info_change(UserRequest request) throws Exception {
-        Member member = memberRepository.findById(request.getId()).orElseThrow(()->
-                new Exception("수정에 실패하였습니다"));
+    public boolean info_change(UserRequest request){
+        Member member = memberRepository.findById(request.getId()).orElseThrow(() ->
+                new SignException("해당 계정을 찾을 수 없습니다."));
         member.setPassword(passwordEncoder.encode(request.getPassword()));
         member.setEmail(request.getEmail());
         member.setPrefer(request.getPrefer());
 
         memberRepository.save(member);
 
-
         return true;
     }
-    public String FindAccount(UserRequest request) throws Exception {
+    public String FindAccount(UserRequest request){
         Member member = memberRepository.findByEmail(request.getEmail()).orElseThrow(() ->
-                new Exception("이메일을 찾을수 없습니다"));
+                new SignException("이메일을 찾을수 없습니다"));
 
         return member.getAccount();
     }
