@@ -42,3 +42,6 @@ spring:
 jwt:
   secret:
     key: z$C&F)J@NcRfUjXnZr4u7x!A%D*G-KaP
+
+#server:
+#  port: 60001
