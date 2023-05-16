@@ -106,9 +106,9 @@ public class MemberService {
     }
     
 
-    public SignResponse getMember(String account){
-        Member member = memberRepository.findByAccount(account)
-                .orElseThrow(() -> new SignException("계정을 찾을 수 없습니다."));
+    public SignResponse getMember(SignRequest request){
+        Member member = memberRepository.findByAccount(request.getAccount()).orElseThrow(() ->
+                new SignException("계정을 찾을 수 없습니다."));
         return new SignResponse(member);
     }
 
@@ -166,6 +166,8 @@ public class MemberService {
 
         return memberRepository.findAll();
     }
+
+
 
 
 

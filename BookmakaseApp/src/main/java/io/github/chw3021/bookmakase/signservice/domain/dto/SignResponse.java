@@ -1,6 +1,7 @@
 package io.github.chw3021.bookmakase.signservice.domain.dto;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -33,6 +34,8 @@ public class SignResponse {
 
     private String token;
 
+    private LocalDateTime ban;
+
 
     public SignResponse(Member member) {
         this.id = member.getId();
@@ -43,5 +46,6 @@ public class SignResponse {
         this.prefer = member.getPrefer();
         this.gender = member.getGender();
         this.roles = member.getRoles();
+        this.ban = member.getBan();
     }
 }

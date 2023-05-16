@@ -10,7 +10,6 @@ import io.github.chw3021.bookmakase.signservice.service.MemberService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,10 +48,10 @@ public class MemberController {
         return new ResponseEntity<>(memberService.createAdminMember(request), HttpStatus.OK);
     }
 
-    @GetMapping("/user/get")
-    public ResponseEntity<?> getUser(@RequestParam String account){
+    @PostMapping("/user/getInfo")
+    public ResponseEntity<?> getUser(@RequestBody SignRequest request){
         try{
-            return new ResponseEntity<>( memberService.getMember(account), HttpStatus.OK);
+            return new ResponseEntity<>(memberService.getMember(request), HttpStatus.OK);
         }catch (SignException e) {
             String errorMessage = e.getMessage();
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorMessage);
@@ -61,15 +60,17 @@ public class MemberController {
 
     }
 
-    @GetMapping("/admin/get")
-    public ResponseEntity<?> getUserForAdmin(@RequestParam String account){
+    /*
+    @PostMapping("/admin/get")
+    public ResponseEntity<?> getUserForAdmin(@RequestParam SignRequest request){
         try{
-            return new ResponseEntity<>( memberService.getMember(account), HttpStatus.OK);
+            return new ResponseEntity<>( memberService.getMember(request.getAccount()), HttpStatus.OK);
         }catch (SignException e) {
             String errorMessage = e.getMessage();
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorMessage);
         }
     }
+    */
 
     @PutMapping("/MyPage/info_change")
     public ResponseEntity<?> info_change(@RequestBody UserRequest request){
@@ -124,5 +125,6 @@ public class MemberController {
     public ResponseEntity<List> getMembers(){
         return new ResponseEntity<>(memberService.getMemberList(), HttpStatus.OK);
     }
+
 
 }
