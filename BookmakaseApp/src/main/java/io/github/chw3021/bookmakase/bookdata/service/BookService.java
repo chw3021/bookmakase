@@ -1,16 +1,10 @@
 package io.github.chw3021.bookmakase.bookdata.service;
 
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import io.github.chw3021.bookmakase.bookdata.domain.Book;
 import io.github.chw3021.bookmakase.bookdata.repository.BookRepository;
-import io.github.chw3021.bookmakase.goal.domain.LikedBook;
-import io.github.chw3021.bookmakase.goal.repository.LikedBookRepository;
-import io.github.chw3021.bookmakase.signservice.domain.Member;
-import io.github.chw3021.bookmakase.signservice.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -21,11 +15,6 @@ public class BookService {
 	
 	@Autowired
     private final BookRepository bookRepository;
-    @Autowired
-    private final MemberRepository memberRepository;
-    @Autowired
-    private final LikedBookRepository likedBookRepository;
-
     public boolean isBookExist(Long itemId){
         return bookRepository.findById(itemId).isPresent();
     }

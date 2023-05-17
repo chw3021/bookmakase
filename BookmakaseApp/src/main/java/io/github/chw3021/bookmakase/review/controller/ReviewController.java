@@ -28,6 +28,11 @@ public class ReviewController {
     public List<Review> findAll() {
         return reviewService.findAll();
     }
+    @GetMapping("/search")
+    public ResponseEntity<List<Review>> findById(@RequestParam String param) {
+    	List<Review> r = reviewService.search(param);
+    	return ResponseEntity.ok(r);
+    }
 
     @GetMapping("/findById")
     public ResponseEntity<Review> findById(@RequestParam Long id) {

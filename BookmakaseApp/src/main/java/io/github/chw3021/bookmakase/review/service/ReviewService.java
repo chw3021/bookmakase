@@ -1,5 +1,14 @@
 package io.github.chw3021.bookmakase.review.service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import io.github.chw3021.bookmakase.bookdata.domain.Book;
 import io.github.chw3021.bookmakase.bookdata.repository.BookRepository;
 import io.github.chw3021.bookmakase.bookdata.service.BookService;
@@ -17,14 +26,6 @@ import io.github.chw3021.bookmakase.signservice.domain.Member;
 import io.github.chw3021.bookmakase.signservice.repository.MemberRepository;
 import io.github.chw3021.bookmakase.signservice.service.MemberService;
 import lombok.RequiredArgsConstructor;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
@@ -58,7 +59,7 @@ public class ReviewService {
         Review review = Review.builder()
                 .title(reviewDto.getTitle())
                 .content(reviewDto.getContent())
-                .rating(reviewDto.getRating())
+                .rating(0.0)
                 .likes(0)
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
@@ -70,6 +71,28 @@ public class ReviewService {
 
     public List<Review> findAll() {
         return reviewRepository.findAll();
+    }
+
+    public List<Review> search(String param) {
+    	List<Review> all = findAll();
+    	List<Review> sort = all.stream().filter(r -> {
+    		Boolean title = r.getTitle().contains(param);
+    		Boolean user = r.getMember().getAccount().contains(param);
+    		Boolean un = r.getMember().getName().contains(param);
+    		Boolean con = r.getContent().contains(param);
+    		Boolean bt = r.getBook().getTitle().contains(param);
+    		Boolean ba = r.getBook().getAuthor().contains(param);   		
+    		return title||user||un||con||bt||ba;
+    	}).toList();
+    	if(sort == null || sort.isEmpty()) {
+            Review review = Review.builder()
+                    .title("결과가 없습니다")
+                    .content("결과가 없습니다")
+                    .build();
+    		sort = new ArrayList<Review>();
+    		sort.add(review);
+    	}
+    	return sort;
     }
     
 
