@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,8 +52,8 @@ public class ReviewController {
     }
 
     @DeleteMapping("/delete")
-    public void delete(@RequestParam Long id) {
-        reviewService.delete(id);
+    public void delete(@RequestParam Long reviewId) {
+        reviewService.delete(reviewId);
     }
 
     @PostMapping("/reportReview")
@@ -61,7 +62,12 @@ public class ReviewController {
         
     	return ResponseEntity.ok(r);
     }
-    
+
+    //1:경고 횟수 추가(3회시 15일정지, 5회시 30일 정지), 2: 영구정지, 0:무고
+    @PostMapping("/reportProcess")
+    public ResponseEntity<Report> reportProcess(@RequestParam Long reportId, @RequestParam Integer process) throws Exception {
+    	return new ResponseEntity<>(reviewService.processReport(reportId, process), HttpStatus.OK);
+    }
 
 
     @GetMapping("/getReports")

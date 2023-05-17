@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.chw3021.bookmakase.review.domain.Review;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -64,63 +65,6 @@ public class Member {
     private LocalDateTime ban;
     
     //이후로 getter setter
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-   
-    public String getEmail() {
-    	return email;
-    }
-    public void setEmail(String Email) {
-        this.email = Email;
-    }
-    
-    public String getAccount() {
-    	return account;
-    }
-    public void setAccount(String account) {
-        this.account = account;
-    }
-    
-    
-    public int getPrefer() {
-    	return prefer;
-    }
-    public void setPrefer(Integer prefer) {
-    	this.prefer = prefer;
-    }
-    
-    
-    public int getAge() {
-    	return age;
-    }
-    public void setAge(Integer age) {
-    	this.age = age;
-    }
-    
-    public char getGender() {
-    	return gender;
-    }
-    public void setGender(Character gender) {
-    	this.gender = gender;
-    }
 
     public LocalDateTime getBan() {return ban;}
     public void setBan(LocalDateTime ban) {

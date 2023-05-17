@@ -25,6 +25,8 @@ public class Report {
     private Long id;
 
     private String reason;
+    
+    private String content;
 
     private LocalDateTime createdAt;
 

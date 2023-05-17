@@ -29,7 +29,7 @@ public class JournalController {
         this.journalService = journalService;
     }
 
-    @PostMapping
+    @PostMapping("/save")
     public ResponseEntity<Journal> createJournal(@RequestBody CreateJournalRequest request) {
         Journal journal = journalService.createJournal(request);
         return ResponseEntity.ok(journal);

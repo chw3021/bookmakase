@@ -19,6 +19,8 @@ public class ReportDto {
 
     private String reason;
 
+    private String content;
+
     private LocalDateTime createdAt;
     private Long memberId;
     private Long reviewId;

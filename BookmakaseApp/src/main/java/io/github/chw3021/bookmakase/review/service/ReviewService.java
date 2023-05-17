@@ -1,9 +1,9 @@
 package io.github.chw3021.bookmakase.review.service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,7 +59,7 @@ public class ReviewService {
         Review review = Review.builder()
                 .title(reviewDto.getTitle())
                 .content(reviewDto.getContent())
-                .rating(0.0)
+                .rating(reviewDto.getRating())
                 .likes(0)
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
@@ -70,7 +70,12 @@ public class ReviewService {
     }
 
     public List<Review> findAll() {
-        return reviewRepository.findAll();
+    	List<Review> all = reviewRepository.findAll();
+    	List<Report> reported = reportRepository.findAll().stream().filter(r -> r.getProcessed() && r.getProcessedResult()!=0).toList();
+    	//List<Review> sort = all.stream().filter(r -> reported.stream().anyMatch(rp -> rp.getReview()==r)).toList();
+    	all.removeIf(r -> reported.stream().anyMatch(rp -> rp.getReview()==r));
+    	
+        return all;
     }
 
     public List<Review> search(String param) {
@@ -84,14 +89,14 @@ public class ReviewService {
     		Boolean ba = r.getBook().getAuthor().contains(param);   		
     		return title||user||un||con||bt||ba;
     	}).toList();
-    	if(sort == null || sort.isEmpty()) {
+    	/*if(sort == null || sort.isEmpty()) {
             Review review = Review.builder()
                     .title("결과가 없습니다")
                     .content("결과가 없습니다")
                     .build();
     		sort = new ArrayList<Review>();
     		sort.add(review);
-    	}
+    	}*/
     	return sort;
     }
     
@@ -120,10 +125,14 @@ public class ReviewService {
         return reviewRepository.save(review);
     }
 
-    public void delete(Long id) {
-        reviewRepository.deleteById(id);
+    public void delete(Long reviewId) {
+        List<Report> reports = reportRepository.findAllByReviewId(reviewId);
+        for (Report report : reports) {
+            reportRepository.delete(report);
+        }
+        reviewRepository.deleteById(reviewId);
     }
-    
+
     public List<Report> findAllByReviewId(Long reviewId) {
         return reportRepository.findAllByReviewId(reviewId);
     }
@@ -142,6 +151,7 @@ public class ReviewService {
         		.createdAt(LocalDateTime.now())
         		.processed(false)
         		.reason(reportDto.getReason())
+        		.content(reportDto.getContent())
         		.review(review)
         		.build();
 		reportRepository.save(report);
@@ -156,6 +166,8 @@ public class ReviewService {
             report.setProcessedResult(process);
             Member m = report.getReview().getMember();
             if(process == 1) {
+            	delete(report.getReview().getId());
+            	
             	memberService.accountWarn(m.getId(), m.getWarned()+1);
             	if(m.getWarned()>=3&&m.getWarned()<5) {
                     LocalDateTime banned = LocalDateTime.now().plusDays(15);
@@ -174,11 +186,11 @@ public class ReviewService {
             	}
             }
             else if(process == 2) {
-                LocalDateTime banned = LocalDateTime.now().plusYears(9999);
+            	delete(report.getReview().getId());
+                LocalDateTime banned = LocalDateTime.now().plusYears(999);
                 m.setBan(banned);
                 memberRepository.save(m);
             }
-            reportRepository.save(report);
             return report;
         } else {
             throw new IllegalStateException("Report with id " + reportId + " does not exist.");

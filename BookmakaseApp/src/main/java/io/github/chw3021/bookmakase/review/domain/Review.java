@@ -1,9 +1,9 @@
 package io.github.chw3021.bookmakase.review.domain;
 
+import java.time.LocalDateTime;
 import io.github.chw3021.bookmakase.bookdata.domain.Book;
 import io.github.chw3021.bookmakase.signservice.domain.Member;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,8 +14,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 @Getter @Setter
 @Builder @AllArgsConstructor @NoArgsConstructor
@@ -32,7 +30,6 @@ public class Review {
     private LocalDateTime updatedAt;
     private double rating;
     private int likes;
-    
 
     @ManyToOne
     @JoinColumn(name = "memberId")

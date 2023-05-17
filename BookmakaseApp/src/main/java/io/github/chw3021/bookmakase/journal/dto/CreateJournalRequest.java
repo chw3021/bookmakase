@@ -2,25 +2,18 @@ package io.github.chw3021.bookmakase.journal.dto;
 
 import java.time.LocalDate;
 
-import io.github.chw3021.bookmakase.bookdata.domain.Book;
-import io.github.chw3021.bookmakase.signservice.domain.Member;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 
 @Getter @Setter
 public class CreateJournalRequest {
 
-	@NonNull
-    private Member member;
+    private Long memberId;
 
-	@NonNull
-    private Book book;
+    private Long itemId;
 
-	@NonNull
-    private LocalDate date;
-
-	@NonNull
     private String content;
+    
+    private String image;
 
 }
