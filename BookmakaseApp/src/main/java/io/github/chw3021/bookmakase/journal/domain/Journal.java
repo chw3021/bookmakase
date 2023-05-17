@@ -40,7 +40,7 @@ public class Journal {
     @JoinColumn(name = "itemId")
     private Book book;
 
-    private LocalDateTime date;
+    private LocalDate date;
 
     private String content;
     

@@ -58,7 +58,7 @@ public class JournalService {
         Journal journal = Journal.builder()
         		.book(book)
         		.member(member)
-        		.date(LocalDateTime.now())
+        		.date(LocalDate.now())
         		.content(request.getContent())
         		.image(request.getImage())
         		.build();
@@ -69,9 +69,9 @@ public class JournalService {
         return journalRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid id: " + id));
     }
 
-    public Journal updateJournal(Long id, UpdateJournalRequest request) {
-        Journal journal = journalRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid id: " + id));
-        journal.setDate(LocalDateTime.now());
+    public Journal updateJournal(UpdateJournalRequest request) {
+        Journal journal = journalRepository.findById(request.getId()).orElseThrow(() -> new IllegalArgumentException("Invalid id: " + request.getId()));
+        journal.setDate(LocalDate.now());
         journal.setContent(request.getContent());
         return journalRepository.save(journal);
     }
@@ -89,8 +89,8 @@ public class JournalService {
         return journalRepository.findAll();
     }
 
-    public List<Journal> getJournalsByMember(Member member) {
-        return journalRepository.findByMemberOrderByDateDesc(member);
+    public List<Journal> getJournalsByMember(Long memberId) {
+        return journalRepository.findByMemberIdOrderByDateDesc(memberId);
     }
 
     public List<Journal> getJournalsByBook(Book book) {

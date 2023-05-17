@@ -1,7 +1,5 @@
 package io.github.chw3021.bookmakase.journal.dto;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -12,6 +10,8 @@ import lombok.Setter;
 @Builder
 public class UpdateJournalRequest {
 
+    @NonNull
+    private Long id;
     @NonNull
     private String content;
 
