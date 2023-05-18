@@ -4,10 +4,13 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
+import io.github.chw3021.bookmakase.goal.service.BookShelfService;
+import io.github.chw3021.bookmakase.goal.service.GoalService;
+import io.github.chw3021.bookmakase.journal.service.JournalService;
+import io.github.chw3021.bookmakase.review.service.ReviewService;
 import io.github.chw3021.bookmakase.signservice.controller.SignException;
 import io.github.chw3021.bookmakase.signservice.domain.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,13 +25,18 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 @RequiredArgsConstructor
 public class MemberService {
- //사용자가 이용하는 서비스(로그인,로그아웃 등 의 메소드)
+    //사용자가 이용하는 서비스(로그인,로그아웃 등 의 메소드)
     @Autowired
     private final MemberRepository memberRepository;
     @Autowired
     private final PasswordEncoder passwordEncoder;
     @Autowired
     private final JwtProvider jwtProvider;
+
+    private final ReviewService reviewService;
+    private final JournalService journalService;
+    private final GoalService goalService;
+    private final BookShelfService bookShelfService;
 
     public SignResponse login(SignRequest request) {
         Member member = memberRepository.findByAccount(request.getAccount()).orElseThrow(() ->
@@ -79,19 +87,20 @@ public class MemberService {
         }
         return true;
     }
-    
+
 
 
     public boolean createAdminMember(SignRequest request) throws Exception {
         try {
             Member member = Member.builder()
-            		.id(request.getId())
+                    .id(request.getId())
                     .account(request.getAccount())
                     .password(passwordEncoder.encode(request.getPassword()))
                     .name(request.getName())
                     .email(request.getEmail())
                     .age(request.getAge())
                     .gender(request.getGender())
+                    .warned(0)
                     .prefer(request.getPrefer())
                     .build();
 
@@ -104,7 +113,7 @@ public class MemberService {
         }
         return true;
     }
-    
+
 
     public SignResponse getMember(SignRequest request){
         Member member = memberRepository.findByAccount(request.getAccount()).orElseThrow(() ->
@@ -137,11 +146,17 @@ public class MemberService {
         if (!passwordEncoder.matches(request.getPassword(), member.getPassword())){
             return false;
         }
+        Long memberId = member.getId();
+        bookShelfService.deleteAllBookShelfByMemberId(memberId);
+        goalService.deleteAllUserGoalsByMemberId(memberId);
+        journalService.deleteMemberJournal(memberId);
+        reviewService.deleteByMember(memberId);
+
         memberRepository.deleteById(member.getId());
 
         return true;
     }
-    
+
     public Boolean accountWarn(Long id, Integer warn) throws Exception {
         Member member = memberRepository.findById(id).orElseThrow(() ->
                 new Exception("계정을 찾을 수 없습니다."));
@@ -151,7 +166,7 @@ public class MemberService {
         return true;
     }
 
-    
+
     public Boolean accountBan(BanDto request) throws Exception {
         Member member = memberRepository.findById(request.getId()).orElseThrow(() ->
                 new Exception("계정을 찾을 수 없습니다."));

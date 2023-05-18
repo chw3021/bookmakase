@@ -28,7 +28,7 @@ public class FinishedBook {
     private Long id;
 
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "itemId")
     private Book book;
     

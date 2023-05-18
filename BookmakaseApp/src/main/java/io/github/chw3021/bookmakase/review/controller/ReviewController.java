@@ -1,7 +1,7 @@
 package io.github.chw3021.bookmakase.review.controller;
 
-import io.github.chw3021.bookmakase.goal.service.BookShelfService;
 import io.github.chw3021.bookmakase.review.domain.Comment;
+import io.github.chw3021.bookmakase.review.domain.Heart;
 import io.github.chw3021.bookmakase.review.domain.Report;
 import io.github.chw3021.bookmakase.review.domain.Review;
 import io.github.chw3021.bookmakase.review.domain.dto.CommentDto;
@@ -90,12 +90,20 @@ public class ReviewController {
         return reviewService.getCommentsByReviewId(reviewId);
     }
 
+    @GetMapping("/isLiked")
+    public Boolean isLiked(@RequestParam Long reviewId, @RequestParam Long memberId) {
+        return reviewService.isLiked(reviewId, memberId);
+    }
+    @GetMapping("/getMemberLike")
+    public List<Heart> isLiked(@RequestParam Long memberId) {
+        return reviewService.getMemberLike(memberId);
+    }
     @PostMapping("/addLike")
-    public void addLikeToReview(@RequestParam Long reviewId) {
-        reviewService.addLikeToReview(reviewId);
+    public Heart addLikeToReview(@RequestParam Long reviewId, @RequestParam Long memberId) {
+        return reviewService.addLikeToReview(reviewId, memberId);
     }
 
-    @DeleteMapping("/removeLike")
+    @PutMapping("/removeLike")
     public void removeLikeFromReview(@RequestParam Long reviewId) {
         reviewService.removeLikeFromReview(reviewId);
     }

@@ -67,14 +67,14 @@ public class GoalController {
     }
 
     @GetMapping("/getSuccessRate")
-    public ResponseEntity<Double> getSuccessRate(@RequestParam Long memberId) throws Exception {
-        Double count = goalService.getSuccessRate(memberId);
+    public ResponseEntity<Long> getSuccessRate(@RequestParam Long memberId) throws Exception {
+        Long count = goalService.getSuccessRate(memberId);
         return ResponseEntity.ok(count);
     }
 
     @GetMapping("/getAverageRate")
-    public ResponseEntity<Double> getAverageRate(@RequestParam Long memberId) throws Exception {
-        Double count = goalService.getAverageRateOfSimilar(memberId);
+    public ResponseEntity<Long> getAverageRate(@RequestParam Long memberId) throws Exception {
+        Long count = goalService.getAverageRateOfSimilar(memberId);
         return ResponseEntity.ok(count);
     }
     @GetMapping("/similarCompletedsAll")

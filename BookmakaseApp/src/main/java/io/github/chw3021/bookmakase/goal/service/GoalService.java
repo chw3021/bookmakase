@@ -23,7 +23,7 @@ public class GoalService {
     private final BookGoalRepository goalRepository;
 
     @Autowired
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
     public BookGoal createGoal(BookGoalDto goalDto) throws Exception {
         try {
@@ -116,16 +116,16 @@ public class GoalService {
     public Long getCompletedCount(Long memberId){
         return goalRepository.findAllByMemberId(memberId).stream().filter(g -> g.isCompleted()).count();
     }
-    public Double getSuccessRate(Long memberId){
+    public Long getSuccessRate(Long memberId){
         Long s = goalRepository.findAllByMemberId(memberId).stream().filter(g -> g.isCompleted()).count();
         Integer all = goalRepository.findAllByMemberId(memberId).size();
         if(all == 0) {
-            return (double) 0;
+            return 0l;
         }
-        return s/all*100.0;
+        return Math.round(s/all*100.0);
     }
-    //같은 나이대 대한 독서 목표를 완료한 사용자 수를 받는 메서드
-    public double getAverageRateOfSimilar(Long memberId) throws Exception {
+    //같은 나이대 대한 독서 목표 성공률
+    public Long getAverageRateOfSimilar(Long memberId) throws Exception {
         Member member = memberRepository.findById(memberId).orElseThrow(()->
                 new Exception("계정을 찾을 수 없습니다."));
         List<Member> usersInSameAgeRange = memberRepository.findAllByAgeBetween(member.getAge() - 5, member.getAge() + 5);
@@ -135,7 +135,7 @@ public class GoalService {
             sum = sum + getSuccessRate(user.getId());
             count++;
         }
-        return sum/count;
+        return Math.round(sum/count);
     }
     //같은 나이대 대한 독서 목표를 완료한 사용자 수를 받는 메서드
     public int getNumberOfSimilarChallengers(Long memberId) throws Exception {

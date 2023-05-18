@@ -56,6 +56,14 @@ public class JournalController {
     }
 
 
+    @GetMapping("/search")
+    public ResponseEntity<List<Journal>> search(@RequestParam Long memberId, @RequestParam String param) {
+        List<Journal> journal = journalService.search(memberId, param);
+        if (journal == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(journal);
+    }
     @GetMapping("/findById")
     public ResponseEntity<Journal> getJournalById(@RequestParam Long id) {
         Journal journal = journalService.getJournalById(id);
@@ -75,12 +83,9 @@ public class JournalController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<Void> deleteJournal(@RequestParam Long id) {
+    public ResponseEntity<Boolean> deleteJournal(@RequestParam Long id) {
         boolean deleted = journalService.deleteJournal(id);
-        if (!deleted) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(deleted);
     }
 
     @GetMapping("/findAll")

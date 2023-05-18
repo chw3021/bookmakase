@@ -25,8 +25,7 @@ public class InterparkClient {
     private ObjectMapper objectMapper = new ObjectMapper();
 
     public BookDto getPopularBooks(int category_num) {//베스트셀러
-        BookDto interparkResponseDto = convertToResponse(getPopularBooksFromApi(category_num));
-        return interparkResponseDto;
+        return convertToResponse(getPopularBooksFromApi(category_num));
     }
 
     private String getPopularBooksFromApi(int categoryId) {
@@ -49,8 +48,7 @@ public class InterparkClient {
     
 
     public BookDto getRecommendedBooks(int category_num) {//추천도서
-        BookDto interparkResponseDto = convertToResponse(getRecommendedBooksFromApi(category_num));
-        return interparkResponseDto;
+        return convertToResponse(getRecommendedBooksFromApi(category_num));
     }
 
     private String getRecommendedBooksFromApi(int categoryId) {
@@ -73,8 +71,7 @@ public class InterparkClient {
     
 
     public BookDto getNewBooks(int category_num) {//신간도서
-        BookDto interparkResponseDto = convertToResponse(getNewBooksFromApi(category_num));
-        return interparkResponseDto;
+        return convertToResponse(getNewBooksFromApi(category_num));
     }
 
     private String getNewBooksFromApi(int categoryId) {
@@ -96,8 +93,7 @@ public class InterparkClient {
 
 
     public BookDto getBookSearchResultsByItemId(Long itemId) {//도서 검색
-        BookDto interparkResponseDto = convertToResponse(getBookSearchResultsByItemIdFromApi(itemId));
-        return interparkResponseDto;
+        return convertToResponse(getBookSearchResultsByItemIdFromApi(itemId));
     }
 
     private String getBookSearchResultsByItemIdFromApi(Long itemId) {
@@ -120,8 +116,7 @@ public class InterparkClient {
 
 
     public BookDto getBookSearchResults(String query) {//도서 검색
-        BookDto interparkResponseDto = convertToResponse(getBookSearchResultsFromApi(query));
-        return interparkResponseDto;
+        return convertToResponse(getBookSearchResultsFromApi(query));
     }
 
     private String getBookSearchResultsFromApi(String query) {
@@ -163,6 +158,7 @@ public class InterparkClient {
                 items = webClient.get()
                         .uri(builder -> builder.path("/search.api")
                                 .queryParam("query", keyword)
+                                .queryParam("queryType", "author")
                                 .queryParam("categoryId", categoryId)
                                 .queryParam("output", "json")
                                 .queryParam("start", currentPage.getAndIncrement())
@@ -182,7 +178,7 @@ public class InterparkClient {
             allBooks.addAll(books);
 
             try {
-                Thread.sleep(1001); // 일정 시간 대기
+                Thread.sleep(20); // 일정 시간 대기
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

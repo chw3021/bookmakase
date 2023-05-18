@@ -1,12 +1,5 @@
 package io.github.chw3021.bookmakase.journal.service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import io.github.chw3021.bookmakase.bookdata.domain.Book;
 import io.github.chw3021.bookmakase.bookdata.repository.BookRepository;
 import io.github.chw3021.bookmakase.bookdata.service.BookService;
@@ -15,13 +8,15 @@ import io.github.chw3021.bookmakase.journal.domain.Journal;
 import io.github.chw3021.bookmakase.journal.dto.CreateJournalRequest;
 import io.github.chw3021.bookmakase.journal.dto.UpdateJournalRequest;
 import io.github.chw3021.bookmakase.journal.repository.JournalRepository;
-import io.github.chw3021.bookmakase.review.repository.CommentRepository;
-import io.github.chw3021.bookmakase.review.repository.ReportRepository;
-import io.github.chw3021.bookmakase.review.repository.ReviewRepository;
 import io.github.chw3021.bookmakase.signservice.domain.Member;
 import io.github.chw3021.bookmakase.signservice.repository.MemberRepository;
-import io.github.chw3021.bookmakase.signservice.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @Transactional
@@ -30,19 +25,11 @@ public class JournalService {
 
     @Autowired
     private final JournalRepository journalRepository;
-	
-    @Autowired
-    private final ReviewRepository reviewRepository;
-    @Autowired
-    private final ReportRepository reportRepository;
-    @Autowired
-    private final CommentRepository commentRepository;
+
     @Autowired
     private final BookRepository bookRepository;
     @Autowired
     private final MemberRepository memberRepository;
-    @Autowired
-    private final MemberService memberService;
     @Autowired
     private final BookService bookService;
     @Autowired
@@ -58,12 +45,26 @@ public class JournalService {
         Journal journal = Journal.builder()
         		.book(book)
         		.member(member)
+                .title(request.getTitle())
         		.date(LocalDate.now())
         		.content(request.getContent())
         		.image(request.getImage())
         		.build();
         return journalRepository.save(journal);
     }
+
+    public List<Journal> search(Long memberId, String param) {
+        List<Journal> all = getJournalsByMember(memberId);
+        List<Journal> sort = all.stream().filter(r -> {
+            Boolean title = r.getTitle().contains(param);
+            Boolean con = r.getContent().contains(param);
+            Boolean bt = r.getBook().getTitle().contains(param);
+            Boolean ba = r.getBook().getAuthor().contains(param);
+            return title||con||bt||ba;
+        }).toList();
+        return sort;
+    }
+
 
     public Journal getJournalById(Long id) {
         return journalRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid id: " + id));
@@ -72,6 +73,7 @@ public class JournalService {
     public Journal updateJournal(UpdateJournalRequest request) {
         Journal journal = journalRepository.findById(request.getId()).orElseThrow(() -> new IllegalArgumentException("Invalid id: " + request.getId()));
         journal.setDate(LocalDate.now());
+        journal.setTitle(request.getTitle());
         journal.setContent(request.getContent());
         return journalRepository.save(journal);
     }
@@ -85,19 +87,21 @@ public class JournalService {
         }
     }
 
+    public void deleteMemberJournal(Long memberId) {
+        getJournalsByMember(memberId).forEach(j ->{
+            journalRepository.delete(j);
+        });
+
+    }
     public List<Journal> getAllJournals() {
         return journalRepository.findAll();
     }
 
     public List<Journal> getJournalsByMember(Long memberId) {
-        return journalRepository.findByMemberIdOrderByDateDesc(memberId);
-    }
-
-    public List<Journal> getJournalsByBook(Book book) {
-        return journalRepository.findByBookOrderByDateDesc(book);
+        return journalRepository.findAllByMemberId(memberId);
     }
 
     public List<Journal> getJournalsByDate(LocalDate date) {
-        return journalRepository.findByDateOrderByDateDesc(date);
+        return journalRepository.findAllByDate(date);
     }
 }

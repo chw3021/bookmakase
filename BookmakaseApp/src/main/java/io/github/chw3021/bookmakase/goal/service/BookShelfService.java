@@ -44,18 +44,18 @@ public class BookShelfService {
 
 
 
-    public List<LikedBook> getLikedBooksByMemberId(Long memberId) throws Exception {
+    public List<LikedBook> getLikedBooksByMemberId(Long memberId) {
     	return likedBookRepository.findAllByMemberId(memberId);
     }
-    public List<ReadingBook> getReadingBooksByMemberId(Long memberId) throws Exception {
+    public List<ReadingBook> getReadingBooksByMemberId(Long memberId) {
     	return readingBookRepository.findAllByMemberId(memberId);
     }
-    public List<FinishedBook> getFinishedBooksByMemberId(Long memberId) throws Exception {
+    public List<FinishedBook> getFinishedBooksByMemberId(Long memberId) {
     	return finishedBookRepository.findAllByMemberId(memberId);
     }
 
 
-    public ReadingBook updateCurrentReading(Long memberId, Long bookId, Integer page) throws Exception {
+    public ReadingBook updateCurrentReading(Long memberId, Long bookId, Integer page) {
         Book book = bookRepository.findById(bookId).orElseThrow(() -> new IllegalArgumentException("Invalid book id: " + bookId));
     	ReadingBook reading = getReadingBooksByMemberId(memberId).stream().filter(b -> b.getBook()==book).findFirst().get();
 
@@ -69,7 +69,7 @@ public class BookShelfService {
         return reading;
     }
     
-    public ResponseEntity<LikedBook> addLikeBook(Long memberId, Long bookId) throws Exception {
+    public ResponseEntity<LikedBook> addLikeBook(Long memberId, Long bookId) {
     	try {
             if(!bookService.isBookExist(bookId)){
                 bookService.saveBook(interparkApiService.getBookSearchResultsByItemId(bookId).getItem().get(0));
@@ -91,14 +91,15 @@ public class BookShelfService {
             return ResponseEntity.ok(likedBook);
         }
     	catch(Exception e) {
-            throw e;
+            e.printStackTrace();
         }
+        return null;
     }
     	
 
 
     //finished 추가시 goal 한권 완료추가
-    public ResponseEntity<FinishedBook> addFinished(Long memberId, Long bookId) throws Exception {
+    public ResponseEntity<FinishedBook> addFinished(Long memberId, Long bookId) {
     	try {
             if(!bookService.isBookExist(bookId)){
                 bookService.saveBook(interparkApiService.getBookSearchResultsByItemId(bookId).getItem().get(0));
@@ -125,8 +126,9 @@ public class BookShelfService {
             return ResponseEntity.ok(finishedBook);
         }
     	catch(Exception e) {
-            throw e;
+            e.printStackTrace();
         }
+        return null;
     }
 
     public ResponseEntity<ReadingBook> addReadingBook(Long memberId, Long bookId, Integer totalPage) throws Exception {
@@ -158,8 +160,9 @@ public class BookShelfService {
             return ResponseEntity.ok(rnb);
         }
     	catch(Exception e) {
-            throw e;
+            e.printStackTrace();
         }
+        return null;
     }
     public boolean removeBookFromShelf(Long memberId, Long bookId, Integer param) {
 
@@ -187,7 +190,23 @@ public class BookShelfService {
 	    }
     }
 
-    public boolean deleteBookShelfByMemberId(Long memberId, Integer param) throws Exception {
+    public boolean deleteAllBookShelfByMemberId(Long memberId) {
+
+        try {
+            List<LikedBook> l = getLikedBooksByMemberId(memberId);
+            likedBookRepository.deleteAll(l);
+            List<ReadingBook> r = getReadingBooksByMemberId(memberId);
+            readingBookRepository.deleteAll(r);
+            List<FinishedBook> f = getFinishedBooksByMemberId(memberId);
+            finishedBookRepository.deleteAll(f);
+
+            return true;
+        }
+        catch(Exception e) {
+            return false;
+        }
+    }
+    public boolean deleteBookShelfByMemberId(Long memberId, Integer param) {
 
     	try {
 	        if(param==0) {

@@ -3,8 +3,9 @@ package io.github.chw3021.bookmakase.review.service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
+import io.github.chw3021.bookmakase.review.domain.Heart;
+import io.github.chw3021.bookmakase.review.repository.HeartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +25,6 @@ import io.github.chw3021.bookmakase.review.repository.ReportRepository;
 import io.github.chw3021.bookmakase.review.repository.ReviewRepository;
 import io.github.chw3021.bookmakase.signservice.domain.Member;
 import io.github.chw3021.bookmakase.signservice.repository.MemberRepository;
-import io.github.chw3021.bookmakase.signservice.service.MemberService;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -43,11 +43,11 @@ public class ReviewService {
     @Autowired
     private final MemberRepository memberRepository;
     @Autowired
-    private final MemberService memberService;
-    @Autowired
     private final BookService bookService;
     @Autowired
     private final InterparkApiService interparkApiService;
+    @Autowired
+    private final HeartRepository heartRepository;
 
     
     public Review save(ReviewDto reviewDto) {
@@ -80,24 +80,15 @@ public class ReviewService {
 
     public List<Review> search(String param) {
     	List<Review> all = findAll();
-    	List<Review> sort = all.stream().filter(r -> {
-    		Boolean title = r.getTitle().contains(param);
-    		Boolean user = r.getMember().getAccount().contains(param);
-    		Boolean un = r.getMember().getName().contains(param);
-    		Boolean con = r.getContent().contains(param);
-    		Boolean bt = r.getBook().getTitle().contains(param);
-    		Boolean ba = r.getBook().getAuthor().contains(param);   		
-    		return title||user||un||con||bt||ba;
-    	}).toList();
-    	/*if(sort == null || sort.isEmpty()) {
-            Review review = Review.builder()
-                    .title("결과가 없습니다")
-                    .content("결과가 없습니다")
-                    .build();
-    		sort = new ArrayList<Review>();
-    		sort.add(review);
-    	}*/
-    	return sort;
+        return all.stream().filter(r -> {
+            Boolean title = r.getTitle().contains(param);
+            Boolean user = r.getMember().getAccount().contains(param);
+            Boolean un = r.getMember().getName().contains(param);
+            Boolean con = r.getContent().contains(param);
+            Boolean bt = r.getBook().getTitle().contains(param);
+            Boolean ba = r.getBook().getAuthor().contains(param);
+            return title||user||un||con||bt||ba;
+        }).toList();
     }
     
 
@@ -131,6 +122,12 @@ public class ReviewService {
             reportRepository.delete(report);
         }
         reviewRepository.deleteById(reviewId);
+    }
+
+    public void deleteByMember(Long memberId){
+        reviewRepository.findAllByMemberId(memberId).forEach(r ->{
+            delete(r.getId());
+        });
     }
 
     public List<Report> findAllByReviewId(Long reviewId) {
@@ -168,7 +165,7 @@ public class ReviewService {
             if(process == 1) {
             	delete(report.getReview().getId());
             	
-            	memberService.accountWarn(m.getId(), m.getWarned()+1);
+            	m.setWarned(m.getWarned()+1);
             	if(m.getWarned()>=3&&m.getWarned()<5) {
                     LocalDateTime banned = LocalDateTime.now().plusDays(15);
                     m.setBan(banned);
@@ -219,11 +216,42 @@ public class ReviewService {
     }
 
 
-    public void addLikeToReview(Long reviewId) {
+    public Heart addLikeToReview(Long reviewId, Long memberId) {
         Review review = getReviewById(reviewId);
-        review.setLikes(review.getLikes() + 1);
-        reviewRepository.save(review);
+
+        if(isLiked(reviewId,memberId)){
+            Heart heart = heartRepository.findAllByMemberId(memberId).stream().filter(l -> l.getReview() == review).findFirst().get();
+            heartRepository.delete(heart);
+            review.setLikes(review.getLikes() - 1);
+            reviewRepository.save(review);
+            return heart;
+        }
+        else{
+            Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("Invalid member id: " + memberId));
+
+            Heart heart = Heart.builder()
+                            .review(review)
+                            .member(member)
+                        .build();
+            heartRepository.save(heart);
+
+            review.setLikes(review.getLikes() + 1);
+            reviewRepository.save(review);
+            return heart;
+        }
     }
+
+    public List<Heart> getMemberLike(Long memberId){
+
+        return heartRepository.findAllByMemberId(memberId);
+    }
+
+    public boolean isLiked(Long reviewId, Long memberId){
+        Review review = getReviewById(reviewId);
+
+        return heartRepository.findAllByMemberId(memberId).stream().anyMatch(l -> l.getReview() == review);
+    }
+
 
     public void removeLikeFromReview(Long reviewId) {
         Review review = getReviewById(reviewId);

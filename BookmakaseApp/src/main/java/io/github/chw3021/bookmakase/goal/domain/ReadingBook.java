@@ -26,7 +26,7 @@ public class ReadingBook {
     private Long id;
 
 
-    @OneToOne//(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
+    @ManyToOne//(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
     @JoinColumn(name = "itemId")
     private Book book;
 

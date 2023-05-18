@@ -1,22 +1,28 @@
 package io.github.chw3021.bookmakase.bookdata.controller;
 
+import io.github.chw3021.bookmakase.goal.service.BookRecommendService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import io.github.chw3021.bookmakase.bookdata.domain.Book;
 import io.github.chw3021.bookmakase.bookdata.service.BookService;
 
+import java.util.HashSet;
+
 @RestController
-@RequestMapping("/api/book")
+@RequiredArgsConstructor
+@RequestMapping("/book")
 public class BookController {
 
     private final BookService bookService;
 
-    public BookController(BookService bookService) {
-        this.bookService = bookService;
+    private final BookRecommendService bookRecommendService;
+
+    @GetMapping("/recommend")
+    public ResponseEntity<HashSet<Book>> recommend(@RequestParam Long memberId) {
+        HashSet<Book> savedBook = bookRecommendService.recommend(memberId);
+        return ResponseEntity.ok(savedBook);
     }
 
     @PostMapping("/save")
