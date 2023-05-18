@@ -58,7 +58,7 @@ public class Member {
     private char gender;//m는 남성, f는 여성
 
 
-    @Column
+    @Column @Nullable
     private int warned;
 
     @Column @Nullable
