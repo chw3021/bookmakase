@@ -40,11 +40,6 @@ public class ReviewController {
     	Review r = reviewService.findById(id);
     	return ResponseEntity.ok(r);
     }
-    @PostMapping("/search")
-    public List<Review> search(@RequestParam String query) {
-        return reviewService.searchReview(query);
-    }
-
 
     @PostMapping("/save")
     public Review save(@RequestBody ReviewDto reviewDto) {
