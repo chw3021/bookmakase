@@ -3,12 +3,7 @@ package io.github.chw3021.bookmakase.review.domain;
 import java.time.LocalDateTime;
 
 import io.github.chw3021.bookmakase.signservice.domain.Member;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,7 +20,8 @@ public class Report {
     private Long id;
 
     private String reason;
-    
+
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     private LocalDateTime createdAt;
