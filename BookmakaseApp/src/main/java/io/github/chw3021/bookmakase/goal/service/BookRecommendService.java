@@ -116,7 +116,7 @@ public class BookRecommendService {
         List<Book> similarAgeMemberLiked = similarAge(member);
         Collections.shuffle(similarAgeMemberLiked);
         if(similarAgeMemberLiked.size()<4){
-            recommends.addAll(similarAgeMemberLiked.subList(0,similarAgeMemberLiked.size()));
+            recommends.addAll(similarAgeMemberLiked.subList(0,similarAgeMemberLiked.size()-1));
         }
         else{
             recommends.addAll(similarAgeMemberLiked.subList(0,3));
@@ -125,7 +125,7 @@ public class BookRecommendService {
         List<Book> similarMemberLiked = similar(member);
         Collections.shuffle(similarMemberLiked);
         if(similarMemberLiked.size()<4){
-            recommends.addAll(similarMemberLiked.subList(0,similarMemberLiked.size()));
+            recommends.addAll(similarMemberLiked.subList(0,similarMemberLiked.size()-1));
         }
         else{
             recommends.addAll(similarMemberLiked.subList(0,3));

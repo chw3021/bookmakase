@@ -3,12 +3,7 @@ package io.github.chw3021.bookmakase.review.domain;
 import java.time.LocalDateTime;
 import io.github.chw3021.bookmakase.bookdata.domain.Book;
 import io.github.chw3021.bookmakase.signservice.domain.Member;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,7 +20,10 @@ public class Review {
     private Long id;
     
     private String title;
+
+    @Column(columnDefinition = "TEXT")
     private String content;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private double rating;

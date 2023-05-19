@@ -34,6 +34,7 @@ public class Journal {
 
     private String title;
 
+    @Column(columnDefinition = "TEXT")
     private String content;
     
     private String image;

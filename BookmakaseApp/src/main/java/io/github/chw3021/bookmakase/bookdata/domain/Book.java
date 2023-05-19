@@ -31,7 +31,10 @@ public class Book {
     private int categoryId;
     private String publisher;
     private String pubDate;
+
+    @Column(columnDefinition = "TEXT")
     private String description;
+
     private String link;
     private String coverSmallUrl;
     private String saleStatus;
