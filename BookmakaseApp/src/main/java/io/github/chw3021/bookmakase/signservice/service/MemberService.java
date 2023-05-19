@@ -166,6 +166,14 @@ public class MemberService {
         return true;
     }
 
+    public Boolean unBan(Long memberId) throws Exception {
+        Member member = memberRepository.findById(memberId).orElseThrow(() ->
+                new Exception("계정을 찾을 수 없습니다."));
+
+        member.setBan(null);
+        memberRepository.save(member);
+        return true;
+    }
 
     public Boolean accountBan(BanDto request) throws Exception {
         Member member = memberRepository.findById(request.getId()).orElseThrow(() ->

@@ -118,6 +118,10 @@ public class MemberController {
         }
 
     }
+    @PutMapping("/admin/unBan")
+    public ResponseEntity<Boolean> unBan(@RequestParam Long userId) throws Exception {
+        return new ResponseEntity<>(memberService.unBan(userId), HttpStatus.OK);
+    }
     @PostMapping("/admin/warnMember")
     public ResponseEntity<Boolean> warnMember(@RequestParam Long userId, @RequestParam Integer warn) throws Exception {
         return new ResponseEntity<>(memberService.accountWarn(userId, warn), HttpStatus.OK);
