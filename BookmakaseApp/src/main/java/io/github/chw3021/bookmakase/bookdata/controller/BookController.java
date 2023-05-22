@@ -1,11 +1,11 @@
 package io.github.chw3021.bookmakase.bookdata.controller;
 
-import io.github.chw3021.bookmakase.goal.service.BookRecommendService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import io.github.chw3021.bookmakase.bookdata.domain.Book;
+import io.github.chw3021.bookmakase.bookdata.service.BookRecommendService;
 import io.github.chw3021.bookmakase.bookdata.service.BookService;
 
 import java.util.HashSet;

@@ -1,7 +1,8 @@
-package io.github.chw3021.bookmakase.goal.service;
+package io.github.chw3021.bookmakase.bookdata.service;
 
 import io.github.chw3021.bookmakase.bookdata.domain.Book;
 import io.github.chw3021.bookmakase.goal.repository.LikedBookRepository;
+import io.github.chw3021.bookmakase.goal.service.BookShelfService;
 import io.github.chw3021.bookmakase.interparkapi.client.InterparkClient;
 import io.github.chw3021.bookmakase.signservice.controller.SignException;
 import io.github.chw3021.bookmakase.signservice.domain.Member;
@@ -12,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 @Transactional
@@ -52,13 +52,13 @@ public class BookRecommendService {
         }));
         return similarMemberLiked;
     }
+    
     private HashSet<Book> randomGet(Integer categoryId, Integer count){
         HashSet<Book> recommends = new HashSet<>();
-        AtomicInteger j = new AtomicInteger(0);
-        recommends.add(interparkClient.searchBooks(categoryId));
+        recommends.addAll(interparkClient.searchBooks(categoryId,0));
 
         while(recommends.size()<count){
-            recommends.add(interparkClient.searchBooks(categoryId));
+            recommends.addAll(interparkClient.searchBooks(categoryId,count-recommends.size()+1));
         }
 
 
@@ -101,24 +101,28 @@ public class BookRecommendService {
 
         List<Book> similarAgeMemberLiked = similarAge(member);
         Collections.shuffle(similarAgeMemberLiked);
-        if(similarAgeMemberLiked.size()<4){
-            recommends.addAll(similarAgeMemberLiked.subList(0,similarAgeMemberLiked.size()-1));
-        }
-        else{
-            recommends.addAll(similarAgeMemberLiked.subList(0,3));
+        if(similarAgeMemberLiked.size()>0) {
+            if(similarAgeMemberLiked.size()<4){
+                recommends.addAll(similarAgeMemberLiked.subList(0,similarAgeMemberLiked.size()-1));
+            }
+            else{
+                recommends.addAll(similarAgeMemberLiked.subList(0,3));
+            }
         }
 
         List<Book> similarMemberLiked = similar(member);
         Collections.shuffle(similarMemberLiked);
-        if(similarMemberLiked.size()<4){
-            recommends.addAll(similarMemberLiked.subList(0,similarMemberLiked.size()-1));
-        }
-        else{
-            recommends.addAll(similarMemberLiked.subList(0,3));
+        if(similarMemberLiked.size()>0) {
+            if(similarMemberLiked.size()<4){
+                recommends.addAll(similarMemberLiked.subList(0,similarMemberLiked.size()-1));
+            }
+            else{
+                recommends.addAll(similarMemberLiked.subList(0,3));
+            }
         }
 
         while(recommends.size()<30){
-            recommends.addAll(randomGet(member.getPrefer(),1));
+            recommends.addAll(randomGet(member.getPrefer(),30-recommends.size()+1));
         }
 
         return recommends;
