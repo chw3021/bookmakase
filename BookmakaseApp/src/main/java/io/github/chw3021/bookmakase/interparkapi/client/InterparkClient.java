@@ -168,7 +168,7 @@ public class InterparkClient {
                 "솜", "공", "면", "탁", "온", "디", "항", "후", "려", "균", "묵", "송", "욱", "휴", "언", "령", "섬", "들", "견", "추", "걸", "삼",
                 "열", "웅", "분", "변", "양", "출", "타", "흥", "겸", "곤", "번", "식", "란", "더", "손", "술", "훔", "반", "빈", "실", "직", "흠",
                 "흔", "악", "람", "뜸", "권", "복", "심", "헌", "엽", "학", "개", "롱", "평", "늘", "늬", "랑", "얀", "향", "울", "련", "a","b","c",
-                "d","e","f","g","h","i","j","k","l");
+                "d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z");
         Collections.shuffle(name);
 
         List<Book> allBooks = new ArrayList<>();
@@ -184,7 +184,7 @@ public class InterparkClient {
                                 .queryParam("categoryId", categoryId)
                                 .queryParam("output", "json")
                                 .queryParam("start", currentPage.getAndIncrement())
-                                .queryParam("maxResults", 100)
+                                .queryParam("maxResults", 30)
                                 .queryParam("key", properties.getKey()).build())
                         .accept(MediaType.APPLICATION_JSON)
                         .retrieve()
@@ -201,7 +201,7 @@ public class InterparkClient {
             allBooks.addAll(books);
 
             try {
-                Thread.sleep(1000); // 일정 시간 대기
+                Thread.sleep(10); // 일정 시간 대기
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
