@@ -188,6 +188,9 @@ public class InterparkClient {
             if(recommendDataRepository.existsByQueryAndCategoryId(name.get(nameNum.get()), categoryId)){
             	List<RecommendData> rd = recommendDataRepository.findAllByQuery(name.get(nameNum.get()));
             	items = rd.stream().filter(r -> r.getCategoryId() == categoryId).findAny().get().getItems();
+                if(convertToResponse(items).getItem() == null) {
+                	continue;
+                }
             }
             else {
                 try {
@@ -208,7 +211,10 @@ public class InterparkClient {
                     		.query(name.get(nameNum.get()))
                     		.build();
                     recommendDataRepository.save(rd);
-                    				
+
+                    if(convertToResponse(items).getItem() == null) {
+                    	continue;
+                    }
                     
                 } catch (Exception e) {
                     log.info(e.getMessage());
