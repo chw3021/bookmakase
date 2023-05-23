@@ -3,10 +3,7 @@ package io.github.chw3021.bookmakase.signservice.controller;
 import io.github.chw3021.bookmakase.review.domain.Report;
 import io.github.chw3021.bookmakase.review.service.ReviewService;
 import io.github.chw3021.bookmakase.signservice.domain.Member;
-import io.github.chw3021.bookmakase.signservice.domain.dto.BanDto;
-import io.github.chw3021.bookmakase.signservice.domain.dto.SignRequest;
-import io.github.chw3021.bookmakase.signservice.domain.dto.SignResponse;
-import io.github.chw3021.bookmakase.signservice.domain.dto.UserRequest;
+import io.github.chw3021.bookmakase.signservice.domain.dto.*;
 import io.github.chw3021.bookmakase.signservice.service.EmailService;
 import io.github.chw3021.bookmakase.signservice.service.MemberService;
 
@@ -136,9 +133,16 @@ public class MemberController {
         }
     }
     @GetMapping("/getMemberList")
-    public ResponseEntity<List<Member>> getMembers(){
+    public ResponseEntity<List<Member>> getMembers() {
         return new ResponseEntity<>(memberService.getMemberList(), HttpStatus.OK);
     }
-
-
+    @PostMapping("/user/emailAsk")
+    public ResponseEntity<?> emailask(@RequestBody EmailRequest request) {
+        try{
+            return new ResponseEntity<>(emailService.emailInquiry(request), HttpStatus.OK);
+        }catch (Exception e){
+            String errorMessage = e.getMessage();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorMessage);
+        }
+    }
 }

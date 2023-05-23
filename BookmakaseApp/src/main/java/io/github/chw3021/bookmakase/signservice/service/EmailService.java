@@ -2,6 +2,7 @@ package io.github.chw3021.bookmakase.signservice.service;
 
 import io.github.chw3021.bookmakase.signservice.domain.Member;
 import io.github.chw3021.bookmakase.signservice.domain.dto.EmailDto;
+import io.github.chw3021.bookmakase.signservice.domain.dto.EmailRequest;
 import io.github.chw3021.bookmakase.signservice.domain.dto.UserRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,23 @@ public class EmailService {
         message.setFrom(hostSMTPid);
         message.setSubject(email.getTitle());
         message.setText(email.getMessage());
+
+        emailSender.send(message);
+
+        return true;
+    }
+
+    public Boolean emailInquiry(EmailRequest request) {
+        EmailDto email = new EmailDto();
+        email.setAddress(request.getEmail());
+        email.setTitle(request.getAccount()+"님으로 부터 문의 입니다.");
+        email.setMessage("유저 ID: " +request.getId()+", 유저 Account: " + request.getAccount() + "\n" + request.getMessage());
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(hostSMTPid);
+        message.setFrom(hostSMTPid);
+        message.setSubject(email.getTitle());
+        message.setText(email.getMessage()+ "\n문의에 대한 답변은 "+email.getAddress()+" 로 부탁드립니다.");
 
         emailSender.send(message);
 

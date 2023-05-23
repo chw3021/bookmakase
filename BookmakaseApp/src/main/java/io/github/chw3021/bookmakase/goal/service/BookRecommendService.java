@@ -110,6 +110,7 @@ public class BookRecommendService {
 
         List<Book> similarMemberLiked = similar(member);
         Collections.shuffle(similarMemberLiked);
+
         if(similarMemberLiked.size()<4){
             recommends.addAll(similarMemberLiked.subList(0,similarMemberLiked.size()-1));
         }
