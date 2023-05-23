@@ -136,6 +136,7 @@ public class InterparkClient {
                             .queryParam("query", query)
                             .queryParam("queryType", "all")
                             .queryParam("output", "json")
+                            .queryParam("maxResults", 100)
                             .queryParam("key", properties.getKey()).build())
                     .accept(MediaType.APPLICATION_JSON)
                     .retrieve()
