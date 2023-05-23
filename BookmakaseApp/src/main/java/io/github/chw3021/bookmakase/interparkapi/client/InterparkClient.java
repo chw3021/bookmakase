@@ -134,6 +134,7 @@ public class InterparkClient {
             items = webClient.get()
                     .uri(builder -> builder.path("/search.api")
                             .queryParam("query", query)
+                            .queryParam("queryType", "all")
                             .queryParam("output", "json")
                             .queryParam("key", properties.getKey()).build())
                     .accept(MediaType.APPLICATION_JSON)
