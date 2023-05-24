@@ -16,8 +16,6 @@ public class Book {
 
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //@GeneratedValue(strategy = GenerationType.IDENTITY) 이 옵션은 Db에서
-    //순차적으로 값을 올리는 거라 고유 ID입력 안되니 수정할 것.
     private Long id;
 
 

@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface HeartRepository extends JpaRepository<Heart,Long>{
 
-	List<Heart> findAllByReviewId(Long reviewId);
 
+	List<Heart> findAllByReviewId(Long reviewId);
 	List<Heart> findAllByMemberId(Long reviewId);
 }

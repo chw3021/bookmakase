@@ -7,6 +7,7 @@ import java.util.List;
 import io.github.chw3021.bookmakase.goal.service.BookShelfService;
 import io.github.chw3021.bookmakase.goal.service.GoalService;
 import io.github.chw3021.bookmakase.journal.service.JournalService;
+import io.github.chw3021.bookmakase.review.repository.HeartRepository;
 import io.github.chw3021.bookmakase.review.service.ReviewService;
 import io.github.chw3021.bookmakase.signservice.controller.SignException;
 import io.github.chw3021.bookmakase.signservice.domain.dto.*;
@@ -150,8 +151,8 @@ public class MemberService {
         bookShelfService.deleteAllBookShelfByMemberId(memberId);
         goalService.deleteAllUserGoalsByMemberId(memberId);
         journalService.deleteMemberJournal(memberId);
+        reviewService.heartDeleteById(memberId);
         reviewService.deleteByMember(memberId);
-
         memberRepository.deleteById(member.getId());
 
         return true;

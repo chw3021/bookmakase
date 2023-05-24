@@ -55,7 +55,7 @@ public class Member {
         this.ban = ban;
         }
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
     @Builder.Default
     @ElementCollection(targetClass=Authority.class)
     private List<Authority> roles = new ArrayList<>();

@@ -29,11 +29,11 @@ public class Review {
     private double rating;
     private int likes;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "memberId")
     private Member member;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "itemId")
     private Book book;
 }

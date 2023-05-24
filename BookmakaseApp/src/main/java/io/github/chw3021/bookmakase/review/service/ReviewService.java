@@ -129,6 +129,11 @@ public class ReviewService {
             delete(r.getId());
         });
     }
+    public void heartDeleteById(Long memberId){
+        heartRepository.findAllByMemberId(memberId).forEach(r -> heartRepository.deleteById(r.getId())
+
+        );
+    }
 
     public List<Report> findAllByReviewId(Long reviewId) {
         return reportRepository.findAllByReviewId(reviewId);
