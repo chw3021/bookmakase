@@ -14,7 +14,6 @@ public class BookGoalDto {
     
     private Long memberId;
 
-    private Long id;
     private String goalname;
     private Integer categoryId;
     private Integer targetQuantity;

@@ -28,7 +28,6 @@ public class GoalService {
     public BookGoal createGoal(BookGoalDto goalDto) throws Exception {
         try {
             BookGoal goal = BookGoal.builder()
-                    .id(goalDto.getId())
                     .goalname(goalDto.getGoalname())
                     .member(goalDto.getMember(memberRepository))
                     .completed(goalDto.getCompleted())
