@@ -63,17 +63,6 @@ public class MemberController {
 
     }
 
-    /*
-    @PostMapping("/admin/get")
-    public ResponseEntity<?> getUserForAdmin(@RequestParam SignRequest request){
-        try{
-            return new ResponseEntity<>( memberService.getMember(request.getAccount()), HttpStatus.OK);
-        }catch (SignException e) {
-            String errorMessage = e.getMessage();
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorMessage);
-        }
-    }
-    */
 
     @PutMapping("/MyPage/info_change")
     public ResponseEntity<?> info_change(@RequestBody UserRequest request){

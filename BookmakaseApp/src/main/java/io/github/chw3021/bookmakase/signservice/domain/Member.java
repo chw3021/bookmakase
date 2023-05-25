@@ -33,7 +33,7 @@ public class Member {
     @Column
     private int prefer;//선호 카테고리의 ID를 저장
 
-    @Column(nullable = false)
+    @Column(unique = true)
     private String email;
 
     @Column
