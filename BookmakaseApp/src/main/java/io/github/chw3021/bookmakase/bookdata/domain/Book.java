@@ -57,13 +57,13 @@ public class Book {
     @Transient
     private int priceSales;
     @Transient
-    private int discountRate;
+    private double discountRate;
     @Transient
     private int rank;
     @Transient
     private int mileage;
     @Transient
-    private int mileageRate;
+    private double mileageRate;
     @Transient
     private int customerReviewRank;
     @Transient

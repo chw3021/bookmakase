@@ -27,6 +27,7 @@ public class BookRecommendService {
     @Autowired
     private final InterparkClient interparkClient;
 
+    
     private List<Book> similarAge(Member member){
 
         List<Book> similarAgeMemberLiked = new ArrayList<>();
@@ -55,12 +56,10 @@ public class BookRecommendService {
     
     private HashSet<Book> randomGet(Integer categoryId, Integer count){
         HashSet<Book> recommends = new HashSet<>();
-        recommends.addAll(interparkClient.searchBooks(categoryId,0));
 
         while(recommends.size()<count){
-            recommends.addAll(interparkClient.searchBooks(categoryId,count-recommends.size()+1));
+            recommends.addAll(interparkClient.searchBooks(categoryId,count-recommends.size()));
         }
-
 
         return recommends;
     }
@@ -98,7 +97,6 @@ public class BookRecommendService {
         recommends.addAll(randomGet(102,1));
         recommends.addAll(randomGet(101,3));
 
-
         List<Book> similarAgeMemberLiked = similarAge(member);
         Collections.shuffle(similarAgeMemberLiked);
         if(similarAgeMemberLiked.size()>0) {
@@ -120,9 +118,10 @@ public class BookRecommendService {
                 recommends.addAll(similarMemberLiked.subList(0,3));
             }
         }
+        
 
         while(recommends.size()<30){
-            recommends.addAll(randomGet(member.getPrefer(),30-recommends.size()+1));
+            recommends.addAll(randomGet(member.getPrefer(),30-recommends.size()));
         }
 
         return recommends;

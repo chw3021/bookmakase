@@ -228,6 +228,9 @@ public class InterparkClient {
             books.addAll(bookDto.getItem());
             allBooks.addAll(books);
 
+            if(count>0 && allBooks.size()>=count){
+                return allBooks.subList(0, count);
+            }
             try {
                 Thread.sleep(10); // 일정 시간 대기
             } catch (InterruptedException e) {
@@ -236,7 +239,7 @@ public class InterparkClient {
         }
         Collections.shuffle(allBooks);
 
-        if(count>0 && allBooks.size()>count){
+        if(count>0 && allBooks.size()>=count){
             return allBooks.subList(0, count);
         }
         
