@@ -1,5 +1,6 @@
 package io.github.chw3021.bookmakase.goal.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,7 +79,7 @@ public class GoalService {
     public List<BookGoal> setAllMemberGoalReadedByCategoryId(Long memberId, Integer categoryId, Integer readedAdd) {
         List<BookGoal> goals = getUserGoals(memberId);
         goals.forEach(g -> {
-            if(g.getCategoryId() == categoryId) {
+            if(g.getCategoryId() == categoryId && g.getStartDate().isAfter(LocalDate.now()) && g.getEndDate().isBefore(LocalDate.now())) {
                 int readed = g.getReaded() + readedAdd;
                 g.setReaded(readed);
                 if(readed > g.getTargetQuantity()) {
