@@ -20,7 +20,7 @@ public class ReadingBook {
     private Long id;
 
 
-    @ManyToOne(cascade = CascadeType.ALL)//(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
+    @ManyToOne
     @JoinColumn(name = "itemId")
     private Book book;
 
@@ -28,7 +28,7 @@ public class ReadingBook {
     private Integer currentPage;
     private Integer totalPage;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "memberId")
     @JsonIgnore
     private Member member;

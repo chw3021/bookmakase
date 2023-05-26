@@ -30,7 +30,7 @@ public class Report {
     @JoinColumn(name = "memberId")
     private Member member;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "review_id")
     private Review review;
     

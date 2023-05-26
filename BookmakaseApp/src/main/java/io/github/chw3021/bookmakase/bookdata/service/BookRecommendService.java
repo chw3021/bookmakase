@@ -123,7 +123,6 @@ public class BookRecommendService {
         while(recommends.size()<30){
             recommends.addAll(randomGet(member.getPrefer(),30-recommends.size()));
         }
-
         return recommends;
     }
 }

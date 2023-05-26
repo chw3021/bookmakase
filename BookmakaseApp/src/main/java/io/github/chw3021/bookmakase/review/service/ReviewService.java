@@ -14,13 +14,10 @@ import io.github.chw3021.bookmakase.bookdata.domain.Book;
 import io.github.chw3021.bookmakase.bookdata.repository.BookRepository;
 import io.github.chw3021.bookmakase.bookdata.service.BookService;
 import io.github.chw3021.bookmakase.interparkapi.service.InterparkApiService;
-import io.github.chw3021.bookmakase.review.domain.Comment;
 import io.github.chw3021.bookmakase.review.domain.Report;
 import io.github.chw3021.bookmakase.review.domain.Review;
-import io.github.chw3021.bookmakase.review.domain.dto.CommentDto;
 import io.github.chw3021.bookmakase.review.domain.dto.ReportDto;
 import io.github.chw3021.bookmakase.review.domain.dto.ReviewDto;
-import io.github.chw3021.bookmakase.review.repository.CommentRepository;
 import io.github.chw3021.bookmakase.review.repository.ReportRepository;
 import io.github.chw3021.bookmakase.review.repository.ReviewRepository;
 import io.github.chw3021.bookmakase.signservice.domain.Member;
@@ -36,8 +33,6 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     @Autowired
     private final ReportRepository reportRepository;
-    @Autowired
-    private final CommentRepository commentRepository;
     @Autowired
     private final BookRepository bookRepository;
     @Autowired
@@ -138,10 +133,7 @@ public class ReviewService {
     public List<Report> findAllByReviewId(Long reviewId) {
         return reportRepository.findAllByReviewId(reviewId);
     }
-    public List<Comment> getCommentsByReviewId(Long reviewId) {
-        return commentRepository.findByReviewId(reviewId);
-    }
-    
+
     public Report reportReview(ReportDto reportDto) {
     	Long reviewId = reportDto.getReviewId();
         Member member = memberRepository.findById(reportDto.getMemberId()).orElseThrow(() -> new IllegalArgumentException("Invalid member id: " + reportDto.getMemberId()));
@@ -188,7 +180,7 @@ public class ReviewService {
             	}
             }
             else if(process == 2) {
-            	delete(report.getReview().getId());
+            	//delete(report.getReview().getId());
                 LocalDateTime banned = LocalDateTime.now().plusYears(999);
                 m.setBan(banned);
                 memberRepository.save(m);
@@ -204,21 +196,6 @@ public class ReviewService {
     }
     
 
-    public Comment addCommentToReview(Long reviewId, CommentDto commentDto) {
-        Review review = reviewRepository.findById(reviewId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid review Id:" + reviewId));
-
-        Comment comment = Comment.builder()
-                .content(commentDto.getContent())
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
-                .member(commentDto.getMember())
-                .review(review)
-                .build();
-
-        // Review 객체에 Comment 객체 추가
-        return commentRepository.save(comment);
-    }
 
 
     public Heart addLikeToReview(Long reviewId, Long memberId) {

@@ -1,10 +1,7 @@
 package io.github.chw3021.bookmakase.review.domain.dto;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
-import io.github.chw3021.bookmakase.review.domain.Comment;
-import io.github.chw3021.bookmakase.review.domain.Report;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,9 +23,6 @@ public class ReviewDto {
     
     private double rating;
     private int likes;
-    
-    private List<Report> reports;
 
-    private List<Comment> comments;
     
 }

@@ -1,6 +1,5 @@
 package io.github.chw3021.bookmakase.review.controller;
 
-import io.github.chw3021.bookmakase.review.domain.Comment;
 import io.github.chw3021.bookmakase.review.domain.Heart;
 import io.github.chw3021.bookmakase.review.domain.Report;
 import io.github.chw3021.bookmakase.review.domain.Review;
@@ -79,16 +78,6 @@ public class ReviewController {
     @GetMapping("/getAllreports")
     public List<Report> getAllReports() {
         return reviewService.getAllReports();
-    }
-
-    @PostMapping("/addComments")
-    public void addCommentToReview(@RequestParam Long reviewId, @RequestBody CommentDto commentDto) {
-        reviewService.addCommentToReview(reviewId, commentDto);
-    }
-
-    @GetMapping("/getComments")
-    public List<Comment> getCommentsOfReview(@RequestParam Long reviewId) {
-        return reviewService.getCommentsByReviewId(reviewId);
     }
 
     @GetMapping("/isLiked")

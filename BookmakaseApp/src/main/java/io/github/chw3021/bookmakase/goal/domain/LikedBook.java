@@ -20,12 +20,12 @@ public class LikedBook {
     private Long id;
 
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "itemId")
     private Book book;
     
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "memberId")
     @JsonIgnore
     private Member member;
