@@ -116,6 +116,10 @@ public class ReviewService {
         for (Report report : reports) {
             reportRepository.delete(report);
         }
+        List<Heart> hearts = heartRepository.findAllByReviewId(reviewId);
+        for (Heart heart : hearts) {
+        	heartRepository.delete(heart);
+        }
         reviewRepository.deleteById(reviewId);
     }
 

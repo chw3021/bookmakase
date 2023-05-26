@@ -3,7 +3,6 @@ package io.github.chw3021.bookmakase.review.controller;
 import io.github.chw3021.bookmakase.review.domain.Heart;
 import io.github.chw3021.bookmakase.review.domain.Report;
 import io.github.chw3021.bookmakase.review.domain.Review;
-import io.github.chw3021.bookmakase.review.domain.dto.CommentDto;
 import io.github.chw3021.bookmakase.review.domain.dto.ReportDto;
 import io.github.chw3021.bookmakase.review.domain.dto.ReviewDto;
 import io.github.chw3021.bookmakase.review.service.ReviewService;
