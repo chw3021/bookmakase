@@ -180,10 +180,13 @@ public class ReviewService {
             	}
             }
             else if(process == 2) {
-            	//delete(report.getReview().getId());
+            	delete(report.getReview().getId());
                 LocalDateTime banned = LocalDateTime.now().plusYears(999);
                 m.setBan(banned);
                 memberRepository.save(m);
+            }
+            else {
+            	delete(report.getReview().getId());
             }
             return report;
         } else {

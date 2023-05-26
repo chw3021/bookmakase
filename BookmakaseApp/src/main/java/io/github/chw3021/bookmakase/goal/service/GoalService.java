@@ -1,6 +1,8 @@
 package io.github.chw3021.bookmakase.goal.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +29,12 @@ public class GoalService {
     private final MemberRepository memberRepository;
 
     public BookGoal createGoal(BookGoalDto goalDto) throws Exception {
+    	Member member = memberRepository.findById(goalDto.getMemberId()).orElseThrow(() -> new EntityNotFoundException("invalid id"));
+        
         try {
             BookGoal goal = BookGoal.builder()
                     .goalname(goalDto.getGoalname())
-                    .member(goalDto.getMember(memberRepository))
+                    .member(member)
                     .completed(goalDto.getCompleted())
                     .categoryId(goalDto.getCategoryId())
                     .startDate(goalDto.getStartDate())
@@ -79,10 +83,12 @@ public class GoalService {
     public List<BookGoal> setAllMemberGoalReadedByCategoryId(Long memberId, Integer categoryId, Integer readedAdd) {
         List<BookGoal> goals = getUserGoals(memberId);
         goals.forEach(g -> {
-            if(g.getCategoryId() == categoryId && g.getStartDate().isAfter(LocalDate.now()) && g.getEndDate().isBefore(LocalDate.now())) {
+            LocalDateTime s = g.getStartDate().atStartOfDay(); // 2021-10-25 00:00:00.00000000
+            LocalDateTime e = g.getEndDate().atTime(LocalTime.MAX); // 2021-1025 23:59:59.999999
+            if(g.getCategoryId() == categoryId && s.isBefore(LocalDateTime.now()) && e.isAfter(LocalDateTime.now())) {
                 int readed = g.getReaded() + readedAdd;
                 g.setReaded(readed);
-                if(readed > g.getTargetQuantity()) {
+                if(readed >= g.getTargetQuantity()) {
                     g.setReaded(g.getTargetQuantity());
                     g.setCompleted(true);
                 }

@@ -1,15 +1,17 @@
 package io.github.chw3021.bookmakase.goal.dto;
 
 import java.time.LocalDate;
-import io.github.chw3021.bookmakase.signservice.domain.Member;
-import io.github.chw3021.bookmakase.signservice.repository.MemberRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
-@Builder @AllArgsConstructor
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class BookGoalDto {
     
     private Long memberId;
@@ -22,12 +24,4 @@ public class BookGoalDto {
     private LocalDate endDate;
     private Boolean completed;
 
-    public void setMember(Member member) {
-        this.memberId = member.getId();
-    }
-
-    public Member getMember(MemberRepository memberRepository) {
-        return memberRepository.findById(memberId).orElseThrow(() -> new EntityNotFoundException("Member with id " + memberId + " not found"));
-    }
-    // Getter and Setter
 }
