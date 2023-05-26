@@ -61,12 +61,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 // 회원가입과 로그인은 모두 승인
                 //.requestMatchers("/admin","/register", "/login").permitAll()
-                .requestMatchers("/admin","/register", "/login","/Find/**","/api/**","/book/**","/journals/**","/reviews/**","/goal/**").permitAll()
+                .requestMatchers("/admin","/register", "/login","/Find/**","/api/**","/book/**").permitAll()
                 // /admin으로 시작하는 요청은 ADMIN 권한이 있는 유저에게만 허용
                 .requestMatchers("/admin/**","/getMemberList").hasRole("ADMIN")
                 // /user로 시작하는 요청은 USER 권한이 있는 유저에게만 허용
                 .requestMatchers("/user/**", "/withdrawMember").hasRole("USER")
-                .requestMatchers("/MyPage/**","/bookshelves/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                .requestMatchers("/MyPage/**","/bookshelves/**","/journals/**","/reviews/**","/goal/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
 
                 .anyRequest().denyAll()
                 .and()
