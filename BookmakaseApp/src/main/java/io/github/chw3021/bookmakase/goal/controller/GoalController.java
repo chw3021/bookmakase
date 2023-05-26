@@ -93,6 +93,10 @@ public class GoalController {
         Integer count = goalService.getNumberOfSimilarUsersCompleted(memberId, categoryId);
         return ResponseEntity.ok(count);
     }
+    @GetMapping("/isCompleted")
+    public ResponseEntity<Boolean> isCompleted(@RequestParam Long goalId) throws Exception {
+        return ResponseEntity.ok(goalService.isCompleted(goalId));
+    }
 
     @GetMapping("/similarChallengers")
     public ResponseEntity<Integer> similarChallengers(@RequestParam Long memberId, @RequestParam Integer categoryId) throws Exception {

@@ -63,6 +63,12 @@ public class GoalService {
         return goal;
     }
 
+    public Boolean isCompleted(Long id) {
+        BookGoal goal = goalRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Cannot find goal with id: " + id));
+        return goal.isCompleted();
+    }
+
     public BookGoal getGoalById(Long id) {
         BookGoal goal = goalRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Cannot find goal with id: " + id));
