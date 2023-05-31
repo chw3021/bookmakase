@@ -3,6 +3,7 @@ package io.github.chw3021.bookmakase.goal.service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Period;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,9 +64,22 @@ public class GoalService {
 
 
     public BookGoal getGoalByGoalname(String goalname) {
-        BookGoal goal = goalRepository.findByGoalname(goalname)
-                .orElseThrow(() -> new EntityNotFoundException("Cannot find goal with goalname: " + goalname));
-        return goal;
+        List<BookGoal> goal = goalRepository.findAllByGoalname(goalname);
+        if(goal.stream().anyMatch(g -> {
+            LocalDateTime s = g.getStartDate().atStartOfDay(); // 2021-10-25 00:00:00.00000000
+            LocalDateTime e = g.getEndDate().atTime(LocalTime.MAX); // 2021-1025 23:59:59.999999
+            return !g.isCompleted() && s.isBefore(LocalDateTime.now()) && e.isAfter(LocalDateTime.now());
+        })) {
+            return goal.stream().filter(g-> {
+                LocalDateTime s = g.getStartDate().atStartOfDay(); // 2021-10-25 00:00:00.00000000
+                LocalDateTime e = g.getEndDate().atTime(LocalTime.MAX); // 2021-1025 23:59:59.999999
+                return !g.isCompleted() && s.isBefore(LocalDateTime.now()) && e.isAfter(LocalDateTime.now());
+            }).findFirst().get();
+        }
+        else {
+        	return goal.get(goal.size()-1);
+        }
+        	
     }
 
     public Boolean isCompleted(Long id) {
@@ -118,7 +132,7 @@ public class GoalService {
     }
 
     public boolean isGoalExist(String goalname){
-        return goalRepository.findByGoalname(goalname).isPresent();
+        return !goalRepository.findAllByGoalname(goalname).isEmpty();
     }
 
     public List<BookGoal> getUserGoals(Long memberId) {
@@ -136,6 +150,30 @@ public class GoalService {
         }
         return Math.round(s/all*100.0);
     }
+
+    //일일독서량
+    public String getDaily(Long memberId) throws Exception {
+        List<BookGoal> bookGoals = getUserGoals(memberId);
+        StringBuffer sb = new StringBuffer();
+        bookGoals.forEach(g -> {
+            LocalDateTime s = g.getStartDate().atStartOfDay(); // 2021-10-25 00:00:00.00000000
+            LocalDateTime e = g.getEndDate().atTime(LocalTime.MAX); // 2021-1025 23:59:59.999999
+        	if(!g.isCompleted() && s.isBefore(LocalDateTime.now()) && e.isAfter(LocalDateTime.now())) {
+        		sb.append("[");
+        		sb.append(g.getGoalname().replaceAll("_"+g.getMember().getAccount(), "").replaceAll("_", ""));
+        		sb.append("]");
+        		sb.append(" 권장 일일 독서량: ");
+        		Period p = Period.between(LocalDate.now(), g.getEndDate());
+        		sb.append(Math.round((g.getTargetQuantity()*1.0/p.getDays()*1.0) * 10) / 10.0);
+        		sb.append(System.lineSeparator());
+        	}
+        });
+        if(sb.toString() == null){
+        	sb.append("목표를 설정해주세요");
+        }
+        return sb.toString();
+    }
+    
     //같은 나이대 대한 독서 목표 성공률
     public Long getAverageRateOfSimilar(Long memberId) throws Exception {
         Member member = memberRepository.findById(memberId).orElseThrow(()->

@@ -40,6 +40,11 @@ public class GoalController {
         return ResponseEntity.ok(goal);
     }
 
+    @GetMapping("/getDaily")
+    public ResponseEntity<String> getGoalByGoalname(@RequestParam Long memberId) throws Exception {
+        String s = goalService.getDaily(memberId);
+        return ResponseEntity.ok(s);
+    }
 
     @GetMapping("/getByGoalname")
     public ResponseEntity<?> getGoalByGoalname(@RequestParam String goalname) {
